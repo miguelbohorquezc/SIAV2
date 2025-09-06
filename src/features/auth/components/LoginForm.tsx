@@ -22,11 +22,11 @@ function LoginFormBase({ loading, error, onSubmit }: LoginFormProps) {
 
   return (
     <form onSubmit={handleSubmit} aria-label="Formulario de inicio de sesión">
-      <h1 className="title is-4">Iniciar sesión</h1>
+      <h1 className="title is-5 has-text-weight-bold">Iniciar sesión</h1>
 
       {/* Correo */}
       <div className="field mt-4">
-        <label className="label" htmlFor="email">Email</label>
+        <label className="label">Name</label>
         <div className="control has-icons-left">
           <input
             id="email"
@@ -77,7 +77,7 @@ function LoginFormBase({ loading, error, onSubmit }: LoginFormProps) {
 
       <div className="field mt-4">
         <div className="control">
-          <button className={`button is-primary is-fullwidth ${loading ? 'is-loading' : ''}`} type="submit" disabled={!canSubmit}>
+          <button className={`button has-background-primary-05 is-fullwidth ${loading ? 'is-loading' : ''}`} type="submit" disabled={!canSubmit}>
             Entrar
           </button>
         </div>

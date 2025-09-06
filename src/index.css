@@ -4,6 +4,10 @@
 :root { color-scheme: light; }
 html, body { background-color: #ffffff; color: #1f2937; }
 
+.title.is-5{
+  color: black;
+}
+
 /* === Hero con imagen y overlay más tenue === */
 .auth-hero {
   position: relative;
@@ -20,7 +24,7 @@ html, body { background-color: #ffffff; color: #1f2937; }
   inset: 0;
   background: rgba(0,0,0,var(--auth-overlay, .28));
 }
-.auth-panel { position: relative; z-index: 1; width: 100%; max-width: 480px; }
+.auth-panel { position: relative; z-index: 1; width: 23rem; max-width: 480px; }
 
 /* === Tarjeta CLARA forzada (pase lo que pase) === */
 .auth-card.card,
@@ -68,16 +72,25 @@ html, body { background-color: #ffffff; color: #1f2937; }
 
 /* === Botones con contraste AA/AAA según tamaño === */
 .button.is-primary {
-  background-color: #2563eb;
-  border-color: #2563eb;
+  background-color: #0f1729;
+  border-color: #101a30;
   color: #fff;
 }
 .button.is-primary:hover { filter: brightness(0.95); }
 
 /* === Enlaces visibles y consistentes === */
 a, .button.is-text {
-  color: #2563eb !important;
-  text-decoration: underline;
+  color: #545454 !important;
+  text-decoration: dashed;
+  font-size: 10pt;
+}
+
+a, .button.is-text:hover{
+  background: rgb(202, 202, 202);
+}
+
+.label{
+  color: black;
 }
 
 /* === Navbar/containers claros por si existen === */
@@ -89,6 +102,6 @@ a, .button.is-text {
 }
 .auth-card .icon svg {
   width: 1em;
-  height: 1em;
+  height: 1.2em;
   display: block;
 }

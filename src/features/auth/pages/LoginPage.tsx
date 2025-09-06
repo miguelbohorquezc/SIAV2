@@ -6,7 +6,7 @@ import { LoginForm } from '../components/LoginForm';
 import { useAuth } from '../hooks/useAuth';
 import { selectIsAuthenticated } from '../store/selectors';
 import { PrivateRoutes, PublicRoutes } from '@/shared/constants/routes';
-import { BRANDING } from '@/shared/constants/branding';
+import logo from '@/assets/logo.svg';
 import { requestPasswordResetThunk } from '../store/thunks';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/app/store';
@@ -34,10 +34,8 @@ export default function LoginPage() {
   return (
     <AuthHeroLayout>
       <div className="card auth-card">
-        <header className="card-header">
-          <p className="card-header-title is-justify-content-center">
-            <span className="auth-title">Inicio de sesión</span>
-          </p>
+        <header className="card-header is-justify-content-center is-align-items-center has-text-centered mb-4">
+          <img src={logo} alt="logo" className='m-2' />
         </header>
         <div className="card-content">
           <LoginForm
@@ -54,9 +52,6 @@ export default function LoginPage() {
             </Link>
           </nav>
         </div>
-      </div>
-      <div className="auth-brand">
-        {BRANDING.APP_NAME} • Foto de fondo: Pexels
       </div>
     </AuthHeroLayout>
   );
