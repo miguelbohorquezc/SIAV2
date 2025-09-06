@@ -1,1 +1,94 @@
 @import "bulma/css/bulma.min.css";
+
+/* === Tema claro global (ignora dark del SO/navegador) === */
+:root { color-scheme: light; }
+html, body { background-color: #ffffff; color: #1f2937; }
+
+/* === Hero con imagen y overlay más tenue === */
+.auth-hero {
+  position: relative;
+  min-height: 100vh;
+  background: center/cover no-repeat var(--auth-bg, #eee);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+.auth-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--auth-overlay, .28));
+}
+.auth-panel { position: relative; z-index: 1; width: 100%; max-width: 480px; }
+
+/* === Tarjeta CLARA forzada (pase lo que pase) === */
+.auth-card.card,
+.auth-card .card-header,
+.auth-card .card-content,
+.auth-card .card-footer {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+.auth-card.card {
+  border-radius: 16px;
+  box-shadow: 0 20px 44px rgba(0,0,0,.18);
+  border: 1px solid rgba(2,6,23,.06);
+}
+/* si por error llega una clase oscura, la neutralizamos */
+.auth-card.has-background-dark,
+.auth-card.is-dark,
+.auth-card .has-background-dark,
+.auth-card .is-dark {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* === Tipografía de títulos en la card === */
+.auth-title { color: #0f172a; } /* gris casi negro */
+
+/* === Form claro: inputs/selects perfectamente blancos === */
+.input,
+.textarea,
+.select select {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-color: #d1d5db !important; /* gris 300 */
+  box-shadow: none !important;
+}
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  border-color: #2563eb !important; /* azul accesible */
+  outline: 2px solid rgba(37,99,235,.25);
+  outline-offset: 0;
+}
+.input::placeholder,
+.textarea::placeholder { color: #6b7280; } /* gris 500 */
+
+/* === Botones con contraste AA/AAA según tamaño === */
+.button.is-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+.button.is-primary:hover { filter: brightness(0.95); }
+
+/* === Enlaces visibles y consistentes === */
+a, .button.is-text {
+  color: #2563eb !important;
+  text-decoration: underline;
+}
+
+/* === Navbar/containers claros por si existen === */
+.navbar { background-color: #fff; }
+
+/* Iconos dentro de inputs (Bulma) */
+.auth-card .icon {
+  color: #9ca3af; /* gris 400 */
+}
+.auth-card .icon svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}

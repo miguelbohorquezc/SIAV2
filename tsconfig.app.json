@@ -15,13 +15,20 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
+    /* Estrictos */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* 👇 Alias y tipos de Vite */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

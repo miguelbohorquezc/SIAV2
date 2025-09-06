@@ -1,30 +1,31 @@
-import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { PrivateRoutes, PublicRoutes } from "../../shared/constants/routes";
-import Navbar from "../../shared/components/Navbar";
+import { lazy, Suspense } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import PrivateRoute from '@/app/guard/PrivateRoute';
+import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 
-// Lazy load de páginas
-const LoginPage = lazy(() => import("../../features/auth/pages/LoginPage"));
-const DashboardPage = lazy(() => import("../../features/home/pages/DashboardPage"));
-const HistoryPage = lazy(() => import("../../features/history/pages/AnnualHistoryPage"));
+const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
+const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Suspense fallback={<div className="loader">Cargando…</div>}>
-        <Routes>
-          {/* Rutas públicas */}
-          <Route path={PublicRoutes.LOGIN} element={<LoginPage />} />
+    <Suspense fallback={<div className="section"><progress className="progress is-primary" max={100} /></div>}>
+      <Routes>
+        {/* Públicas */}
+        <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
 
-          {/* Rutas privadas */}
-          <Route path={PrivateRoutes.DASHBOARD} element={<DashboardPage />} />
-          <Route path={`${PrivateRoutes.HISTORY}/annual`} element={<HistoryPage />} />
+        {/* Privadas */}
+        <Route
+          path={`/${PrivateRoutes.DASHBOARD}`}
+          element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          }
+        />
 
-          {/* Ruta por defecto */}
-          <Route path="*" element={<Navigate to={PublicRoutes.LOGIN} replace />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to={`/${PublicRoutes.LOGIN}`} replace />} />
+      </Routes>
+    </Suspense>
   );
 }
