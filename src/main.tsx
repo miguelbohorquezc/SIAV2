@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import { store } from '@/app/store';
 import AppRouter from '@/app/routes/AppRouter';
 import './index.css';
+import { initAuthListener } from './features/auth';
+
+store.dispatch(initAuthListener());
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

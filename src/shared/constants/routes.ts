@@ -22,4 +22,5 @@ export const PrivateRoutes = {
   CLASSROOMS: 'classrooms',
   AREA: 'area',
   ASPIRANTS: 'aspirants',
+  ADMIN_USERS: 'admin/users',
 } as const;
