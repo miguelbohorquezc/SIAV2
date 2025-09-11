@@ -28,8 +28,9 @@ function ModalCmp({ open, onClose, onCreate, creating, error }: Props) {
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">Nuevo usuario</p>
+          <button className="delete" onClick={onClose} aria-label="close"></button>
         </header>
-        <section className="modal-card-body">
+        <section className="modal-card-body has-background-white">
           {error && <p className="notification is-danger" role="alert">{error}</p>}
           <div className="field">
             <label className="label">Correo</label>
@@ -68,7 +69,7 @@ function ModalCmp({ open, onClose, onCreate, creating, error }: Props) {
         </section>
         <footer className="modal-card-foot">
           <button
-            className={`button is-primary ${creating?'is-loading':''}`}
+            className={`button is-primary mr-2 ${creating?'is-loading':''}`}
             onClick={()=>onCreate({ email, displayName, role, password, sendInvite })}
             disabled={!canSubmit || !!creating}
           >

@@ -1,8 +1,9 @@
 @import "bulma/css/bulma.min.css";
 
 /* === Tema claro global (ignora dark del SO/navegador) === */
-:root { color-scheme: light; }
+:root { color-scheme: light; --main-bg-color: rgb(18, 30, 70);}
 html, body { background-color: #ffffff; color: #1f2937; }
+
 
 .title.is-5{
   color: black;
@@ -12,7 +13,7 @@ html, body { background-color: #ffffff; color: #1f2937; }
 .auth-hero {
   position: relative;
   min-height: 100vh;
-  background: center/cover no-repeat var(--auth-bg, #eee);
+  background: center/cover no-repeat var(--auth-bg, rgba(0, 0, 0, 0.753));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,15 +94,54 @@ a, .button.is-text:hover{
   color: black;
 }
 
-/* === Navbar/containers claros por si existen === */
-.navbar { background-color: #fff; }
+/* 1) Hover solo para items de NIVEL 1 (no dropdown) */
+.navbar.is-light .navbar-menu > .navbar-start > .navbar-item:hover,
+.navbar.is-light .navbar-menu > .navbar-end > .navbar-item:hover,
+.navbar.is-light .navbar-brand > .navbar-item:hover {
+  background-color: transparent !important;
+  color: #fff !important;
+}
 
-/* Iconos dentro de inputs (Bulma) */
-.auth-card .icon {
-  color: #9ca3af; /* gris 400 */
+/* 2) Dropdown claro */
+.navbar.is-light .navbar-dropdown {
+  background-color: #fff !important;
+  border: 1px solid #dbdbdb !important;
+  box-shadow: 0 6px 18px rgba(10, 10, 10, 0.1) !important;
+  border-radius: 8px !important;
+  overflow: hidden; /* redondeo limpio */
 }
-.auth-card .icon svg {
-  width: 1em;
-  height: 1.2em;
-  display: block;
+
+/* 3) Items dentro del dropdown (estado normal) */
+.navbar.is-light .navbar-dropdown .navbar-item {
+  background-color: #fff; 
+  color: #363636 !important;
 }
+
+/* 4) Hover dentro del dropdown */
+.navbar.is-light .navbar-dropdown .navbar-item:hover {
+  background-color: var(--main-bg-color) !important;
+  color: #fff !important;
+}
+
+/* 5) Link del padre cuando el dropdown está abierto */
+.navbar.is-light .has-dropdown.is-active > .navbar-link {
+  background-color: var(--main-bg-color) !important;
+  color: #fff !important;
+}
+
+/* 6) Divider del dropdown (línea sutil) */
+.navbar.is-light .navbar-dropdown .navbar-divider {
+  background-color: #eeeeee !important;
+  height: 1px !important;
+  margin: 6px 0 !important;
+}
+
+/* 7) Reseteo defensivo por si hay reglas globales oscuras */
+.navbar.is-transparent .navbar-dropdown .navbar-item,
+.navbar.is-transparent .navbar-dropdown .navbar-link {
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+
+

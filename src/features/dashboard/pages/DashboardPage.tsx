@@ -5,7 +5,7 @@ function DashboardPageBase() {
     <section className="section">
       <div className="container">
         <h1 className="title is-4">Panel</h1>
-        <p className="subtitle is-6">Bienvenido a SIA COLINA v2.</p>
+        <p className="subtitle is-6">Colina Campestre School</p>
       </div>
     </section>
   );

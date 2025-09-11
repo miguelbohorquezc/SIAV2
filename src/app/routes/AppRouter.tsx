@@ -6,6 +6,7 @@ import RoleRoute from '@/app/guard/RoleRoute';
 
 import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 import { AUTH_ROLES } from '@/shared/constants/auth';
+import App from '@/App';
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
@@ -13,30 +14,35 @@ const UsersAdminPage = lazy(() => import('@/features/users/pages/UsersAdminPage'
 
 export default function AppRouter() {
   return (
-    <Suspense fallback={<div className="section"><progress className="progress is-primary" max={100} /></div>}>
+    <Suspense
+      fallback={
+        <div className="section">
+          <progress className="progress is-primary" max={100} />
+        </div>
+      }
+    >
       <Routes>
         {/* Públicas */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
 
-        {/* Privadas */}
+        {/* Privadas con layout (Navbar) */}
         <Route
-          path={`/${PrivateRoutes.DASHBOARD}`}
           element={
             <PrivateRoute>
-              <DashboardPage />
+              <App />
             </PrivateRoute>
           }
-        />
-
-        {/* Administración de usuarios (solo COORDINADOR / SECRETARIA) */}
-        <Route
-          path={`/${PrivateRoutes.ADMIN_USERS}`}
-          element={
-            <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
-              <UsersAdminPage />
-            </RoleRoute>
-          }
-        />
+        >
+          <Route path={PrivateRoutes.DASHBOARD} element={<DashboardPage />} />
+          <Route
+            path={PrivateRoutes.ADMIN_USERS}
+            element={
+              <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
+                <UsersAdminPage />
+              </RoleRoute>
+            }
+          />
+        </Route>
 
         {/* Redirecciones útiles */}
         <Route path="/" element={<Navigate to={`/${PrivateRoutes.DASHBOARD}`} replace />} />
