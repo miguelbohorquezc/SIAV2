@@ -37,7 +37,7 @@ export default function UsersAdminPage() {
         <div className="level">
           <div className="container">
             <h1 className="title has-text-primary-invert">Usuarios</h1>
-            <p className="subtitle is-6 has-text-primary-invert">Bienvenido a SIA COLINA v2.</p>
+            <p className="subtitle is-6 has-text-primary-invert">Gestión de permisos y roles</p>
           </div>
           <div className="level-right">
             <div className="field has-addons mb-0">
