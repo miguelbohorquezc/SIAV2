@@ -6,6 +6,8 @@ import { store } from '@/app/store';
 import AppRouter from '@/app/routes/AppRouter';
 import './index.css';
 import { initAuthListener } from './features/auth';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 store.dispatch(initAuthListener());
 

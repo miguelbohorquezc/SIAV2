@@ -40,12 +40,8 @@ function LoginFormBase({ loading, error, onSubmit }: LoginFormProps) {
             aria-required
             aria-invalid={!!error}
           />
-          <span className="icon is-small is-left" aria-hidden="true">
-            {/* Mail (Heroicons outline) */}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" />
-              <path d="m22 8-10 6L2 8" />
-            </svg>
+          <span className="icon is-small is-left">
+            <i className="fa-solid fa-envelope"></i>
           </span>
         </div>
       </div>
@@ -64,12 +60,8 @@ function LoginFormBase({ loading, error, onSubmit }: LoginFormProps) {
             required
             aria-required
           />
-          <span className="icon is-small is-left" aria-hidden="true">
-            {/* Lock (Heroicons outline) */}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="4" y="11" width="16" height="9" rx="2" ry="2" />
-              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-            </svg>
+          <span className="icon is-small is-left">
+            <i className="fa-solid fa-lock"></i>
           </span>
         </div>
       </div>
