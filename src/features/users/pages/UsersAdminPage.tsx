@@ -44,7 +44,7 @@ export default function UsersAdminPage() {
               <div className="control">
                 <input
                   className="input"
-                  placeholder="Buscar por correo o nombre…"
+                  placeholder="Buscar por nombre"
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   aria-label="Buscar usuarios"
@@ -54,7 +54,7 @@ export default function UsersAdminPage() {
                 <button className="button" onClick={() => setQ('')}>Limpiar</button>
               </div>
             </div>
-            <button className="button is-primary ml-3" onClick={() => dispatch(openModal())}>Nuevo</button>
+            <button className="button is-primary ml-3 " onClick={() => dispatch(openModal())}>Nuevo</button>
           </div>
         </div>
 

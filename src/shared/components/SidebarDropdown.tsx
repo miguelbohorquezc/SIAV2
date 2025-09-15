@@ -1,16 +1,10 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { PrivateRoutes } from '@/shared/constants/routes';
 
 export default function SidebarDropdown() {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const ROUTES = {
-  home: '/',
-  dashboard: '/dashboard',
-  users: '/admin/users',
-  login: '/login',
-} as const;
 
   // Navegar sin recargar y dejar el dropdown tranquilo (Bulma lo cierra al salir el mouse)
   const go = (to: string) => (e: React.MouseEvent) => {
@@ -50,7 +44,7 @@ export default function SidebarDropdown() {
               Dashboard
             </div>
 
-            <Link to={ROUTES.dashboard} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon mr-1">
                   <i className="fa-solid fa-grip"></i>
@@ -64,7 +58,7 @@ export default function SidebarDropdown() {
               Secretaría
             </div>
 
-            <Link to={ROUTES.dashboard} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon mr-1">
                   <i className="fa-solid fa-user-graduate"></i>
@@ -73,7 +67,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.dashboard} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon mr-1">
                   <i className="fa-solid fa-laptop-file"></i>
@@ -82,7 +76,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.dashboard} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon mr-1">
                   <i className="fa-solid fa-clock-rotate-left"></i>
@@ -91,7 +85,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.ADMIN_USERS} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-user-plus"></i>
@@ -105,7 +99,7 @@ export default function SidebarDropdown() {
               Academia
             </div>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-school-circle-check"></i>
@@ -114,7 +108,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-chalkboard-user"></i>
@@ -123,7 +117,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-book-open"></i>
@@ -132,7 +126,7 @@ export default function SidebarDropdown() {
               </span>
             </Link>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-chart-simple"></i>
@@ -143,10 +137,10 @@ export default function SidebarDropdown() {
 
             {/* Grupo 4: Docentes */}
             <div className="dropdown-item has-text-weight-semibold is-size-7 has-text-grey has-background-white">
-              Academia
+              Calificaciones
             </div>
 
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-school-circle-check"></i>
@@ -154,7 +148,7 @@ export default function SidebarDropdown() {
                 <span>Periodo 1 - 2025</span>
               </span>
             </Link>
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-school-circle-check"></i>
@@ -162,7 +156,7 @@ export default function SidebarDropdown() {
                 <span>Periodo 2 - 2025</span>
               </span>
             </Link>
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-school-circle-check"></i>
@@ -170,7 +164,7 @@ export default function SidebarDropdown() {
                 <span>Periodo 3 - 2025</span>
               </span>
             </Link>
-            <Link to={ROUTES.users} className="navbar-item">
+            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
               <span className="icon-text">
                 <span className="icon">
                   <i className="fa-solid fa-school-circle-check"></i>

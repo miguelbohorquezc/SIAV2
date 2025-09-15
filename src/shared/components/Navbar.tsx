@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from '@/features/auth/services/auth.repository';
-import logo from '@/assets/logo.svg';
+/* import logo from '@/assets/logo.svg'; */
 
 // TODO: mover a shared/constants/routes.ts
 const ROUTES = {
@@ -43,7 +43,7 @@ export default function Navbar() {
       <div className="navbar-brand">
         <Link to={ROUTES.dashboard} className="navbar-item" onClick={closeMenu} aria-label="Ir a Dashboard">
           {/* Puedes cambiar por tu SVG/logo */}
-          <img src={logo} alt="logo" />
+          {/* <img src={logo} alt="logo" /> */}
         </Link>
 
         {/* Burger */}
