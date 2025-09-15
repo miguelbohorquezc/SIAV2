@@ -67,7 +67,12 @@ export default function Navbar() {
         {/* Left/start */}
         <div className="navbar-start">
           <Link to={ROUTES.dashboard} className="navbar-item" onClick={closeMenu}>
-            <h6 className='subtitle is-6'>Dashboard</h6>
+            <span className="icon-text">
+              <span className="icon">
+               <i className="fa-solid fa-school-flag"></i>
+              </span>
+              <span>Dashboard</span>
+            </span>
           </Link>
 
           <div
@@ -82,15 +87,30 @@ export default function Navbar() {
               aria-expanded={dropdownOpen}
               onClick={() => setDropdownOpen((v) => !v)}
             >
-              <p>Usuarios</p>
+              <span className="icon-text is-size-6">
+              <span className="icon">
+                <i className="fa-solid fa-users-gear"></i>
+              </span>
+              <span className='is-small has-text-weight-normal is-size-7'>Usuarios</span>
+            </span>
             </button>
 
             <div className="navbar-dropdown is-boxed">
               <Link to={ROUTES.dashboard} className="navbar-item" onClick={closeMenu}>
-                <p className='subtitle-6'>Dashboard</p>
+                <span className="icon-text">
+                  <span className="icon">
+                    <i className="fa-solid fa-grip"></i>
+                  </span>
+                  <span>Dashboard</span>
+                </span>
               </Link>
               <Link to={ROUTES.users} className="navbar-item" onClick={closeMenu}>
-                Gestión de usuarios
+                <span className="icon-text">
+                  <span className="icon">
+                    <i className="fa-solid fa-user-plus"></i>
+                  </span>
+                  <span>Usuarios</span>
+                </span>
               </Link>
               <hr className="navbar-divider" />
               <a
@@ -111,13 +131,13 @@ export default function Navbar() {
           <div className="navbar-item">
             <div className="buttons">
               <button
-                className={`button is-primary ${loading ? 'is-loading' : ''}`}
+                className={`button is-primary ${loading ? 'is-loading' : ''} is-normal has-text-weight-normal is-size-7`}
                 onClick={handleLogout}
                 disabled={loading}
                 aria-busy={loading ? 'true' : 'false'}
                 type="button"
               >
-                {loading ? 'Saliendo…' : 'Cerrar sesión'}
+                {loading ? 'Saliendo…' : 'Salir'}
               </button>
             </div>
           </div>
