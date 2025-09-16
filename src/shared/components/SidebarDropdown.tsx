@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PrivateRoutes } from '@/shared/constants/routes';
 
 export default function SidebarDropdown() {
@@ -64,6 +64,14 @@ export default function SidebarDropdown() {
                   <i className="fa-solid fa-user-graduate"></i>
                 </span>
               <span>Admisiones, registro y control</span>
+              </span>
+            </Link>
+            <Link to={PrivateRoutes.ASPIRANTES} className="navbar-item">
+              <span className="icon-text">
+                <span className="icon mr-1">
+                  <i className="fa-solid fa-user-graduate"></i>
+                </span>
+              <span>Formulario de aspirantes</span>
               </span>
             </Link>
 

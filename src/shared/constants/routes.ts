@@ -1,10 +1,10 @@
 export const PublicRoutes = {
   LOGIN: "login",
-  ASPIRANTES: "aspirantes",
   MATRICULAS: "matriculas",
 } as const;
 
 export const PrivateRoutes = {
+  ASPIRANTES: "aspirantes",
   USER: 'user',
   PRIVATE: 'private',
   DASHBOARD: 'dashboard',
@@ -21,6 +21,5 @@ export const PrivateRoutes = {
   PRINT: 'print',
   CLASSROOMS: 'classrooms',
   AREA: 'area',
-  ASPIRANTS: 'aspirants',
   ADMIN_USERS: 'admin/users',
 } as const;

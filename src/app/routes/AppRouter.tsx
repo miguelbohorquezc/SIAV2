@@ -7,6 +7,7 @@ import RoleRoute from '@/app/guard/RoleRoute';
 import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 import { AUTH_ROLES } from '@/shared/constants/auth';
 import App from '@/App';
+import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
@@ -24,6 +25,7 @@ export default function AppRouter() {
       <Routes>
         {/* Públicas */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
+        <Route path={`/${PrivateRoutes.ASPIRANTES}`} element={<AspiranteFormularioBulma />} />
 
         {/* Privadas con layout (Navbar) */}
         <Route
