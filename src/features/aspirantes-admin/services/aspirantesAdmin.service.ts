@@ -1,67 +1,84 @@
 /* ============================================
- * aspirantesAdmin.service.ts (SKELETON)
- * - Sin lógica, sin IO. Solo contratos y DI listos.
- * - Ramas: cubbico@firebaseConfig → SIAV2@feat/aspirantes-migration
+ * aspirantesAdmin.service.ts
+ * Servicio (DI con fallback) para Aspirantes Admin
+ * - list(): lectura real desde Firestore (v9 modular)
+ * - Filtros: documento exacto (numérico) en servidor; texto en cliente (temporal)
+ * - Orden: createdAt desc (tu colección lo tiene)
  * ============================================
  */
-import type {
-  AspiranteDTO,
-  AspiranteId,
-  AspirantesListQuery,
-  Paginated,
-} from '../types/aspirantes-admin.types';
-import { ERROR_KEYS } from '../constants/aspirantes-admin.constants';
+import type { Firestore } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  orderBy,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore';
+import { db as defaultDb } from '@/infrastructure/firebase/firebase';
+import type { AspiranteDTO } from '../types/aspirantes-admin.types';
 
-/* [ASPADM:SERVICE:CONTRACT] */
+// [ASPADM:SERVICE:PAGINATION_CURSOR]
+// Placeholder de cursores: se implementará en Sub-tarea 6 (startAfter).
+
+export type ListParams = {
+  page: number;
+  pageSize: number;
+  search?: string;
+  collectionPath?: string; // permite apuntar a 'applicants'
+};
+
+export type ListResult = {
+  items: AspiranteDTO[];
+  total: number; // estimado; real con cursores en Sub-tarea 6
+};
+
 export interface IAspirantesAdminService {
-  create(dto: Omit<AspiranteDTO, 'id' | 'createdAt' | 'updatedAt'>): Promise<AspiranteDTO>;
-  update(id: AspiranteId, patch: Partial<AspiranteDTO>): Promise<AspiranteDTO>;
-  getById(id: AspiranteId): Promise<AspiranteDTO | null>;
-  list(query: AspirantesListQuery): Promise<Paginated<AspiranteDTO>>;
-  toggleFlag(id: AspiranteId, flagKey: keyof NonNullable<AspiranteDTO['flags']>, value: boolean): Promise<void>;
-  exportCSV?(query: AspirantesListQuery): Promise<Blob | string>;
+  list(params: ListParams): Promise<ListResult>;
+  // TODO: create, update, toggleFlag, exportCSV
 }
 
-/* [ASPADM:SERVICE:DI_TOKEN]
- * Token de DI: permite testear/inyectar implementaciones (Firestore, mocks)
- */
-export type FirestoreLike = unknown; // TODO(turno posterior): sustituir por tipo real si existe en shared/types
+const DEFAULT_COLLECTION = 'aspirantes'; // se puede sobreescribir vía DI
 
-/* [ASPADM:SERVICE:FACTORY]
- * Fábrica: recibe dependencias (p.ej. firestore) y retorna la implementación.
- */
-export function createAspirantesAdminService(_deps: { firestore?: FirestoreLike }): IAspirantesAdminService {
-  /* [ASPADM:SERVICE:STUBS]
-   * Stubs sin lógica. Lanza errores tipados para no ocultar usos accidentales.
-   */
+// [ASPADM:SERVICE:LIST]
+// Lectura real desde Firestore (orden createdAt desc) + filtros
+export function createAspirantesAdminService(
+  { db = defaultDb, collectionPath = DEFAULT_COLLECTION }: { db?: Firestore; collectionPath?: string } = {}
+): IAspirantesAdminService {
   return {
-    async create(_dto) {
-      // TODO: implementar con Firestore en turno posterior
-      throw new Error(ERROR_KEYS.ASPIRANTES_CREATE_FAILED);
-    },
-    async update(_id, _patch) {
-      // TODO
-      throw new Error(ERROR_KEYS.ASPIRANTES_UPDATE_FAILED);
-    },
-    async getById(_id) {
-      // TODO
-      throw new Error(ERROR_KEYS.ASPIRANTES_GET_FAILED);
-    },
-    async list(_query) {
-      // TODO
-      throw new Error(ERROR_KEYS.ASPIRANTES_LIST_FAILED);
-    },
-    async toggleFlag(_id, _flagKey, _value) {
-      // TODO
-      throw new Error(ERROR_KEYS.ASPIRANTES_FLAG_TOGGLE_FAILED);
-    },
-    async exportCSV(_query) {
-      // TODO (definir formato final)
-      throw new Error(ERROR_KEYS.ASPIRANTES_EXPORT_FAILED);
+    async list({ page, pageSize, search, collectionPath: cp }: ListParams): Promise<ListResult> {
+      const path = cp ?? collectionPath;
+      const effectivePage = Math.max(1, page || 1);
+      const effectivePageSize = Math.max(1, pageSize || 10);
+
+      // 👉 Tu colección muestra createdAt. Usamos ese campo para ordenar.
+      const constraints: any[] = [orderBy('createdAt', 'desc'), limit(effectivePageSize)];
+
+      // Filtro exacto por documento si search es numérico (si el campo existe en tus docs)
+      if (search && /^\d+$/.test(search.trim())) {
+        constraints.unshift(where('documento', '==', search.trim()));
+      }
+
+      const snap = await getDocs(query(collection(db, path), ...constraints));
+      let items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as object) })) as AspiranteDTO[];
+
+      // Filtro en cliente por nombre/apellidos/documento si search es texto (temporal)
+      if (search && !/^\d+$/.test(search.trim())) {
+        const q = search.trim().toLowerCase();
+        items = items.filter((it) => {
+          const nombres = `${it.nombres ?? ''} ${it.apellidos ?? ''}`.toLowerCase();
+          const documento = `${it.documento ?? ''}`.toLowerCase();
+          return nombres.includes(q) || documento.includes(q);
+        });
+      }
+
+      // Total estimado para habilitar "Siguiente" si la página se llena.
+      const totalEstimado =
+        items.length < effectivePageSize
+          ? (effectivePage - 1) * effectivePageSize + items.length
+          : effectivePage * effectivePageSize + effectivePageSize;
+
+      return { items, total: totalEstimado };
     },
   };
 }
-
-/* [ASPADM:SERVICE:NEXT]
- * Próximo: implementar list/getById/create usando colecciones existentes en Firestore.
- */

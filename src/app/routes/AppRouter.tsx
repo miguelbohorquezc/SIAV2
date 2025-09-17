@@ -8,11 +8,11 @@ import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 import { AUTH_ROLES } from '@/shared/constants/auth';
 import App from '@/App';
 import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
-import AspirantesAdminPage from '@/features/aspirantes-admin/pages/AspirantesAdminPage';
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
 const UsersAdminPage = lazy(() => import('@/features/users/pages/UsersAdminPage'));
+const AspirantesAdminLazy = lazy(() => import('@/features/aspirantes-admin/pages/AspirantesAdminPage'));
 
 export default function AppRouter() {
   return (
@@ -44,14 +44,15 @@ export default function AppRouter() {
               </RoleRoute>
             }
           />
-          <Route
+          <Route 
             path={PrivateRoutes.ADMIN_ASPIRANTES}
             element={
               <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
-                <AspirantesAdminPage />
+                <AspirantesAdminLazy />
               </RoleRoute>
             }
           />
+          
         </Route>
 
         {/* Redirecciones útiles */}

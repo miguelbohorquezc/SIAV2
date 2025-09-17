@@ -58,7 +58,15 @@ export default function ApplicantsTable(props: ApplicantsTableProps): JSX.Elemen
 
       {/* Tabla */}
       <div className="table-container">
-        <table className={BULMA_CLASSES.table} role="table" aria-busy={loading}>
+        <table
+          className={BULMA_CLASSES.table}
+          role="table"
+          aria-busy={loading}
+          aria-describedby="aspirantes-table-caption"
+        >
+          <caption id="aspirantes-table-caption" className="is-sr-only">
+            Tabla de aspirantes
+          </caption>
           <thead>
             <tr>
               <th scope="col">Nombre</th>
@@ -84,7 +92,7 @@ export default function ApplicantsTable(props: ApplicantsTableProps): JSX.Elemen
               const nombre = `${it.apellidos ?? ''} ${it.nombres ?? ''}`.trim();
               const flagPublico = Boolean(it.flags?.publico);
               return (
-                <tr key={it.id ?? `${nombre}-${it.documento}`}>
+                <tr key={it.id || `${it.documento}-${nombre}`}>
                   <td>{nombre || '—'}</td>
                   <td>{it.documento || '—'}</td>
                   <td>{it.grado || '—'}</td>

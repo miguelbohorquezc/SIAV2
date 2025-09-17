@@ -1,35 +1,38 @@
 /* ============================================
  * AspirantesAdminPage.tsx
  * Página host para administración (read-only)
- * - Conecta hook + servicio (stubs).
- * - Habilita paginación básica.
+ * - Conecta hook + servicio (Firestore listo)
+ * - Búsqueda y paginación básica
  * ============================================
  */
-import { useEffect, useMemo, type JSX } from 'react';
+import { useEffect, useMemo, useState, type JSX } from 'react';
 import { BULMA_CLASSES } from '../constants/aspirantes-admin.constants';
 import ApplicantsTable from '../components/ApplicantsTable';
 import { useAspirantesAdmin } from '../hooks/useAspirantesAdmin';
 import { createAspirantesAdminService } from '../services/aspirantesAdmin.service';
 
-/* ANCLA RUTA LAZY
 // [ASPIRANTES_ADMIN:ROUTE_EXPORT]
 export const ASPIRANTES_ADMIN_ROUTE = '/admin/aspirantes';
-*/
 
 export default function AspirantesAdminPage(): JSX.Element {
-  // Instancia del servicio (DI) — se conectará a Firestore en turnos siguientes
-  const service = useMemo(() => createAspirantesAdminService({ /* firestore: TBD */ }), []);
-  const { state, load, setPage } = useAspirantesAdmin(service);
+  // ⚠️ Apuntamos a la colección real: 'applicants'
+  const service = useMemo(
+    () => createAspirantesAdminService({ collectionPath: 'applicants' }),
+    []
+  );
 
-  // Carga inicial (solo lectura)
+  const { state, load, setPage } = useAspirantesAdmin(service);
+  const [search, setSearch] = useState<string>('');
+
+  // Carga inicial y cuando cambie pageSize, repetir consulta con el filtro actual
   useEffect(() => {
-    void load({ page: state.page, pageSize: state.pageSize });
+    void load({ page: state.page, pageSize: state.pageSize, search });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.pageSize]);
 
   const handlePageChange = (page: number) => {
     setPage(page);
-    void load({ page, pageSize: state.pageSize, search: state.filtro });
+    void load({ page, pageSize: state.pageSize, search });
   };
 
   return (
@@ -38,19 +41,32 @@ export default function AspirantesAdminPage(): JSX.Element {
         <h1 className="title is-4">Administración de Aspirantes</h1>
         <p className="subtitle is-6">Gestiona creación, edición, filtros y exportación.</p>
 
-        {/* [ASPADM:PAGE:FILTER_BAR] — placeholder visual */}
+        {/* [ASPADM:PAGE:FILTER_BAR] — búsqueda básica */}
         <div className="box">
-          <div className="field is-grouped">
+          <div className="field is-grouped is-align-items-flex-end">
             <div className="control is-expanded">
+              <label className="label" htmlFor="search">Buscar</label>
               <input
+                id="search"
                 className={BULMA_CLASSES.input}
-                placeholder="Buscar por nombre o documento"
+                placeholder="Documento o nombre"
                 aria-label="Buscar aspirantes"
-                disabled
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
             <div className="control">
-              <button className={BULMA_CLASSES.buttonPrimary} disabled>Buscar</button>
+              <button
+                className={BULMA_CLASSES.buttonPrimary}
+                onClick={() => {
+                  setPage(1);
+                  void load({ page: 1, pageSize: state.pageSize, search });
+                }}
+                disabled={state.loading}
+                aria-disabled={state.loading}
+              >
+                Buscar
+              </button>
             </div>
           </div>
         </div>
