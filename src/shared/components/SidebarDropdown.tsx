@@ -58,7 +58,7 @@ export default function SidebarDropdown() {
               Secretaría
             </div>
 
-            <Link to={PrivateRoutes.DASHBOARD} className="navbar-item">
+            <Link to={PrivateRoutes.ADMIN_ASPIRANTES} className="navbar-item">
               <span className="icon-text">
                 <span className="icon mr-1">
                   <i className="fa-solid fa-user-graduate"></i>

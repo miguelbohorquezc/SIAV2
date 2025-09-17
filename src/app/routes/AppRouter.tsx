@@ -8,6 +8,7 @@ import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 import { AUTH_ROLES } from '@/shared/constants/auth';
 import App from '@/App';
 import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
+import AspirantesAdminPage from '@/features/aspirantes-admin/pages/AspirantesAdminPage';
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
@@ -20,8 +21,8 @@ export default function AppRouter() {
         <div className="section">
           <progress className="progress is-primary" max={100} />
         </div>
-      }
-    >
+      }>
+
       <Routes>
         {/* Públicas */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
@@ -33,14 +34,21 @@ export default function AppRouter() {
             <PrivateRoute>
               <App />
             </PrivateRoute>
-          }
-        >
+          }>
           <Route path={PrivateRoutes.DASHBOARD} element={<DashboardPage />} />
           <Route
             path={PrivateRoutes.ADMIN_USERS}
             element={
               <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
                 <UsersAdminPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path={PrivateRoutes.ADMIN_ASPIRANTES}
+            element={
+              <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
+                <AspirantesAdminPage />
               </RoleRoute>
             }
           />
