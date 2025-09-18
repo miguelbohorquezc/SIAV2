@@ -15,6 +15,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import type { QueryConstraint } from 'firebase/firestore';
 import { db as defaultDb } from '@/infrastructure/firebase/firebase';
 import type { AspiranteDTO } from '../types/aspirantes-admin.types';
 
@@ -52,31 +53,40 @@ export function createAspirantesAdminService(
       const effectivePageSize = Math.max(1, pageSize || 10);
 
       // 👉 Tu colección muestra createdAt. Usamos ese campo para ordenar.
-      const constraints: any[] = [orderBy('createdAt', 'desc'), limit(effectivePageSize)];
+      const constraints: QueryConstraint[] = [orderBy('createdAt', 'desc'), limit(effectivePageSize)];
 
       // Filtro exacto por documento si search es numérico (si el campo existe en tus docs)
-      if (search && /^\d+$/.test(search.trim())) {
-        constraints.unshift(where('documento', '==', search.trim()));
+      const raw = (search ?? '').trim();
+      if (raw && /^\d+$/.test(raw)) {
+        constraints.unshift(where('documento', '==', raw));
       }
 
-      const snap = await getDocs(query(collection(db, path), ...constraints));
-      let items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as object) })) as AspiranteDTO[];
+      let items: AspiranteDTO[] = [];
+      try {
+        const snap = await getDocs(query(collection(db, path), ...constraints));
+        items = snap.docs.map((d) => ({ id: d.id, ...(d.data() as object) })) as AspiranteDTO[];
+      } catch (err) {
+        // Re-lanzamos; el hook mapea a ERROR_KEYS.ASPIRANTES_LIST_FAILED
+        throw err;
+      }
 
       // Filtro en cliente por nombre/apellidos/documento si search es texto (temporal)
-      if (search && !/^\d+$/.test(search.trim())) {
-        const q = search.trim().toLowerCase();
+      if (raw && !/^\d+$/.test(raw)) {
+        const normalize = (s: string) =>
+          s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+        const q = normalize(raw);
         items = items.filter((it) => {
-          const nombres = `${it.nombres ?? ''} ${it.apellidos ?? ''}`.toLowerCase();
-          const documento = `${it.documento ?? ''}`.toLowerCase();
+          const nombres = normalize(`${it.nombres ?? ''} ${it.apellidos ?? ''}`);
+          const documento = normalize(`${it.documento ?? ''}`);
           return nombres.includes(q) || documento.includes(q);
         });
       }
 
-      // Total estimado para habilitar "Siguiente" si la página se llena.
+      // Total estimado: si la página está llena, asumimos que podría existir otra página (+1).
       const totalEstimado =
         items.length < effectivePageSize
           ? (effectivePage - 1) * effectivePageSize + items.length
-          : effectivePage * effectivePageSize + effectivePageSize;
+          : effectivePage * effectivePageSize + 1;
 
       return { items, total: totalEstimado };
     },

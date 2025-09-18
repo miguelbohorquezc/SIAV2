@@ -5,7 +5,7 @@
  * - Exponen load/reload y helpers de paginación básica
  * ============================================
  */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { AspiranteDTO } from '../types/aspirantes-admin.types';
 import type {
   IAspirantesAdminService,
@@ -80,17 +80,27 @@ export function useAspirantesAdmin(service: IAspirantesAdminService) {
     [service, state.filtro]
   );
 
+  // Carga inicial
+  useEffect(() => {
+    void load({ page: 1, pageSize: state.pageSize, search: state.filtro });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const setPage = useCallback((page: number) => {
     setState((s) => ({ ...s, page }));
-  }, []);
+    void load({ page, pageSize: state.pageSize, search: state.filtro });
+  }, [load, state.pageSize, state.filtro]);
 
   const setPageSize = useCallback((pageSize: number) => {
-    setState((s) => ({ ...s, pageSize }));
-  }, []);
+    // Reinicia a página 1 por UX
+    setState((s) => ({ ...s, page: 1, pageSize }));
+    void load({ page: 1, pageSize, search: state.filtro });
+  }, [load, state.filtro]);
 
   const setFilter = useCallback((f: string) => {
-    setState((s) => ({ ...s, filtro: f }));
-  }, []);
+    setState((s) => ({ ...s, filtro: f, page: 1 }));
+    void load({ page: 1, pageSize: state.pageSize, search: f });
+  }, [load, state.pageSize]);
 
   const reload = useCallback(() => {
     void load({ page: state.page, pageSize: state.pageSize, search: state.filtro });
