@@ -10,14 +10,10 @@ import {
   doc,
   updateDoc,
   getDoc,
+  onSnapshot,
+  DocumentSnapshot,
 } from 'firebase/firestore';
 import type { Applicant } from '@/features/admisiones/types';
-
-/**
- * Service de applicants:
- * - Al autorizar matrícula, guarda email del actor en `autorizadoBy` (si está disponible).
- * - Esto facilita mostrar el email en la UI inmediatamente.
- */
 
 type FetchPageArgs = {
   pageSize: number;
@@ -27,8 +23,11 @@ type FetchPageArgs = {
 };
 type FetchRecentArgs = { limit: number };
 
-const mapDoc = (d: any): Applicant => {
-  const data = d.data();
+const toBool = (v: unknown): boolean => v === true;
+
+export const mapSnapshotToApplicant = (d: DocumentSnapshot): Applicant | undefined => {
+  if (!d.exists()) return undefined;
+  const data: any = d.data();
   return {
     id: d.id,
     __schemaVersion: data.__schemaVersion ?? 1,
@@ -37,7 +36,7 @@ const mapDoc = (d: any): Applicant => {
     apellidos: data.apellidos ?? '',
     barrioAspirante: data.barrioAspirante ?? '',
     colegioProcedencia: data.colegioProcedencia ?? '',
-    createdAt: data.createdAt?.toMillis?.() ?? Date.now(),
+    createdAt: typeof data.createdAt?.toMillis === 'function' ? data.createdAt.toMillis() : Date.now(),
     direccionResidencia: data.direccionResidencia ?? '',
     edadAnios: data.edadAnios ?? '',
     edadMeses: data.edadMeses ?? '',
@@ -58,25 +57,30 @@ const mapDoc = (d: any): Applicant => {
     telefonoCasa: data.telefonoCasa ?? '',
     telefono: data.telefono ?? '',
     ultimoGrado: data.ultimoGrado ?? '',
-    updatedAt: data.updatedAt?.toMillis?.() ?? Date.now(),
+    updatedAt: typeof data.updatedAt?.toMillis === 'function' ? data.updatedAt.toMillis() : Date.now(),
     tags: data.tags ?? [],
     motivoNoAdmision: data.motivoNoAdmision ?? null,
-    autorizadoMatricula: !!data.autorizadoMatricula,
-    autorizadoBy: data.autorizadoBy ?? null, // ahora se setea email si existe
-    autorizadoAt: data.autorizadoAt?.toMillis?.() ?? null,
-  } as Applicant;
+    autorizadoMatricula: toBool(data.autorizadoMatricula),
+    autorizadoBy: typeof data.autorizadoBy === 'string' ? data.autorizadoBy : null,
+    autorizadoAt:
+      typeof data.autorizadoAt?.toMillis === 'function'
+        ? data.autorizadoAt.toMillis()
+        : typeof data.autorizadoAt === 'number'
+        ? data.autorizadoAt
+        : null,
+  };
 };
 
 export const applicantsService = {
   async fetchPage({ pageSize, cursor, dateWindowFrom, dateWindowTo }: FetchPageArgs) {
     const col = collection(db, 'applicants');
-    const clauses = [orderBy('createdAt', 'desc')];
+    const clauses: any[] = [orderBy('createdAt', 'desc')];
     if (dateWindowFrom) clauses.push(where('createdAt', '>=', dateWindowFrom));
     if (dateWindowTo) clauses.push(where('createdAt', '<=', dateWindowTo));
     let q = query(col, ...clauses, limit(pageSize));
     if (cursor) q = query(col, ...clauses, startAfter(cursor), limit(pageSize));
     const snap = await getDocs(q);
-    const items = snap.docs.map(mapDoc);
+    const items = snap.docs.map((d) => mapSnapshotToApplicant(d)!).filter(Boolean);
     const nextCursor = snap.docs.length === pageSize ? snap.docs[snap.docs.length - 1] : undefined;
     return { items, nextCursor };
   },
@@ -85,7 +89,7 @@ export const applicantsService = {
     const col = collection(db, 'applicants');
     const q = query(col, orderBy('updatedAt', 'desc'), limit(lim));
     const snap = await getDocs(q);
-    return { items: snap.docs.map(mapDoc) };
+    return { items: snap.docs.map((d) => mapSnapshotToApplicant(d)!).filter(Boolean) };
   },
 
   async update(id: string, patch: Partial<Applicant>) {
@@ -95,20 +99,42 @@ export const applicantsService = {
 
   async authorize(id: string) {
     const uid = auth.currentUser?.uid ?? 'system';
-    const email = auth.currentUser?.email ?? uid; // preferimos email visible
+    const email = auth.currentUser?.email ?? uid;
     const ref = doc(db, 'applicants', id);
     await updateDoc(ref, {
       autorizadoMatricula: true,
-      autorizadoBy: email,            // << guardar email
+      autorizadoBy: email,
       autorizadoAt: Date.now(),
       updatedAt: Date.now(),
     } as any);
     return { actorUid: uid, actorEmail: email };
   },
 
+  async revokeAuthorize(id: string) {
+    const uid = auth.currentUser?.uid ?? 'system';
+    const ref = doc(db, 'applicants', id);
+    await updateDoc(ref, {
+      autorizadoMatricula: false,
+      autorizadoBy: null,
+      autorizadoAt: null,
+      updatedAt: Date.now(),
+    } as any);
+    return { actorUid: uid };
+  },
+
   async getById(id: string) {
     const ref = doc(db, 'applicants', id);
     const d = await getDoc(ref);
-    return d.exists() ? mapDoc(d) : undefined;
+    return mapSnapshotToApplicant(d);
+  },
+
+  /**
+   * Suscripción en vivo por id. Retorna `unsubscribe()`.
+   */
+  watchById(id: string, cb: (a: Applicant | undefined) => void) {
+    const ref = doc(db, 'applicants', id);
+    return onSnapshot(ref, (snap) => {
+      cb(mapSnapshotToApplicant(snap));
+    });
   },
 };

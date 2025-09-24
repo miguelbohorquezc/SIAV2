@@ -6,6 +6,7 @@ import {
   syncRecent,
   updateEstado,
   authorizeMatricula,
+  revokeMatricula,
   updateFuente,
   updateTags,
 } from './thunks';
@@ -17,10 +18,10 @@ export type Filters = {
   estado: string | null;
   tag: string | null;
   autorizado: boolean | null;
-  dateFrom: number | null;   // timestamp (ms)
-  dateTo: number | null;     // timestamp (ms)
+  dateFrom: number | null;
+  dateTo: number | null;
   orden: Orden;
-  year: number | null;       // <-- NUEVO: filtro por año (createdAt)
+  year: number | null;
 };
 
 export type Pagination = {
@@ -55,7 +56,7 @@ const initialState: AdmisionesState = {
     dateFrom: null,
     dateTo: null,
     orden: ORDEN.CREATED_DESC,
-    year: null, // <-- NUEVO
+    year: null,
   },
   pagination: {
     pageSize: PAGE_SIZE_DEFAULT,
@@ -85,11 +86,18 @@ const slice = createSlice({
     clearSelection: (s) => {
       s.selection.ids = [];
     },
-    // --- NUEVO: filtros por año ---
+
+    // ---- NUEVO: upsertOne para reflejar cambios en vivo (onSnapshot) ----
+    upsertOne: (s, a: PayloadAction<Applicant>) => {
+      const doc = a.payload;
+      s.entities[doc.id] = doc;
+      if (!s.ids.includes(doc.id)) s.ids.push(doc.id);
+    },
+
+    // Filtro por año
     setFilterYear: (s, a: PayloadAction<number | null>) => {
       s.filters.year = a.payload;
     },
-    // Exclusivo: si seteas year, limpia dateFrom/dateTo para evitar combinaciones
     setFilterYearExclusive: (s, a: PayloadAction<number | null>) => {
       s.filters.year = a.payload;
       if (a.payload !== null) {
@@ -118,10 +126,10 @@ const slice = createSlice({
         s.pagination.hasMore = Boolean(nextCursor);
         s.status = 'succeeded';
         if (!append) {
-          s.ids.sort((a, b) =>
+          s.ids.sort((A, B) =>
             s.filters.orden === 'createdAt_desc'
-              ? s.entities[b].createdAt - s.entities[a].createdAt
-              : s.entities[a].createdAt - s.entities[b].createdAt,
+              ? s.entities[B].createdAt - s.entities[A].createdAt
+              : s.entities[A].createdAt - s.entities[B].createdAt,
           );
         }
       })
@@ -138,35 +146,47 @@ const slice = createSlice({
       })
       .addCase(updateEstado.fulfilled, (s, a) => {
         const { id, estado, motivo } = a.payload as { id: string; estado: Applicant['estado']; motivo?: string };
-        const entity = s.entities[id];
-        if (entity) {
-          entity.estado = estado;
-          entity.motivoNoAdmision = estado === 'no_admitido' ? (motivo ?? '') : null;
-          entity.updatedAt = Date.now();
+        const e = s.entities[id];
+        if (e) {
+          e.estado = estado;
+          e.motivoNoAdmision = estado === 'no_admitido' ? (motivo ?? '') : null;
+          e.updatedAt = Date.now();
         }
       })
       .addCase(authorizeMatricula.fulfilled, (s, a) => {
-        const { id, actorUid } = a.payload as { id: string; actorUid: string };
+        const { id, actorEmail } = a.payload as { id: string; actorEmail?: string | null };
         const e = s.entities[id];
         if (e) {
           e.autorizadoMatricula = true;
-          e.autorizadoBy = e.autorizadoBy ?? actorUid; // si el service ya puso email, se respeta
+          e.autorizadoBy = actorEmail ?? e.autorizadoBy ?? 'system';
           e.autorizadoAt = Date.now();
+          e.updatedAt = Date.now();
+        }
+      })
+      .addCase(revokeMatricula.fulfilled, (s, a) => {
+        const { id } = a.payload as { id: string };
+        const e = s.entities[id];
+        if (e) {
+          e.autorizadoMatricula = false;
+          e.autorizadoBy = null;
+          e.autorizadoAt = null;
           e.updatedAt = Date.now();
         }
       })
       .addCase(updateFuente.fulfilled, (s, a) => {
         const { id, fuente } = a.payload as { id: string; fuente: string };
-        if (s.entities[id]) {
-          s.entities[id].fuente = fuente;
-          s.entities[id].updatedAt = Date.now();
+        const e = s.entities[id];
+        if (e) {
+          e.fuente = fuente;
+          e.updatedAt = Date.now();
         }
       })
       .addCase(updateTags.fulfilled, (s, a) => {
         const { id, tags } = a.payload as { id: string; tags: string[] };
-        if (s.entities[id]) {
-          s.entities[id].tags = tags;
-          s.entities[id].updatedAt = Date.now();
+        const e = s.entities[id];
+        if (e) {
+          e.tags = tags;
+          e.updatedAt = Date.now();
         }
       });
   },
@@ -177,6 +197,7 @@ export const {
   clearFilters,
   toggleSelect,
   clearSelection,
+  upsertOne,
   setFilterYear,
   setFilterYearExclusive,
 } = slice.actions;

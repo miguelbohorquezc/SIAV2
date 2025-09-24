@@ -44,15 +44,27 @@ export const updateEstado = createAsyncThunk(
   },
 );
 
-export const authorizeMatricula = createAsyncThunk(
-  'admisiones/authorizeMatricula',
-  async ({ id }: { id: string }) => {
-    const { actorUid } = await applicantsService.authorize(id);
+export const authorizeMatricula = createAsyncThunk('admisiones/authorizeMatricula', async ({ id }: { id: string }) => {
+  const { actorUid, actorEmail } = await applicantsService.authorize(id);
+  await auditsService.create({
+    entity: 'applicants',
+    entityId: id,
+    action: 'authorize',
+    changes: { to: true, actorEmail },
+  });
+  return { id, actorUid, actorEmail };
+});
+
+export const revokeMatricula = createAsyncThunk(
+  'admisiones/revokeMatricula',
+  async ({ id, reason }: { id: string; reason?: string }) => {
+    const { actorUid } = await applicantsService.revokeAuthorize(id);
     await auditsService.create({
       entity: 'applicants',
       entityId: id,
-      action: 'authorize',
-      changes: {},
+      action: 'authorize_revert',
+      changes: { to: false },
+      reason: reason ?? null,
     });
     return { id, actorUid };
   },
