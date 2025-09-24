@@ -40,8 +40,8 @@ export default function AspirantesListPage() {
 
   return (
     <section className="section users-scope">
-      <h1 className="title">Aspirantes</h1>
-
+      <h1 className="title has-text-black">Aspirantes</h1>
+      <p className="subtitle is-6 has-text-primary-invert">Registro de aspirantes</p>
       {notice && (
         <div className={`notification is-${notice.kind}`}>
           <button className="delete" onClick={() => setNotice(null)} />

@@ -1,15 +1,28 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/app/store';
+import type { AdmisionesState } from './slice';
 import type { Applicant } from '../types';
 
-const base = (s: RootState) => (s as any).admisiones as import('./slice').AdmisionesState;
+const base = (s: RootState) => (s as any).admisiones as AdmisionesState;
 
 export const selectStatus = (s: RootState) => base(s).status;
 export const selectPagination = (s: RootState) => base(s).pagination;
 export const selectSelection = (s: RootState) => base(s).selection;
 export const selectFilters = (s: RootState) => base(s).filters;
 
-export const selectAllApplicants = createSelector([base], (b) => b.ids.map((id) => b.entities[id]));
+export const selectAllApplicants = createSelector([base], (b) =>
+  b.ids.map((id) => b.entities[id] as Applicant),
+);
+
+// Años disponibles según createdAt (para poblar el <select>)
+export const selectYearsAvailable = createSelector([selectAllApplicants], (rows) => {
+  const years = new Set<number>();
+  for (const r of rows) {
+    const y = new Date(r.createdAt).getFullYear();
+    if (!Number.isNaN(y)) years.add(y);
+  }
+  return Array.from(years).sort((a, b) => b - a);
+});
 
 const normalize = (t: string) =>
   t
@@ -17,29 +30,41 @@ const normalize = (t: string) =>
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
-export const selectFilteredApplicants = createSelector(
-  [selectAllApplicants, selectFilters],
-  (rows, f) => {
-    let out = rows.slice();
+export const selectFilteredApplicants = createSelector([selectAllApplicants, selectFilters], (rows, f) => {
+  let out = rows.slice();
 
-    if (f.q) {
-      const q = normalize(f.q);
-      out = out.filter((r) =>
-        [r.nombresApellidos, r.apellidos, r.nombres, r.numeroIdentificacion].some((v) =>
-          normalize(String(v ?? '')).includes(q),
-        ),
-      );
-    }
-    if (f.estado) out = out.filter((r) => r.estado === f.estado);
-    if (f.tag) out = out.filter((r) => r.tags.includes(f.tag!));
-    if (f.autorizado !== null) out = out.filter((r) => r.autorizadoMatricula === f.autorizado);
-    if (f.dateFrom) out = out.filter((r) => r.createdAt >= f.dateFrom!);
-    if (f.dateTo) out = out.filter((r) => r.createdAt <= f.dateTo!);
+  // Año (createdAt)
+  if (f.year !== null) {
+    out = out.filter((r) => new Date(r.createdAt).getFullYear() === f.year);
+  }
 
-    out.sort((a, b) => (f.orden === 'createdAt_desc' ? b.createdAt - a.createdAt : a.createdAt - b.createdAt));
-    return out;
-  },
-);
+  // Rango fechas
+  if (f.dateFrom) out = out.filter((r) => r.createdAt >= f.dateFrom!);
+  if (f.dateTo) out = out.filter((r) => r.createdAt <= f.dateTo!);
+
+  // Texto
+  if (f.q) {
+    const q = normalize(f.q);
+    out = out.filter((r) =>
+      [r.nombresApellidos, r.apellidos, r.nombres, r.numeroIdentificacion].some((v) =>
+        normalize(String(v ?? '')).includes(q),
+      ),
+    );
+  }
+
+  // Estado
+  if (f.estado) out = out.filter((r) => r.estado === f.estado);
+
+  // Tag
+  if (f.tag) out = out.filter((r) => Array.isArray(r.tags) && r.tags.includes(f.tag!));
+
+  // Autorizado
+  if (f.autorizado !== null) out = out.filter((r) => r.autorizadoMatricula === f.autorizado);
+
+  // Orden
+  out.sort((a, b) => (f.orden === 'createdAt_desc' ? b.createdAt - a.createdAt : a.createdAt - b.createdAt));
+  return out;
+});
 
 export const selectById =
   (id: string) =>

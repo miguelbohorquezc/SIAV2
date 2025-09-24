@@ -1,15 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter, clearFilters } from '@/features/admisiones/store/slice';
-import { selectFilters, selectStats } from '@/features/admisiones/store/selectors';
+import { setFilter, clearFilters, setFilterYear /*, setFilterYearExclusive */ } from '@/features/admisiones/store/slice';
+import { selectFilters, selectStats, selectYearsAvailable } from '@/features/admisiones/store/selectors';
 
-export default function FiltersBar() {
+export default function FilterBar() {
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);
   const stats = useSelector(selectStats);
+  const years = useSelector(selectYearsAvailable);
+
+  const onYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const v = e.target.value;
+    const year = v === '' ? null : Number(v);
+    // Si quieres que sea exclusivo (limpie dateFrom/dateTo), usa setFilterYearExclusive
+    dispatch(setFilterYear(year));
+  };
 
   return (
     <div className="box">
       <div className="field is-grouped is-grouped-multiline">
+        {/* Texto */}
         <div className="control is-expanded">
           <input
             className="input"
@@ -19,6 +28,7 @@ export default function FiltersBar() {
           />
         </div>
 
+        {/* Estado */}
         <div className="control">
           <div className="select">
             <select
@@ -34,6 +44,7 @@ export default function FiltersBar() {
           </div>
         </div>
 
+        {/* Tag */}
         <div className="control">
           <input
             className="input"
@@ -43,6 +54,7 @@ export default function FiltersBar() {
           />
         </div>
 
+        {/* Autorizado */}
         <div className="control">
           <div className="select">
             <select
@@ -63,11 +75,12 @@ export default function FiltersBar() {
           </div>
         </div>
 
+        {/* Orden */}
         <div className="control">
           <div className="select">
             <select
               value={filters.orden}
-              onChange={(e) => dispatch(setFilter({ key: 'orden', value: e.target.value }))}
+              onChange={(e) => dispatch(setFilter({ key: 'orden', value: e.target.value as any }))}
             >
               <option value="createdAt_desc">Recientes primero</option>
               <option value="createdAt_asc">Antiguos primero</option>
@@ -75,12 +88,35 @@ export default function FiltersBar() {
           </div>
         </div>
 
+        {/* Año (NUEVO) */}
         <div className="control">
-          <button className="button" onClick={() => dispatch(clearFilters())}>Limpiar</button>
+          <div className="select">
+            <select value={filters.year ?? ''} onChange={onYearChange} aria-label="Filtrar por año">
+              <option value="">Año (todos)</option>
+              {/* Incluye el año actual aunque no esté en datos */}
+              {(() => {
+                const current = new Date().getFullYear();
+                const merged = Array.from(new Set([current, ...years])).sort((a, b) => b - a);
+                return merged.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ));
+              })()}
+            </select>
+          </div>
         </div>
 
+        {/* Limpiar */}
         <div className="control">
-          <span className="tag is-info">Total: {stats.total}</span>
+          <button className="button" onClick={() => dispatch(clearFilters())}>
+            Limpiar
+          </button>
+        </div>
+
+        {/* KPIs rápidos */}
+        <div className="control">
+          <span className="tag is-link">Total: {stats.total}</span>
         </div>
       </div>
     </div>

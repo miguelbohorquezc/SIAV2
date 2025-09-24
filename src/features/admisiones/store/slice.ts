@@ -17,9 +17,10 @@ export type Filters = {
   estado: string | null;
   tag: string | null;
   autorizado: boolean | null;
-  dateFrom: number | null;
-  dateTo: number | null;
+  dateFrom: number | null;   // timestamp (ms)
+  dateTo: number | null;     // timestamp (ms)
   orden: Orden;
+  year: number | null;       // <-- NUEVO: filtro por año (createdAt)
 };
 
 export type Pagination = {
@@ -54,6 +55,7 @@ const initialState: AdmisionesState = {
     dateFrom: null,
     dateTo: null,
     orden: ORDEN.CREATED_DESC,
+    year: null, // <-- NUEVO
   },
   pagination: {
     pageSize: PAGE_SIZE_DEFAULT,
@@ -83,6 +85,18 @@ const slice = createSlice({
     clearSelection: (s) => {
       s.selection.ids = [];
     },
+    // --- NUEVO: filtros por año ---
+    setFilterYear: (s, a: PayloadAction<number | null>) => {
+      s.filters.year = a.payload;
+    },
+    // Exclusivo: si seteas year, limpia dateFrom/dateTo para evitar combinaciones
+    setFilterYearExclusive: (s, a: PayloadAction<number | null>) => {
+      s.filters.year = a.payload;
+      if (a.payload !== null) {
+        s.filters.dateFrom = null;
+        s.filters.dateTo = null;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -91,7 +105,11 @@ const slice = createSlice({
         s.error = null;
       })
       .addCase(fetchApplicantsPage.fulfilled, (s, a) => {
-        const { items, nextCursor, append } = a.payload;
+        const { items, nextCursor, append } = a.payload as {
+          items: Applicant[];
+          nextCursor?: unknown;
+          append: boolean;
+        };
         items.forEach((doc) => {
           s.entities[doc.id] = doc;
           if (!s.ids.includes(doc.id)) s.ids.push(doc.id);
@@ -100,10 +118,11 @@ const slice = createSlice({
         s.pagination.hasMore = Boolean(nextCursor);
         s.status = 'succeeded';
         if (!append) {
-          // opcional: ordenar ids por createdAt según orden seleccionado
-          s.ids.sort((a, b) => (s.filters.orden === 'createdAt_desc'
-            ? s.entities[b].createdAt - s.entities[a].createdAt
-            : s.entities[a].createdAt - s.entities[b].createdAt));
+          s.ids.sort((a, b) =>
+            s.filters.orden === 'createdAt_desc'
+              ? s.entities[b].createdAt - s.entities[a].createdAt
+              : s.entities[a].createdAt - s.entities[b].createdAt,
+          );
         }
       })
       .addCase(fetchApplicantsPage.rejected, (s, a) => {
@@ -111,14 +130,14 @@ const slice = createSlice({
         s.error = a.error.message ?? 'Error al cargar';
       })
       .addCase(syncRecent.fulfilled, (s, a) => {
-        a.payload.items.forEach((doc) => {
+        a.payload.items.forEach((doc: Applicant) => {
           s.entities[doc.id] = doc;
           if (!s.ids.includes(doc.id)) s.ids.push(doc.id);
         });
         s.lastSync = Date.now();
       })
       .addCase(updateEstado.fulfilled, (s, a) => {
-        const { id, estado, motivo } = a.payload;
+        const { id, estado, motivo } = a.payload as { id: string; estado: Applicant['estado']; motivo?: string };
         const entity = s.entities[id];
         if (entity) {
           entity.estado = estado;
@@ -127,24 +146,24 @@ const slice = createSlice({
         }
       })
       .addCase(authorizeMatricula.fulfilled, (s, a) => {
-        const { id, actorUid } = a.payload;
+        const { id, actorUid } = a.payload as { id: string; actorUid: string };
         const e = s.entities[id];
         if (e) {
           e.autorizadoMatricula = true;
-          e.autorizadoBy = actorUid;
+          e.autorizadoBy = e.autorizadoBy ?? actorUid; // si el service ya puso email, se respeta
           e.autorizadoAt = Date.now();
           e.updatedAt = Date.now();
         }
       })
       .addCase(updateFuente.fulfilled, (s, a) => {
-        const { id, fuente } = a.payload;
+        const { id, fuente } = a.payload as { id: string; fuente: string };
         if (s.entities[id]) {
           s.entities[id].fuente = fuente;
           s.entities[id].updatedAt = Date.now();
         }
       })
       .addCase(updateTags.fulfilled, (s, a) => {
-        const { id, tags } = a.payload;
+        const { id, tags } = a.payload as { id: string; tags: string[] };
         if (s.entities[id]) {
           s.entities[id].tags = tags;
           s.entities[id].updatedAt = Date.now();
@@ -153,7 +172,14 @@ const slice = createSlice({
   },
 });
 
-export const { setFilter, clearFilters, toggleSelect, clearSelection } = slice.actions;
+export const {
+  setFilter,
+  clearFilters,
+  toggleSelect,
+  clearSelection,
+  setFilterYear,
+  setFilterYearExclusive,
+} = slice.actions;
 
 export const reducerKey = 'admisiones';
 export const reducer = slice.reducer;
