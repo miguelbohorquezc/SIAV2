@@ -22,6 +22,7 @@ const vacioPadreOMadre: AspirantePadreOMadre = {
 
 const initialForm: AspiranteDTO = {
   // Paso 1
+  nIdentificacion: "",
   nombres: "",
   apellidos: "",
   fechaNacimiento: "",
@@ -150,6 +151,7 @@ function req(v: string) {
 function validarPaso(step: number, f: AspiranteDTO): { ok: boolean; errores: Errores; step?: number } {
   const e: Errores = {};
   if (step === 1) {
+    mark(e, "nIdentificacion", req(f.nIdentificacion), "Requerido");
     mark(e, "nombres", req(f.nombres), "Requerido");
     mark(e, "apellidos", req(f.apellidos), "Requerido");
     mark(e, "fechaNacimiento", req(f.fechaNacimiento), "Requerido");

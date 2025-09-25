@@ -19,6 +19,7 @@ export interface Recomendador {
 
 export interface Applicant {
   id: string;
+  nIdentificacion: string;
   __schemaVersion: number;
   __source: string;
   aceptaTerminos: boolean;

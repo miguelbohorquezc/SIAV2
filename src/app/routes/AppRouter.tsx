@@ -33,6 +33,7 @@ const UsersAdminPage = lazy(() => import('@/features/users/pages/UsersAdminPage'
 // (Feature) Admisiones - Aspirantes
 // Las rutas exportadas ya incluyen guards; se inyectan dentro del layout privado.
 import { routes as admisionesRoutes } from '@/features/admisiones/routes';
+import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
 
 export default function AppRouter() {
   return (
@@ -46,7 +47,7 @@ export default function AppRouter() {
       <Routes>
         {/* ===== RUTAS PÚBLICAS ===== */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
-
+        <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspiranteFormularioBulma />} />
         {/* ===== RUTAS PRIVADAS (con layout App que incluye Navbar, etc.) ===== */}
         <Route
           element={

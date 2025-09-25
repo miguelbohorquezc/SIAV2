@@ -35,6 +35,7 @@ export default function AspiranteDetailPage() {
 
   const [showAuth, setShowAuth] = useState(false);
   const [showReason, setShowReason] = useState(false);
+  const [showRevoke, setShowRevoke] = useState(false); // <-- AÑADIDO
   const [estado, setEstado] = useState<Estado>('en_revision');
   const [fuente, setFuente] = useState('');
   const [tags, setTags] = useState<string[]>([]);
@@ -102,7 +103,7 @@ export default function AspiranteDetailPage() {
           <h1 className="title has-text-black">Detalle de aspirante</h1>
         </div>
         <div className="level-right">
-          <Link to={`/admin/aspirantes/${id}/ficha`} className="button is-light">Imprimir ficha</Link>
+          <Link to={`/admin/aspirantes/${id}/ficha`} className="button is-alert has-text-white"><i className="fa-solid fa-print mr-2"></i>Imprimir ficha</Link>
         </div>
       </div>
 
@@ -124,7 +125,15 @@ export default function AspiranteDetailPage() {
                 <span className="tag is-light mb-1">
                   {applicant.apellidos.toUpperCase()} {applicant.nombres.toUpperCase()}
                 </span>
-                <p><EstadoBadge estado={applicant.estado} /></p>
+                <span className="tag is-info ml-2 has-text-dark">
+                  <p className='mr-2'>Registro:</p>{applicant.id}
+                </span>
+                <span className="tag is-secondary ml-2 has-text-white">
+                  <p className='mr-2'>Identificación:</p>{applicant.nIdentificacion}
+                </span>
+                <span>
+                  <p><EstadoBadge estado={applicant.estado} /></p>
+                </span>
                 <p className="mt-2">
                   <strong className="has-text-primary-dark">Creado:</strong> {new Date(applicant.createdAt).toLocaleString()} ·{' '}
                   <strong className="has-text-primary-dark">Actualizado:</strong> {new Date(applicant.updatedAt).toLocaleString()}
@@ -173,19 +182,7 @@ export default function AspiranteDetailPage() {
                 {applicant.autorizadoMatricula && (
                   <button
                     className={`button is-danger ml-2 ${revoking ? 'is-loading' : ''}`}
-                    onClick={async () => {
-                      const motivo = window.prompt('Motivo de revocación (opcional):') ?? undefined;
-                      if (motivo === null) return;
-                      try {
-                        setRevoking(true);
-                        await (dispatch(revokeMatricula({ id, reason: motivo }) as any) as any);
-                        showOk('Autorización revocada.');
-                      } catch {
-                        showErr('No se pudo revocar la autorización.');
-                      } finally {
-                        setRevoking(false);
-                      }
-                    }}
+                    onClick={() => setShowRevoke(true)} // <-- CAMBIADO (antes window.prompt)
                     title="Revocar autorización de matrícula"
                   >
                     <i className="fa-solid fa-rotate-left mr-1" /> Revocar autorización
@@ -284,6 +281,8 @@ export default function AspiranteDetailPage() {
                 <div className="cell">
                   <h3 className="title is-5">Aspirante</h3>
                   <ul>
+                    <li><strong className="has-text-primary-dark">ID-REGISTRO:</strong> {applicant.id}</li>
+                    <li><strong className="has-text-primary-dark">Número Identidad:</strong> {applicant.nIdentificacion}</li>
                     <li><strong className="has-text-primary-dark">Nombres:</strong> {applicant.nombres.toUpperCase()}</li>
                     <li><strong className="has-text-primary-dark">Apellidos:</strong> {applicant.apellidos.toUpperCase()}</li>
                     <li><strong className="has-text-primary-dark">Sexo:</strong> {applicant.sexo.toUpperCase()}</li>
@@ -360,6 +359,28 @@ export default function AspiranteDetailPage() {
                 showOk('Estado actualizado con motivo.');
               } catch {
                 showErr('No se pudo actualizar el estado.');
+              }
+            }}
+          />
+
+          {/* Reutilización del mismo modal para REVOCAR autorización */}
+          <NoAdmisionReasonModal
+            isOpen={showRevoke}
+            onClose={() => setShowRevoke(false)}
+            title="Motivo de revocación"
+            confirmLabel="Revocar"
+            required={false}
+            placeholder="Si lo deseas, explica por qué revocas la autorización…"
+            onConfirm={async (reason) => {
+              try {
+                setShowRevoke(false);
+                setRevoking(true);
+                await (dispatch(revokeMatricula({ id, reason: reason || undefined }) as any) as any);
+                showOk('Autorización revocada.');
+              } catch {
+                showErr('No se pudo revocar la autorización.');
+              } finally {
+                setRevoking(false);
               }
             }}
           />

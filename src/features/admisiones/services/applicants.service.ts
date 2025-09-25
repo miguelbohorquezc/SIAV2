@@ -30,6 +30,7 @@ export const mapSnapshotToApplicant = (d: DocumentSnapshot): Applicant | undefin
   const data: any = d.data();
   return {
     id: d.id,
+    nIdentificacion: data.nIdentificacion ?? '',
     __schemaVersion: data.__schemaVersion ?? 1,
     __source: data.__source ?? '',
     aceptaTerminos: !!data.aceptaTerminos,

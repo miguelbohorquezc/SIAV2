@@ -3,9 +3,9 @@ import type { Estado } from '../types';
 export default function EstadoBadge({ estado }: { estado: Estado }) {
   const map: Record<Estado, string> = {
     en_espera: 'is-warning is-light',
-    en_revision: 'is-info',
-    admitido: 'is-success',
-    no_admitido: 'is-danger',
+    en_revision: 'is-info has-text-white',
+    admitido: 'is-success has-text-white',
+    no_admitido: 'is-danger has-text-white',
   };
   const label: Record<Estado, string> = {
     en_espera: 'En espera',

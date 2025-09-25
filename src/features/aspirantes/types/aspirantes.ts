@@ -27,6 +27,7 @@ export type AspiranteRecomendador = {
  */
 export type AspiranteDTO = {
   // Paso 1
+  nIdentificacion:string;
   nombres: string;
   apellidos: string;
   fechaNacimiento: string; // ISO yyyy-mm-dd

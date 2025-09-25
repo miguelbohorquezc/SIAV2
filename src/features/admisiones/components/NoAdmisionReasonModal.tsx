@@ -37,12 +37,12 @@ export default function NoAdmisionReasonModal({
           <p className="modal-card-title">{title}</p>
           <button className="delete" aria-label="close" onClick={onClose}></button>
         </header>
-        <section className="modal-card-body">
+        <section className="modal-card-body has-background-white">
           <div className="field">
             <label className="label">Motivo {required ? '(obligatorio)' : '(opcional)'}</label>
             <div className="control">
               <textarea
-                className="textarea"
+                className="textarea is-danger"
                 placeholder={placeholder}
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
@@ -55,7 +55,7 @@ export default function NoAdmisionReasonModal({
         </section>
         <footer className="modal-card-foot">
           <button
-            className="button is-primary"
+            className="button is-danger mr-2 has-text-white"
             disabled={!canConfirm}
             onClick={() => onConfirm(reason.trim())}
           >
