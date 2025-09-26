@@ -23,6 +23,7 @@ import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 import { AUTH_ROLES } from '@/shared/constants/auth';
 import App from '@/App';
 
+
 // (Pública) Login
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 
@@ -34,6 +35,7 @@ const UsersAdminPage = lazy(() => import('@/features/users/pages/UsersAdminPage'
 // Las rutas exportadas ya incluyen guards; se inyectan dentro del layout privado.
 import { routes as admisionesRoutes } from '@/features/admisiones/routes';
 import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
+import MatriculaRoutes from '@/features/matriculaForm/routes';
 
 export default function AppRouter() {
   return (
@@ -48,6 +50,9 @@ export default function AppRouter() {
         {/* ===== RUTAS PÚBLICAS ===== */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
         <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspiranteFormularioBulma />} />
+
+        {/* Rutas públicas aportadas por la feature de matrícula */}
+        {MatriculaRoutes.map(r => <Route key={r.path as string} path={r.path as string} element={r.element!} />)}
         {/* ===== RUTAS PRIVADAS (con layout App que incluye Navbar, etc.) ===== */}
         <Route
           element={
