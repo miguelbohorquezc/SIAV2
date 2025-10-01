@@ -27,6 +27,7 @@ export type AspiranteRecomendador = {
  */
 export type AspiranteDTO = {
   // Paso 1
+  TIdentificacion: "",
   nIdentificacion:string;
   nombres: string;
   apellidos: string;

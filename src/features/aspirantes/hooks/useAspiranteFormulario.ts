@@ -22,6 +22,7 @@ const vacioPadreOMadre: AspirantePadreOMadre = {
 
 const initialForm: AspiranteDTO = {
   // Paso 1
+  TIdentificacion: "",
   nIdentificacion: "",
   nombres: "",
   apellidos: "",

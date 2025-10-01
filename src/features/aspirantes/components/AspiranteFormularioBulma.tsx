@@ -120,6 +120,7 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
           <fieldset className="box p-5 has-background-white" aria-labelledby="t1">
             <legend id="t1" className="title is-5">Datos de identificación del aspirante</legend>
             <div className="columns is-multiline">
+              <div className="column is-half"><Campo id="TIdentificacion" label="N TIdentificación" value={formulario.TIdentificacion} onChange={actualizarCampo} error={errores["TIdentificacion"]}/></div>
               <div className="column is-half"><Campo id="nIdentificacion" label="N Identificación" value={formulario.nIdentificacion} onChange={actualizarCampo} error={errores["nIdentificacion"]}/></div>
               <div className="column is-half"><Campo id="nombres" label="Nombres" value={formulario.nombres} onChange={actualizarCampo} error={errores["nombres"]}/></div>
               <div className="column is-half"><Campo id="apellidos" label="Apellidos" value={formulario.apellidos} onChange={actualizarCampo} error={errores["apellidos"]}/></div>

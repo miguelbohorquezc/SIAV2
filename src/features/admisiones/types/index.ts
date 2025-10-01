@@ -19,6 +19,7 @@ export interface Recomendador {
 
 export interface Applicant {
   id: string;
+  TIdentificacion: string;
   nIdentificacion: string;
   __schemaVersion: number;
   __source: string;
@@ -47,6 +48,7 @@ export interface Applicant {
   telefonoCasa: string;
   telefono: string;
   ultimoGrado: string;
+  gradoAspira: string;
   updatedAt: number;
   tags: string[];
   motivoNoAdmision: string | null;

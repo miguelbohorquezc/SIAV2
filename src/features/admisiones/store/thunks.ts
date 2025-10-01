@@ -102,29 +102,27 @@ export const exportCsv = createAsyncThunk('admisiones/exportCsv', async (_: void
   const state = getState() as any;
   const rows: Applicant[] = state.admisiones.ids.map((id: string) => state.admisiones.entities[id]);
   const header = [
-    'id',
-    'nombresApellidos',
-    'numeroIdentificacion',
-    'ultimoGrado',
-    'estado',
-    'autorizadoMatricula',
-    'createdAt',
-    'fuente',
-    'tags',
+    'Marca temporal',
+    'NOMBRES',
+    'APELLIDOS',
+    'DOCUMENTO',
+    'ULTIMO GRADO CURSADO',
+    'ESTADO DE INSCRIPCION',
+    'AUTORIZADO PARA MATRICULA',
+    'ETIQUETAS',
   ];
   const csv = [header.join(',')]
     .concat(
       rows.map((r) =>
         [
-          r.id,
-          JSON.stringify(r.nombresApellidos),
-          r.numeroIdentificacion,
-          JSON.stringify(r.ultimoGrado),
-          r.estado,
-          r.autorizadoMatricula,
           new Date(r.createdAt).toISOString(),
-          JSON.stringify(r.fuente),
-          JSON.stringify(r.tags.join('|')),
+          JSON.stringify(r.nombres.toUpperCase()),
+          JSON.stringify(r.apellidos.toUpperCase()),
+          r.nIdentificacion,
+          JSON.stringify(r.ultimoGrado),
+          r.estado.toUpperCase(),
+          r.autorizadoMatricula? 'SI' : 'NO',
+          JSON.stringify(r.tags.join('|').toUpperCase()),
         ].join(','),
       ),
     )

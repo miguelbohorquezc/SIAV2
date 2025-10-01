@@ -23,5 +23,5 @@ export const PrivateRoutes = {
   CLASSROOMS: 'classrooms',
   AREA: 'area',
   ADMIN_USERS: 'admin/users',
-  ADMIN_ASPIRANTES: 'admin/apirantes',
+  ADMIN_ASPIRANTES: 'admin/apirantes'
 } as const;
