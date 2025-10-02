@@ -2,6 +2,7 @@
 import React from "react";
 import { useAspiranteFormulario } from "../hooks/useAspiranteFormulario";
 import type { Aspirante } from "../types/aspirantes";
+import '@/features/aspirantes/styles/aspirantes.light.css'
 
 type Props = { isEnabled?: boolean; onGuardado?: (id: string) => void };
 
@@ -98,14 +99,14 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
             {[1, 2, 3, 4].map((i) => (
               <React.Fragment key={i}>
                 <span
-                  className={`tag is-medium is-rounded ${paso === i ? "is-link" : "is-light"}`}
+                  className={`tag is-medium is-rounded ${paso === i ? "is-info has-text-white" : "is-light"}`}
                   aria-current={paso === i ? "step" : "false"}
                 >
                   {i}
                 </span>
                 {i < 4 && (
                   <span
-                    className={`mx-2 is-hidden-touch ${paso > i ? "has-background-link" : "has-background-grey-lighter"}`}
+                    className={`mx-2 is-hidden-touch ${paso > i ? "has-background-info" : "has-background-grey-lighter"}`}
                     style={{ height: 2, width: 48, display: "inline-block" }}
                   />
                 )}
@@ -113,32 +114,38 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
             ))}
           </div>
         </nav>
-        <progress className="progress is-link is-small mb-5" value={progreso} max={100} aria-hidden="true" />
+        <progress className="progress is-info is-small mb-5" value={progreso} max={100} aria-hidden="true" />
 
         {/* PASO 1 */}
         {paso === 1 && (
           <fieldset className="box p-5 has-background-white" aria-labelledby="t1">
-            <legend id="t1" className="title is-5">Datos de identificación del aspirante</legend>
+          
             <div className="columns is-multiline">
-              <div className="column is-half"><Campo id="TIdentificacion" label="N TIdentificación" value={formulario.TIdentificacion} onChange={actualizarCampo} error={errores["TIdentificacion"]}/></div>
-              <div className="column is-half"><Campo id="nIdentificacion" label="N Identificación" value={formulario.nIdentificacion} onChange={actualizarCampo} error={errores["nIdentificacion"]}/></div>
-              <div className="column is-half"><Campo id="nombres" label="Nombres" value={formulario.nombres} onChange={actualizarCampo} error={errores["nombres"]}/></div>
-              <div className="column is-half"><Campo id="apellidos" label="Apellidos" value={formulario.apellidos} onChange={actualizarCampo} error={errores["apellidos"]}/></div>
+              <div className="column is-full">
+                <legend id="t1" className="title is-5">Datos de identificación del aspirante</legend>
+              </div>
+              <div className="column is-one-third"><Select id="TIdentificacion" label="Tipo de identificación" value={formulario.TIdentificacion} onChange={actualizarCampo} error={errores["TIdentificacion"]} options={[{ v: "RC", t: "RC" }, { v: "TI", t: "TI" }, { v: "CE", t: "CE" }, { v: "CC", t: "CC" }, { v: "PA", t: "PA" }]} /></div>
+              <div className="column is-one-third"><Campo id="nIdentificacion" placeholder="Número de identificación" label="Número de identificación" value={formulario.nIdentificacion} onChange={actualizarCampo} type="number" error={errores["nIdentificacion"]}/></div>
+              <div className="column is-one-third"><Select id="gradoAspira" label="Grado al que aspira" value={formulario.gradoAspira} onChange={actualizarCampo} error={errores["gradoAspira"]} options={[{ v: "Walkers", t: "Walkers" }, { v: "Nursery", t: "Nursery" }, { v: "Prekinder", t: "Prekinder" }, { v: "Kinder", t: "Kinder" }, { v: "Transition", t: "Transition" }, { v: "Primero", t: "Primero" }
+                , { v: "Segundo", t: "Segundo" }, { v: "Tercero", t: "Tercero" }, { v: "Cuarto", t: "Cuarto" }, { v: "Quinto", t: "Quinto" }, { v: "Sexto", t: "Sexto" }, { v: "Septimo", t: "Septimo" }, { v: "Octavo", t: "Octavo" }, { v: "Noveno", t: "Noveno" }, { v: "Decimo", t: "Decimo" }, { v: "Once", t: "Once" }
+              ]} /></div>
+              <div className="column is-half"><Campo id="nombres" placeholder="Nombres completos" label="Nombres" value={formulario.nombres} onChange={actualizarCampo} error={errores["nombres"]}/></div>
+              <div className="column is-half"><Campo id="apellidos" placeholder="Apellidos completos" label="Apellidos" value={formulario.apellidos} onChange={actualizarCampo} error={errores["apellidos"]}/></div>
               <div className="column is-half"><Campo id="fechaNacimiento" type="date" label="Fecha de nacimiento" value={formulario.fechaNacimiento} onChange={actualizarCampo} error={errores["fechaNacimiento"]}/></div>
-              <div className="column is-half"><Campo id="lugarNacimiento" label="Lugar de nacimiento" value={formulario.lugarNacimiento} onChange={actualizarCampo} error={errores["lugarNacimiento"]}/></div>
+              <div className="column is-half"><Campo id="lugarNacimiento" placeholder="Ciudad - País" label="Lugar de nacimiento" value={formulario.lugarNacimiento} onChange={actualizarCampo} error={errores["lugarNacimiento"]}/></div>
               <div className="column is-one-third"><Select id="sexo" label="Sexo" value={formulario.sexo} onChange={actualizarCampo} error={errores["sexo"]} options={[{ v: "M", t: "Masculino" }, { v: "F", t: "Femenino" }]} /></div>
-              <div className="column is-one-third"><Campo id="edadAnios" type="number" label="Edad actual en (años)" value={formulario.edadAnios} onChange={actualizarCampo} error={errores["edadAnios"]}/></div>
-              <div className="column is-one-third"><Campo id="edadMeses" type="number" label="y (meses)" value={formulario.edadMeses} onChange={actualizarCampo} error={errores["edadMeses"]}/></div>
-              <div className="column is-full"><Campo id="direccionResidencia" label="Dirección de residencia" value={formulario.direccionResidencia} onChange={actualizarCampo} error={errores["direccionResidencia"]}/></div>
-              <div className="column is-half"><Campo id="barrioAspirante" label="Barrio" value={formulario.barrioAspirante} onChange={actualizarCampo} error={errores["barrioAspirante"]}/></div>
-              <div className="column is-half"><Campo id="telefonoCasa" label="Teléfono de casa" value={formulario.telefonoCasa} onChange={actualizarCampo} error={errores["telefonoCasa"]} help="Incluye indicativo si aplica."/></div>
-              <div className="column is-half"><Campo id="religion" label="Religión" value={formulario.religion} onChange={actualizarCampo} error={errores["religion"]}/></div>
-              <div className="column is-half"><Campo id="colegioProcedencia" label="Colegio de procedencia" value={formulario.colegioProcedencia} onChange={actualizarCampo} error={errores["colegioProcedencia"]}/></div>
-              <div className="column is-half"><Campo id="ultimoGrado" label="Último grado cursado" value={formulario.ultimoGrado} onChange={actualizarCampo} error={errores["ultimoGrado"]}/></div>
+              <div className="column is-one-third"><Campo id="edadAnios" placeholder="Número" type="number" label="Edad actual en (años)" value={formulario.edadAnios} onChange={actualizarCampo} error={errores["edadAnios"]}/></div>
+              <div className="column is-one-third"><Campo id="edadMeses" placeholder="Número" type="number" label="y (meses)" value={formulario.edadMeses} onChange={actualizarCampo} error={errores["edadMeses"]}/></div>
+              <div className="column is-full"><Campo id="direccionResidencia" placeholder="Dirección" label="Dirección de residencia" value={formulario.direccionResidencia} onChange={actualizarCampo} error={errores["direccionResidencia"]}/></div>
+              <div className="column is-half"><Campo id="barrioAspirante" label="Barrio" placeholder="Barrio" value={formulario.barrioAspirante} onChange={actualizarCampo} error={errores["barrioAspirante"]}/></div>
+              <div className="column is-half"><Campo id="telefonoCasa" placeholder="Número" label="Teléfono / Celular" value={formulario.telefonoCasa} onChange={actualizarCampo} error={errores["telefonoCasa"]} help="Incluye indicativo si aplica."/></div>
+              <div className="column is-half"><Campo id="religion" placeholder="Creencia religiosa familiar" label="Religión" value={formulario.religion} onChange={actualizarCampo} error={errores["religion"]}/></div>
+              <div className="column is-half"><Campo id="colegioProcedencia" label="Colegio de procedencia" placeholder="Dejar en blanco si no aplica" value={formulario.colegioProcedencia.toUpperCase()} onChange={actualizarCampo} error={errores["colegioProcedencia"]}/></div>
+              <div className="column is-half"><Campo id="ultimoGrado" label="Último grado cursado" placeholder="Dejar en blanco si no aplica" value={formulario.ultimoGrado.toUpperCase()} onChange={actualizarCampo} error={errores["ultimoGrado"]}/></div>
             </div>
 
             <div className="is-flex is-justify-content-flex-end mt-2">
-              <button className="button is-link is-rounded" type="button" onClick={() => siguiente() && window.scrollTo({ top: 0, behavior: "smooth" })}>Siguiente</button>
+              <button className="button is-primary has-text-white" type="button" onClick={() => siguiente() && window.scrollTo({ top: 0, behavior: "smooth" })}>Siguiente</button>
             </div>
           </fieldset>
         )}
@@ -164,21 +171,23 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
         {/* PASO 4 */}
         {paso === 4 && (
           <fieldset className="box p-5 has-background-white" aria-labelledby="t4">
-            <legend id="t4" className="title is-5">Persona que recomendó el centro educativo</legend>
             <div className="columns is-multiline">
-              <div className="column is-one-third"><Campo id="recomendador.nombresApellidos" label="Nombres y apellidos" value={formulario.recomendador.nombresApellidos} onChange={actualizarCampo} error={errores["recomendador.nombresApellidos"]}/></div>
-              <div className="column is-one-third"><Campo id="recomendador.telefono" label="Teléfono / celular" value={formulario.recomendador.telefono} onChange={actualizarCampo} error={errores["recomendador.telefono"]}/></div>
-              <div className="column is-one-third"><Campo id="recomendador.parentesco" label="Parentesco" value={formulario.recomendador.parentesco} onChange={actualizarCampo} error={errores["recomendador.parentesco"]}/></div>
+            <div className="column is-full">
+              <legend id="t4" className="title is-5">Persona que recomendó el centro educativo</legend>    
+            </div>
+              <div className="column is-one-third"><Campo id="recomendador.nombresApellidos" placeholder="Nombres y apellido (opcional)" label="Nombres y apellidos" value={formulario.recomendador.nombresApellidos} onChange={actualizarCampo} error={errores["recomendador.nombresApellidos"]}/></div>
+              <div className="column is-one-third"><Campo id="recomendador.telefono" placeholder="Teléfono (opcional)" label="Teléfono / celular" value={formulario.recomendador.telefono} onChange={actualizarCampo} error={errores["recomendador.telefono"]}/></div>
+              <div className="column is-one-third"><Campo id="recomendador.parentesco" placeholder="Parentesco (opcional)" label="Parentesco" value={formulario.recomendador.parentesco} onChange={actualizarCampo} error={errores["recomendador.parentesco"]}/></div>
             </div>
 
             <fieldset className="box p-5 has-background-white mt-3">
-              <legend className="title is-6">Anexar</legend>
-              <Campo id="familiaresEnColegio" label="¿Tiene familiares en el colegio? (nombres y parentesco)" value={formulario.familiaresEnColegio} onChange={actualizarCampo} error={errores["familiaresEnColegio"]}/>
+              <legend className="has-text-weight-normal has-text-black"> Especificar </legend>
+              <Campo id="familiaresEnColegio" placeholder="Nombres Apellido - Parentesco" label="¿Tiene familiares en el colegio? (nombres y parentesco) (opcional)" value={formulario.familiaresEnColegio} onChange={actualizarCampo} error={errores["familiaresEnColegio"]}/>
             </fieldset>
 
             <div className="is-flex is-justify-content-space-between mt-2">
               <button className="button is-light is-rounded" type="button" onClick={() => anterior()}>Atrás</button>
-              <button className="button is-link is-rounded" type="button" onClick={() => { setPaso(5); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Revisar y enviar</button>
+              <button className="button is-primary has-text-white" type="button" onClick={() => { setPaso(5); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Revisar y enviar</button>
             </div>
           </fieldset>
         )}
@@ -215,9 +224,9 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
             </div>
 
             <div className="buttons mt-5 is-right">
-              <button className="button is-light is-rounded" type="button" onClick={() => setPaso(1)}>Editar</button>
-              <button className="button is-light is-rounded" type="button" onClick={() => window.print()}>Imprimir</button>
-              <button className={`button is-link is-rounded ${enviando ? "is-loading" : ""}`} type="button" disabled={enviando} onClick={handleEnviar}>
+              <button className="button is-light " type="button" onClick={() => setPaso(1)}>Editar</button>
+              <button className="button is-light " type="button" onClick={() => window.print()}>Imprimir</button>
+              <button className={`button is-primary  ${enviando ? "is-loading" : ""}`} type="button" disabled={enviando} onClick={handleEnviar}>
                 {enviando ? "Enviando…" : "Confirmar y enviar"}
               </button>
             </div>
@@ -228,20 +237,20 @@ export default function AspiranteFormularioBulma({ isEnabled = true, onGuardado 
   }
 
   return (
-    <div className="section is-medium">
+    <div className="m-5">
       <div className="container is-max-desktop">{content}</div>
     </div>
   );
 }
 
 /* ---------- Subcomponentes ---------- */
-function Campo(props: { id: string; label: string; value: string; onChange: (id: string, v: string) => void; error?: string; type?: React.HTMLInputTypeAttribute; help?: string; }) {
-  const { id, label, value, onChange, error, type = "text", help } = props;
+function Campo(props: { id: string; label: string; placeholder?: string; value: string; onChange: (id: string, v: string) => void; error?: string; type?: React.HTMLInputTypeAttribute; help?: string; }) {
+  const { id, label, value, onChange, error, type = "text", help, placeholder } = props;
   return (
     <div className="field">
       <label htmlFor={id} className="label">{label}</label>
       <div className="control">
-        <input id={id} name={id} className={`input ${error ? "is-danger" : ""} is-rounded`} type={type} value={value}
+        <input id={id} name={id} className={`input ${error ? "is-danger" : ""}`} type={type} value={value} placeholder={placeholder}
           onChange={(e) => onChange(id, e.currentTarget.value)} aria-invalid={!!error} aria-describedby={error ? `${id}-err` : undefined} />
       </div>
       {help && <p className="help">{help}</p>}
@@ -256,8 +265,9 @@ function Select(props: { id: string; label: string; value: string; onChange: (id
     <div className="field">
       <label htmlFor={id} className="label">{label}</label>
       <div className="control">
-        <div className={`select ${error ? "is-danger" : ""} is-rounded`}>
+        <div className={`select ${error ? "is-danger" : ""} `}>
           <select id={id} value={value} onChange={(e) => onchangeSafe(e, onChange, id)} aria-invalid={!!error} aria-describedby={error ? `${id}-err` : undefined}>
+            <option value="selecciona">Seleccione un tipo</option>
             {options.map(o => <option key={o.v} value={o.v}>{o.t}</option>)}
           </select>
         </div>
@@ -278,20 +288,22 @@ function DatosPadreOMadre({ titulo, base, valores, errores, onChange, onPrev, on
   const id = (k: string) => `${base}.${k}`;
   return (
     <fieldset className="box p-5 has-background-white" aria-labelledby={`${base}-ttl`}>
-      <legend id={`${base}-ttl`} className="title is-5">{titulo}</legend>
       <div className="columns is-multiline">
-        <div className="column is-one-third"><Campo id={id("nombresApellidos")} label="Nombres y apellidos" value={valores.nombresApellidos} onChange={onChange} error={errores[id("nombresApellidos")]}/></div>
-        <div className="column is-one-third"><Campo id={id("numeroIdentificacion")} label="Número de identificación" value={valores.numeroIdentificacion} onChange={onChange} error={errores[id("numeroIdentificacion")]}/></div>
-        <div className="column is-one-third"><Campo id={id("telefono")} label="Teléfono" value={valores.telefono} onChange={onChange} error={errores[id("telefono")]}/></div>
-        <div className="column is-one-third"><Campo id={id("direccion")} label="Dirección" value={valores.direccion} onChange={onChange} error={errores[id("direccion")]}/></div>
-        <div className="column is-one-third"><Campo id={id("barrio")} label="Barrio" value={valores.barrio} onChange={onChange} error={errores[id("barrio")]}/></div>
-        <div className="column is-one-third"><Campo id={id("email")} label="Email" value={valores.email} onChange={onChange} error={errores[id("email")]}/></div>
-        <div className="column is-one-third"><Campo id={id("empresa")} label="Empresa donde trabaja" value={valores.empresa} onChange={onChange} error={errores[id("empresa")]}/></div>
-        <div className="column is-one-third"><Campo id={id("profesion")} label="Profesión u oficio" value={valores.profesion} onChange={onChange} error={errores[id("profesion")]}/></div>
+      <div className="column is-full">
+        <legend id={`${base}-ttl`} className="title is-5 has-text-dark">{titulo}</legend>        
+      </div>
+        <div className="column is-one-third"><Campo id={id("nombresApellidos")} placeholder="Escriba sus nombres y apellidos" label="Nombres y apellidos" value={valores.nombresApellidos} onChange={onChange} error={errores[id("nombresApellidos")]}/></div>
+        <div className="column is-one-third"><Campo id={id("numeroIdentificacion")} placeholder="Escriba su número de identificación" type="number" label="Número de identificación" value={valores.numeroIdentificacion} onChange={onChange} error={errores[id("numeroIdentificacion")]}/></div>
+        <div className="column is-one-third"><Campo id={id("telefono")} placeholder="Teléfono" type="number" label="Teléfono" value={valores.telefono} onChange={onChange} error={errores[id("telefono")]}/></div>
+        <div className="column is-one-third"><Campo id={id("direccion")} placeholder="Dirección" label="Dirección" value={valores.direccion} onChange={onChange} error={errores[id("direccion")]}/></div>
+        <div className="column is-one-third"><Campo id={id("barrio")} placeholder="Barrio" label="Barrio" value={valores.barrio} onChange={onChange} error={errores[id("barrio")]}/></div>
+        <div className="column is-one-third"><Campo id={id("email")} placeholder="Correo electrónico personal" label="Email" value={valores.email} onChange={onChange} error={errores[id("email")]}/></div>
+        <div className="column is-one-third"><Campo id={id("empresa")} placeholder="empresa actual" label="Empresa donde trabaja" value={valores.empresa} onChange={onChange} error={errores[id("empresa")]}/></div>
+        <div className="column is-one-third"><Campo id={id("profesion")} placeholder="Profesion" label="Profesión u oficio" value={valores.profesion} onChange={onChange} error={errores[id("profesion")]}/></div>
       </div>
       <div className="is-flex is-justify-content-space-between mt-2">
-        <button className="button is-light is-rounded" type="button" onClick={onPrev}>Atrás</button>
-        <button className="button is-link is-rounded" type="button" onClick={onNext}>Siguiente</button>
+        <button className="button is-light" type="button" onClick={onPrev}>Atrás</button>
+        <button className="button is-primary has-text-white" type="button" onClick={onNext}>Siguiente</button>
       </div>
     </fieldset>
   );
@@ -300,7 +312,7 @@ function DatosPadreOMadre({ titulo, base, valores, errores, onChange, onPrev, on
 function Resumen({ datos }: { datos: Aspirante }) {
   return (
     <article className="content">
-      <h3 className="title is-6">1) Aspirante</h3>
+      <h3 className="title is-6 has-text-black">1) Aspirante</h3>
       <ul>
         <li><b>Nombre:</b> {datos.nombres} {datos.apellidos}</li>
         <li><b>Nacimiento:</b> {datos.fechaNacimiento} – {datos.lugarNacimiento}</li>
@@ -312,7 +324,7 @@ function Resumen({ datos }: { datos: Aspirante }) {
         <li><b>Colegio de procedencia:</b> {datos.colegioProcedencia}</li>
         <li><b>Último grado:</b> {datos.ultimoGrado}</li>
       </ul>
-      <h3 className="title is-6">2) Padre</h3>
+      <h3 className="title is-6 has-text-black">2) Padre</h3>
       <ul>
         <li><b>Nombre:</b> {datos.padre.nombresApellidos}</li>
         <li><b>ID:</b> {datos.padre.numeroIdentificacion}</li>
@@ -320,7 +332,7 @@ function Resumen({ datos }: { datos: Aspirante }) {
         <li><b>Dirección:</b> {datos.padre.direccion}, {datos.padre.barrio}</li>
         <li><b>Empresa y oficio:</b> {datos.padre.empresa} – {datos.padre.profesion}</li>
       </ul>
-      <h3 className="title is-6">3) Madre</h3>
+      <h3 className="title is-6 has-text-black">3) Madre</h3>
       <ul>
         <li><b>Nombre:</b> {datos.madre.nombresApellidos}</li>
         <li><b>ID:</b> {datos.madre.numeroIdentificacion}</li>
@@ -328,7 +340,7 @@ function Resumen({ datos }: { datos: Aspirante }) {
         <li><b>Dirección:</b> {datos.madre.direccion}, {datos.madre.barrio}</li>
         <li><b>Empresa y oficio:</b> {datos.madre.empresa} – {datos.madre.profesion}</li>
       </ul>
-      <h3 className="title is-6">4) Recomendador / Anexos</h3>
+      <h3 className="title is-6 has-text-black">4) Recomendador / Anexos</h3>
       <ul>
         <li><b>Recomendó:</b> {datos.recomendador.nombresApellidos} ({datos.recomendador.parentesco}) – {datos.recomendador.telefono}</li>
         <li><b>Familiares en el colegio:</b> {datos.familiaresEnColegio}</li>

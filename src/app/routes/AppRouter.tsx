@@ -22,10 +22,10 @@ import RoleRoute from '@/app/guard/RoleRoute';
 import App from '@/App';
 import { AUTH_ROLES } from '@/shared/constants/auth';
 import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
-import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
 
 import MatriculaRoutes from '@/features/matriculaForm/routes';
 import admisionesRoutes from '@/features/admisiones/routes';
+import AspirantesPage from '@/features/aspirantes/pages/AspirantePage';
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
@@ -43,7 +43,7 @@ export default function AppRouter() {
     >
       <Routes>
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
-        <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspiranteFormularioBulma />} />
+        <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspirantesPage />} />
 
         {/* Rutas públicas aportadas por la feature de matrícula */}
         {MatriculaRoutes.map(r => <Route key={r.path as string} path={r.path as string} element={r.element!} />)}

@@ -46,7 +46,7 @@ export const selectFilteredApplicants = createSelector([selectAllApplicants, sel
   if (f.q) {
     const q = normalize(f.q);
     out = out.filter((r) =>
-      [r.nombresApellidos, r.apellidos, r.nombres, r.numeroIdentificacion].some((v) =>
+      [r.nombresApellidos, r.apellidos, r.nombres, r.nIdentificacion].some((v) =>
         normalize(String(v ?? '')).includes(q),
       ),
     );

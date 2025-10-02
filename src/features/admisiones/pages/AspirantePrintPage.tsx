@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { selectById } from '@/features/admisiones/store/selectors';
 import { fetchApplicantsPage, printFicha } from '@/features/admisiones/store/thunks';
 import { applicantsService } from '@/features/admisiones/services/applicants.service';
-import logo from '@/assets/logo.svg'
+import logo from '@/assets/Logo-img.png'
 import '@/features/admisiones/styles/admisiones.light.css'
 
 /**
@@ -56,7 +56,7 @@ export default function AspirantePrintPage() {
                 </colgroup>
                 <tbody>
                   <tr>
-                    <td align='center'>
+                    <td align='center' className='has-text-centered is-vcentered'>
                       <figure className="image is-120x120">
                         <img src={logo} />
                       </figure>
@@ -379,7 +379,7 @@ export default function AspirantePrintPage() {
                       <hr className='mb-1 mt-6' />
                       <strong className="has-text-primary-dark">firma del padre</strong>
                     </td>
-                    <td>
+                    <td align='center'>
                        <hr className='mb-1 mt-6' />
                       <strong className="has-text-primary-dark">firma de la madre</strong>
                     </td>

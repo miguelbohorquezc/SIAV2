@@ -24,6 +24,7 @@ const initialForm: AspiranteDTO = {
   // Paso 1
   TIdentificacion: "",
   nIdentificacion: "",
+  gradoAspira: "",
   nombres: "",
   apellidos: "",
   fechaNacimiento: "",
@@ -152,6 +153,8 @@ function req(v: string) {
 function validarPaso(step: number, f: AspiranteDTO): { ok: boolean; errores: Errores; step?: number } {
   const e: Errores = {};
   if (step === 1) {
+    mark(e, "TIdentificacion", req(f.TIdentificacion), "Requerido");
+    mark(e, "gradoAspira", req(f.gradoAspira), "Requerido");
     mark(e, "nIdentificacion", req(f.nIdentificacion), "Requerido");
     mark(e, "nombres", req(f.nombres), "Requerido");
     mark(e, "apellidos", req(f.apellidos), "Requerido");
@@ -164,8 +167,8 @@ function validarPaso(step: number, f: AspiranteDTO): { ok: boolean; errores: Err
     mark(e, "barrioAspirante", req(f.barrioAspirante), "Requerido");
     mark(e, "telefonoCasa", req(f.telefonoCasa), "Requerido");
     mark(e, "religion", req(f.religion), "Requerido");
-    mark(e, "colegioProcedencia", req(f.colegioProcedencia), "Requerido");
-    mark(e, "ultimoGrado", req(f.ultimoGrado), "Requerido");
+    /* mark(e, "colegioProcedencia", req(f.colegioProcedencia), "Requerido"); */
+    /* mark(e, "ultimoGrado", req(f.ultimoGrado), "Requerido"); */
   }
   if (step === 2) {
     validarPersona("padre", f.padre, e);

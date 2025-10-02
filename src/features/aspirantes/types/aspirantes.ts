@@ -29,6 +29,7 @@ export type AspiranteDTO = {
   // Paso 1
   TIdentificacion: "",
   nIdentificacion:string;
+  gradoAspira: string;
   nombres: string;
   apellidos: string;
   fechaNacimiento: string; // ISO yyyy-mm-dd
