@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import PrivateRoute from '@/app/guard/PrivateRoute';
 import RoleRoute from '@/app/guard/RoleRoute';
 import { AUTH_ROLES } from '@/shared/constants/auth';
+import { PrivateRoutes } from '@/shared/constants/routes';
 
 const AspirantesListPage = lazy(() => import('./pages/AspirantesListPage'));
 const AspiranteDetailPage = lazy(() => import('./pages/AspiranteDetailPage'));
@@ -10,7 +11,7 @@ const AspirantePrintPage = lazy(() => import('./pages/AspirantePrintPage'));
 
 export const routes: RouteObject[] = [
   {
-    path: '/admin/aspirantes',
+    path: `/${PrivateRoutes.ADMIN_ASPIRANTES}`,
     element: (
       <PrivateRoute>
         <RoleRoute allowed={[AUTH_ROLES.COORDINADOR, AUTH_ROLES.SECRETARIA]}>
@@ -40,3 +41,5 @@ export const routes: RouteObject[] = [
     ),
   },
 ];
+
+export default routes;

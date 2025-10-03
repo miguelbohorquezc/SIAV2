@@ -120,16 +120,19 @@ export default function AspiranteDetailPage() {
         <>
           <div className="box">
             {/* Encabezado */}
+            {/* Tabla ficha de matrícula -------------------------------------------------------------- */}
             <div className="columns">
               <div className="column">
-                <span className="tag is-light mb-1">
-                  {applicant.apellidos.toUpperCase()} {applicant.nombres.toUpperCase()}
+                <span className="tag is-info is-light mb-1">
+                  <i className="fa-solid fa-graduation-cap mr-1"></i>{applicant.apellidos.toUpperCase()} {applicant.nombres.toUpperCase()}
                 </span>
-                <span className="tag is-info ml-2 has-text-dark">
-                  <p className='mr-2'>Registro:</p>{applicant.id}
+                <span className="tag is-light ml-2 has-text-dark">
+                  <i className="fa-solid fa-id-card-clip mr-1"></i>
+                  <p className='mr-2'>Registro:</p><strong className='has-text-weight-bold has-text-black pl-1'>{applicant.id}</strong>
                 </span>
-                <span className="tag is-secondary ml-2 has-text-white">
-                  <p className='mr-2'>Identificación:</p>{applicant.nIdentificacion}
+                <span className="tag is-primary is-light ml-2 has-text-dark">
+                  <i className="fa-solid fa-address-card mr-1"></i>
+                  <p className='mr-2'>Identificación:</p><strong className='has-text-weight-bold has-text-black pl-1'>{applicant.nIdentificacion}</strong>
                 </span>
                 <span>
                   <p><EstadoBadge estado={applicant.estado} /></p>
@@ -190,7 +193,7 @@ export default function AspiranteDetailPage() {
                 )}
 
                 {/* Estado */}
-                <div className="select ml-3">
+                <div className="select ml-3 mb-2">
                   <select value={estado} onChange={(e) => setEstado(e.target.value as Estado)}>
                     <option value="en_espera">En espera</option>
                     <option value="en_revision">En revisión</option>
@@ -220,7 +223,7 @@ export default function AspiranteDetailPage() {
                 </button>
               </div>
             </div>
-
+            {/* --------------------------------------------------------------------------------------- */}
             <div className="grid notification is-light">
               {/* Fuente */}
               <div className="cell">
@@ -228,7 +231,7 @@ export default function AspiranteDetailPage() {
                 <div className="control">
                   <input className="input" value={fuente} onChange={(e) => setFuente(e.target.value)} />
                 </div>
-                <div className="control mt-2">
+                <div className="control mt-4">
                   <button
                     className="button"
                     onClick={async () => {
@@ -276,59 +279,273 @@ export default function AspiranteDetailPage() {
 
             {/* Información completa */}
             <div className="content">
-              <h3 className="title is-5">Información básica</h3>
               <div className="grid section users-scope">
-                <div className="cell">
-                  <h3 className="title is-5">Aspirante</h3>
-                  <ul>
-                    <li><strong className="has-text-primary-dark">ID-REGISTRO:</strong> {applicant.id}</li>
-                    <li><strong className="has-text-primary-dark">Número Identidad:</strong> {applicant.nIdentificacion}</li>
-                    <li><strong className="has-text-primary-dark">Nombres:</strong> {applicant.nombres.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Apellidos:</strong> {applicant.apellidos.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Sexo:</strong> {applicant.sexo.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Fecha Nacimiento:</strong> {applicant.fechaNacimiento.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Lugar Nacimiento:</strong> {applicant.lugarNacimiento.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Teléfono:</strong> {applicant.telefono.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Teléfono Casa:</strong> {applicant.telefonoCasa.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Dirección:</strong> {applicant.direccionResidencia.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Barrio:</strong> {applicant.barrioAspirante.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Colegio procedencia:</strong> {applicant.colegioProcedencia.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Último grado:</strong> {applicant.ultimoGrado.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Religión:</strong> {applicant.religion.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Familiares en colegio:</strong> {applicant.familiaresEnColegio.toUpperCase()}</li>
-                    <li>
-                      <strong className="has-text-primary-dark">Recomendador:</strong>{' '}
-                      {applicant.recomendador?.nombresApellidos?.toUpperCase()} ({applicant.recomendador?.parentesco?.toUpperCase()})
-                      {' · '}
-                      {applicant.recomendador?.telefono?.toUpperCase()}
-                    </li>
-                  </ul>
-                </div>
-                <div className="cell">
-                  <h3 className="title is-5">Madre</h3>
-                  <ul>
-                    <li><strong className="has-text-primary-dark">Nombre:</strong> {applicant.madre?.nombresApellidos?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Identificación:</strong> {applicant.madre?.numeroIdentificacion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Profesión:</strong> {applicant.madre?.profesion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Empresa:</strong> {applicant.madre?.empresa?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Dirección:</strong> {applicant.madre?.direccion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Barrio:</strong> {applicant.madre?.barrio?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Teléfono:</strong> {applicant.madre?.telefono?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Email:</strong> {applicant.madre?.email?.toUpperCase()}</li>
-                  </ul>
-                </div>
-                <div className="cell">
-                  <h3 className="title is-5">Padre</h3>
-                  <ul>
-                    <li><strong className="has-text-primary-dark">Nombre:</strong> {applicant.padre?.nombresApellidos?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Identificación:</strong> {applicant.padre?.numeroIdentificacion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Profesión:</strong> {applicant.padre?.profesion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Empresa:</strong> {applicant.padre?.empresa?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Dirección:</strong> {applicant.padre?.direccion?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Barrio:</strong> {applicant.padre?.barrio?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Teléfono:</strong> {applicant.padre?.telefono?.toUpperCase()}</li>
-                    <li><strong className="has-text-primary-dark">Email:</strong> {applicant.padre?.email?.toUpperCase()}</li>
-                  </ul>
+                <div className="content grid ">
+                  <div className='cell is-col-span-10 '>
+                    <table className="table is-bordered is-fullwidth has-background-white">
+                        <colgroup>
+                          <col style={{ width: "15%" }} />
+                          <col style={{ width: "20%" }} />
+                          <col style={{ width: "30%" }} />
+                          <col style={{ width: "35%" }} />
+                        </colgroup>
+
+                        <thead className="has-background-light">
+                          <tr>
+                            <th colSpan={4} align='center'>
+                              <p className="has-text-primary-dark">DATOS DE IDENTIFICACIÓN DEL ASPIRANTE</p>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {/* Fila 1 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Tipo documento:</strong>
+                              <p className="has-text-primary-dark">{applicant.TIdentificacion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Número de identificación:</strong>
+                              <p className="has-text-primary-dark">{applicant.nIdentificacion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Nombres:</strong>
+                              <p className="has-text-primary-dark">{applicant.nombres.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Apellidos:</strong>
+                              <p className="has-text-primary-dark">{applicant.apellidos.toUpperCase()}</p>
+                            </td>
+                          </tr>
+
+                          {/* Fila 2 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Fecha nacimiento:</strong>
+                              <p className="has-text-primary-dark">{applicant.fechaNacimiento}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Lugar de nacimiento:</strong>
+                              <p className="has-text-primary-dark">{applicant.lugarNacimiento.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Sexo:</strong>
+                              <p className="has-text-primary-dark">{applicant.sexo.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Edad:</strong>
+                              <p className="has-text-primary-dark">
+                                {`${applicant.edadAnios} años, ${applicant.edadMeses} meses`}
+                              </p>
+                            </td>
+                          </tr>
+
+                          {/* Fila 3 → aquí ampliamos celdas */}
+                          <tr>
+                            <td colSpan={1}>
+                              <strong className="has-text-primary-dark">Dirección de residencia:</strong>
+                              <p className="has-text-primary-dark">{applicant.direccionResidencia.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Barrio:</strong>
+                              <p className="has-text-primary-dark">{applicant.barrioAspirante.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Teléfono de residencia:</strong>
+                              <p className="has-text-primary-dark">{applicant.telefonoCasa.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Creencia.   Religión:</strong>
+                              <p className="has-text-primary-dark">{applicant.religion.toUpperCase()}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Grado al que aspira:</strong>
+                              <p className="has-text-primary-dark">{applicant.gradoAspira.toUpperCase()}</p>
+                            </td>
+                            <td colSpan={2}>
+                              <strong className="has-text-primary-dark">Colego Procedencia:</strong>
+                              <p className="has-text-primary-dark">{applicant.colegioProcedencia.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Último grado cursado:</strong>
+                                <p className="has-text-primary-dark">{applicant.ultimoGrado.toUpperCase()}</p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table className="table is-bordered is-fullwidth has-background-white">
+                        <colgroup>
+                          <col style={{ width: "20%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "30%" }} />
+                        </colgroup>
+
+                        <thead className="has-background-light">
+                          <tr>
+                            <th colSpan={4} align='center'>
+                              <p className="has-text-primary-dark">INFORMACIÓN DE LOS PADRES</p>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th colSpan={4}>
+                              <p className="has-text-primary-dark">DATOS DEL PADRE</p>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {/* Fila 1 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Número de identificación:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.numeroIdentificacion}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Nombres y apellidos:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.nombresApellidos.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Dirección:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.direccion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Barrio:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.barrio.toUpperCase()}</p>
+                            </td>
+                          </tr>
+
+                          {/* Fila 2 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Empresa donde trabaja:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.empresa.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Email:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.email.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Profesión:</strong>
+                              <p className="has-text-primary-dark">{applicant.padre.profesion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Teléfono:</strong>
+                              <p className="has-text-primary-dark">
+                                {applicant.padre.telefono}
+                              </p>
+                            </td>
+                          </tr>
+
+                          
+                        </tbody>
+                      </table>
+
+                      <table className="table is-bordered is-fullwidth has-background-white">
+                        <colgroup>
+                          <col style={{ width: "20%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "30%" }} />
+                        </colgroup>
+
+                        <thead className="has-background-light">
+                          <tr>
+                            <th colSpan={4} align='center'>
+                              <p className="has-text-primary-dark">INFORMACIÓN DE LOS PADRES</p>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th colSpan={4}>
+                              <p className="has-text-primary-dark">DATOS DE LA MADRE</p>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {/* Fila 1 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Número de identificación:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.numeroIdentificacion}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Nombres y apellidos:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.nombresApellidos.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Dirección:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.direccion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Barrio:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.barrio.toUpperCase()}</p>
+                            </td>
+                          </tr>
+
+                          {/* Fila 2 */}
+                          <tr>
+                            <td>
+                              <strong className="has-text-primary-dark">Empresa donde trabaja:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.empresa.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Email:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.email.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Profesión:</strong>
+                              <p className="has-text-primary-dark">{applicant.madre.profesion.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Teléfono:</strong>
+                              <p className="has-text-primary-dark">
+                                {applicant.madre.telefono}
+                              </p>
+                            </td>
+                          </tr> 
+                        </tbody>
+                      </table>
+
+                      <table className="table is-bordered is-fullwidth has-background-white">
+                        <colgroup>
+                          <col style={{ width: "20%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "25%" }} />
+                          <col style={{ width: "30%" }} />
+                        </colgroup>
+
+                        <thead className="has-background-light">
+                          <tr>
+                            <th colSpan={4} align='center'>
+                              <p className="has-text-primary-dark">PERSONA QUE RECOMENDÓ EL CENTRO EDUCATIVO</p>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {/* Fila 1 */}
+                          <tr>
+                            <td colSpan={2}>
+                              <strong className="has-text-primary-dark">Nombres y apellidos:</strong>
+                              <p className="has-text-primary-dark">{applicant.recomendador.nombresApellidos.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Parentesco:</strong>
+                              <p className="has-text-primary-dark">{applicant.recomendador.parentesco.toUpperCase()}</p>
+                            </td>
+                            <td>
+                              <strong className="has-text-primary-dark">Teléfono:</strong>
+                              <p className="has-text-primary-dark">{applicant.recomendador.telefono}</p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
                 </div>
               </div>
             </div>

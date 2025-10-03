@@ -12,7 +12,7 @@ import { useAspirantesAdmin } from '../hooks/useAspirantesAdmin';
 import { createAspirantesAdminService } from '../services/aspirantesAdmin.service';
 
 // [ASPIRANTES_ADMIN:ROUTE_EXPORT]
-export const ASPIRANTES_ADMIN_ROUTE = '/admin/aspirantes';
+export const ASPIRANTES_ADMIN_ROUTE = '/admin/aspirantess';
 
 export default function AspirantesAdminPage(): JSX.Element {
   // ⚠️ Apuntamos a la colección real: 'applicants'

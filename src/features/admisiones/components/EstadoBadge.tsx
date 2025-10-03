@@ -13,5 +13,5 @@ export default function EstadoBadge({ estado }: { estado: Estado }) {
     admitido: 'Admitido',
     no_admitido: 'No admitido',
   };
-  return <span className={`tag ${map[estado]}`}>{label[estado]}</span>;
+  return <span className={`tag ${map[estado]}`}> <i className="fa-solid fa-circle-notch mr-1"></i> {label[estado]}</span>;
 }

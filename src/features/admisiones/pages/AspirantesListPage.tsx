@@ -62,7 +62,8 @@ export default function AspirantesListPage() {
         <table className="table is-bordered is-fullwidth has-background-white ">
           <thead className='has-background-light'>
             <tr>
-              <th></th>
+              <th><i className="fa-solid fa-user mr-1"></i></th>
+              <th><p className='has-text-primary-dark'>Identificación</p></th>
               <th><p className='has-text-primary-dark'>Nombres</p></th>
               <th><p className='has-text-primary-dark'>Apellidos</p></th>
               <th><p className='has-text-primary-dark'>Grado</p></th>
@@ -84,9 +85,10 @@ export default function AspirantesListPage() {
                     onChange={() => dispatch(toggleSelect(a.id))}
                   />
                 </td>
+                <td><p className='has-text-primary-invert'>{a.nIdentificacion.toUpperCase()}</p></td>
                 <td><p className='has-text-primary-invert'>{a.nombres.toUpperCase()}</p></td>
                 <td><p className='has-text-primary-invert'>{a.apellidos.toUpperCase()}</p></td>
-                <td><p className='has-text-primary-invert'>{a.ultimoGrado}</p></td>
+                <td><p className='has-text-primary-invert'>{a.gradoAspira.toUpperCase()}</p></td>
                 <td><EstadoBadge estado={a.estado } /></td>
                 <td><p className='has-text-primary-invert'>{a.autorizadoMatricula ? 'Sí' : 'No'}</p></td>
                 <td><p className='has-text-primary-invert'>{new Date(a.createdAt).toLocaleString()}</p></td>

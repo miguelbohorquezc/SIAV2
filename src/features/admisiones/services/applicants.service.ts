@@ -30,6 +30,7 @@ export const mapSnapshotToApplicant = (d: DocumentSnapshot): Applicant | undefin
   const data: any = d.data();
   return {
     id: d.id,
+    TIdentificacion: data.TIdentificacion ?? '',
     nIdentificacion: data.nIdentificacion ?? '',
     __schemaVersion: data.__schemaVersion ?? 1,
     __source: data.__source ?? '',
@@ -58,6 +59,7 @@ export const mapSnapshotToApplicant = (d: DocumentSnapshot): Applicant | undefin
     telefonoCasa: data.telefonoCasa ?? '',
     telefono: data.telefono ?? '',
     ultimoGrado: data.ultimoGrado ?? '',
+    gradoAspira: data.gradoAspira ?? '',
     updatedAt: typeof data.updatedAt?.toMillis === 'function' ? data.updatedAt.toMillis() : Date.now(),
     tags: data.tags ?? [],
     motivoNoAdmision: data.motivoNoAdmision ?? null,

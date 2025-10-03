@@ -4,7 +4,7 @@
   --fg-users: #1f2937;
   --surface-users: #ffffff;
   --surface2-users: #f4f6f8;
-  --border-users: #d6d9dd;
+  --border-users: #e5e7eb;
 
   background: var(--bg-users);
   color: var(--fg-users);
@@ -91,70 +91,3 @@
   border-color: #d1fae5 !important;
   color: #065f46 !important;
 }
-
-@page {
-  size: 8.5in 14in;   /* Legal portrait */
-  margin: 12mm;       /* ajusta márgenes según lo necesites */
-}
-
-@media print {
-  /* Ocultar navbar, menús, botones, etc. */
-  .navbar,
-  .menu,
-  .aside,
-  .footer,
-  .screen-only {
-    display: none !important;
-  }
-
-  /* Mostrar solo la sección imprimible */
-  .print-section {
-    display: block !important;
-  }
-  
-  html, body section{
-    background: #fff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    font-size: 11pt; /* tipografía más compacta */
-    box-shadow: none;
-  }
-
-  .box{
-    box-shadow: none;
-  }
-
-  /* Repite encabezados */
-  table.table thead {
-    display: table-header-group;
-    background-color: #9ca3af;
-  }
-
-  table.table {
-    border-collapse: collapse !important;
-    page-break-inside: auto;
-    width: 100% !important;
-  }
-
-  table.table th, table.table td {
-    border: 1px solid #b5b5b5 !important;
-    padding: 6pt 5pt !important;
-    vertical-align: top;
-  }
-
-  /* Evita cortes feos */
-  tr, td, th {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Ocultar elementos de pantalla */
-  .screen-only, .button, .navbar {
-    display: none !important;
-  }
-
-  /* Si usas flex + gap dentro de celdas, fallback para impresión */
-  .print-flex { display: flex !important; }
-  .print-gap-3 > * + * { margin-left: 12px; }
-}
-

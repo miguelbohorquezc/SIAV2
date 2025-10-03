@@ -19,21 +19,18 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '@/app/guard/PrivateRoute';
 import RoleRoute from '@/app/guard/RoleRoute';
 
-import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
-import { AUTH_ROLES } from '@/shared/constants/auth';
 import App from '@/App';
+import { AUTH_ROLES } from '@/shared/constants/auth';
+import { PublicRoutes, PrivateRoutes } from '@/shared/constants/routes';
 
-// (Pública) Login
+import MatriculaRoutes from '@/features/matriculaForm/routes';
+import admisionesRoutes from '@/features/admisiones/routes';
+import AspirantesPage from '@/features/aspirantes/pages/AspirantePage';
+
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
-
-// (Privadas) Dashboard y Users Admin
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
 const UsersAdminPage = lazy(() => import('@/features/users/pages/UsersAdminPage'));
 
-// (Feature) Admisiones - Aspirantes
-// Las rutas exportadas ya incluyen guards; se inyectan dentro del layout privado.
-import { routes as admisionesRoutes } from '@/features/admisiones/routes';
-import AspiranteFormularioBulma from '@/features/aspirantes/components/AspiranteFormularioBulma';
 
 export default function AppRouter() {
   return (
@@ -45,21 +42,26 @@ export default function AppRouter() {
       }
     >
       <Routes>
-        {/* ===== RUTAS PÚBLICAS ===== */}
         <Route path={`/${PublicRoutes.LOGIN}`} element={<LoginPage />} />
-        <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspiranteFormularioBulma />} />
+        <Route path={`/${PublicRoutes.ASPIRANTES}`} element={<AspirantesPage />} />
+
+        {/* Rutas públicas aportadas por la feature de matrícula */}
+        {MatriculaRoutes.map(r => <Route key={r.path as string} path={r.path as string} element={r.element!} />)}
+
         {/* ===== RUTAS PRIVADAS (con layout App que incluye Navbar, etc.) ===== */}
         <Route
           element={
             <PrivateRoute>
               <App />
             </PrivateRoute>
-          }
-        >
-          {/* Dashboard */}
-          <Route path={PrivateRoutes.DASHBOARD} element={<DashboardPage />} />
-
-          {/* Administración de usuarios (protegida por rol) */}
+          }>
+          
+          <Route 
+            path={PrivateRoutes.DASHBOARD} 
+            element={
+            <DashboardPage />
+            }
+          />
           <Route
             path={PrivateRoutes.ADMIN_USERS}
             element={
@@ -68,15 +70,14 @@ export default function AppRouter() {
               </RoleRoute>
             }
           />
-
-          {/* ===== FEATURE: ADMISIONES (Aspirantes) =====
-              Importante:
-              - Antes había una ruta legacy a "aspirantes-admin". Elimínala para evitar solaparse.
-              - Estas rutas vienen con guards aplicados dentro de la feature. */}
           {admisionesRoutes.map((r, i) => (
-            <Route key={`admisiones-${i}`} path={r.path!} element={r.element!} />
+            <Route key={`admisiones-${i}`} 
+              path={r.path!} 
+              element={r.element!} />
           ))}
-        </Route>
+          </Route>
+
+          
 
         {/* ===== REDIRECCIONES ÚTILES ===== */}
         <Route path="/" element={<Navigate to={`/${PrivateRoutes.DASHBOARD}`} replace />} />
