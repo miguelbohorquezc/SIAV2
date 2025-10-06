@@ -1,0 +1,160 @@
+/* ====== Light theme SÓLO para la feature de Usuarios ====== */
+.users-scope {
+  --bg-users: #f7f9fc;
+  --fg-users: #1f2937;
+  --surface-users: #ffffff;
+  --surface2-users: #f4f6f8;
+  --border-users: #d6d9dd;
+
+  background: var(--bg-users);
+  color: var(--fg-users);
+}
+
+/* Sección/controles de esta vista */
+.users-scope.section { background: var(--bg-users); color: var(--fg-users); }
+
+/* Cards, mensajes y MODAL (solo dentro de esta vista) */
+.users-scope .card,
+.users-scope .box,
+.users-scope .message,
+.users-scope .modal-card {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border: 1px solid var(--border-users) !important;
+}
+.users-scope .modal-card-head,
+.users-scope .modal-card-foot {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border-color: var(--border-users) !important;
+}
+.users-scope .modal-card-title { color: var(--fg-users) !important; }
+
+/* Tabla clara */
+.users-scope .table {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border-color: var(--border-users) !important;
+}
+.users-scope .table thead th {
+  background: var(--surface2-users) !important;
+  color: var(--fg-users) !important;
+  border-color: var(--border-users) !important;
+}
+.users-scope .table td,
+.users-scope .table th {
+  border-color: var(--border-users) !important;
+}
+.users-scope .table.is-striped tbody tr:nth-child(even) {
+  background-color: #fafafa !important;
+}
+
+/* Inputs y selects de esta vista */
+.users-scope .input,
+.users-scope .select select,
+.users-scope .textarea {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border: 1px solid var(--border-users) !important;
+}
+.users-scope .input::placeholder,
+.users-scope .textarea::placeholder {
+  color: #9ca3af !important;
+}
+.users-scope .input:focus,
+.users-scope .select select:focus,
+.users-scope .textarea:focus {
+  border-color: #3273dc !important;
+  box-shadow: 0 0 0 0.125em rgba(50,115,220,.15) !important;
+}
+
+/* Botón neutro por defecto (los is-success/warning/etc. mantienen su color) */
+.users-scope .button:not(.is-primary):not(.is-success):not(.is-warning):not(.is-danger):not(.is-link):not(.is-info) {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border-color: #d1d5db !important;
+}
+
+/* Notificaciones */
+.users-scope .notification {
+  background: var(--surface-users) !important;
+  color: var(--fg-users) !important;
+  border: 1px solid var(--border-users) !important;
+}
+.users-scope .notification.is-danger {
+  background: #fee2e2 !important;
+  border-color: #fecaca !important;
+  color: #7f1d1d !important;
+}
+.users-scope .notification.is-success {
+  background: #ecfdf5 !important;
+  border-color: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+@page {
+  size: 8.5in 14in;   /* Legal portrait */
+  margin: 12mm;       /* ajusta márgenes según lo necesites */
+}
+
+@media print {
+  /* Ocultar navbar, menús, botones, etc. */
+  .navbar,
+  .menu,
+  .aside,
+  .footer,
+  .screen-only {
+    display: none !important;
+  }
+
+  /* Mostrar solo la sección imprimible */
+  .print-section {
+    display: block !important;
+  }
+  
+  html, body section{
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 11pt; /* tipografía más compacta */
+    box-shadow: none;
+  }
+
+  .box{
+    box-shadow: none;
+  }
+
+  /* Repite encabezados */
+  table.table thead {
+    display: table-header-group;
+    background-color: #9ca3af;
+  }
+
+  table.table {
+    border-collapse: collapse !important;
+    page-break-inside: auto;
+    width: 100% !important;
+  }
+
+  table.table th, table.table td {
+    border: 1px solid #b5b5b5 !important;
+    padding: 6pt 5pt !important;
+    vertical-align: top;
+  }
+
+  /* Evita cortes feos */
+  tr, td, th {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Ocultar elementos de pantalla */
+  .screen-only, .button, .navbar {
+    display: none !important;
+  }
+
+  /* Si usas flex + gap dentro de celdas, fallback para impresión */
+  .print-flex { display: flex !important; }
+  .print-gap-3 > * + * { margin-left: 12px; }
+}
+

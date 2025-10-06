@@ -63,7 +63,15 @@ export default function SidebarDropdown() {
                 <span className="icon mr-1">
                   <i className="fa-solid fa-user-graduate"></i>
                 </span>
-              <span>Admisiones, registro y control</span>
+              <span>Admisiones, aspirantes</span>
+              </span>
+            </Link>
+            <Link to={PrivateRoutes.ADMIN_MATRICULAS} className="navbar-item">
+              <span className="icon-text">
+                <span className="icon mr-1">
+                  <i className="fa-solid fa-user-graduate"></i>
+                </span>
+              <span>Admisiones, matrículas</span>
               </span>
             </Link>
             <Link to={PublicRoutes.ASPIRANTES} className="navbar-item">
