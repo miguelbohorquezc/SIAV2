@@ -2,6 +2,7 @@ import type { RootState } from '@/app/store';
 import { reducerKey } from './slice';
 import type { AdminMatriculaState, Matricula, Estado } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
+import { canMatricular as canMatricularUtil } from '../utils/checks';
 
 const selectFeature = (s: RootState): AdminMatriculaState | undefined =>
   (s as any)[reducerKey] as AdminMatriculaState | undefined;
@@ -53,12 +54,7 @@ export const selectCanMatricular =
   (s: RootState): boolean => {
     const m = selectFeature(s)?.selected.data ?? null;
     if (!m || m.id !== id) return false;
-    const docs = m.documentos;
-    const required: (keyof typeof docs)[] = [
-      'copiaReg','certMedico','certEstudios','carnetVacunas','fotos3',
-      'certEPS','certLaboral','retiroSimat','contratosPagare','pagoMatriculaYCupo'
-    ];
-    return required.every(k => !!docs[k]) && m.estado !== 'matriculado';
+    return canMatricularUtil(m);
   };
 
 export const selectStatsPorGrado =

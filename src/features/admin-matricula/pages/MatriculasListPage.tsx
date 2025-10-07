@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import type { AppDispatch } from '@/app/store';
 import MatriculasTable from '../components/MatriculasTable';
 import '@/features/admin-matricula/styles/adminMatricula.light.css'
@@ -21,7 +20,6 @@ export default function MatriculasListPage() {
   const loading = useSelector(selectMatriculasLoading);
   const filters = useSelector(selectFilters);
   const error = useSelector((s: any) => s.adminMatricula?.list?.error as string | null);
-  const navigate = useNavigate();
   
 
   // Primera carga por año
@@ -37,13 +35,13 @@ export default function MatriculasListPage() {
 
   return (
     <div className="section users-scope">
-      <h1 className="title">Matrículas</h1>
-      <p className="subtitle">Registro de estudiantes matriculados</p>
+      <h1 className="title has-text-black">Matrículas</h1>
+      <p className="subtitle is-6 has-text-primary-invert">Registro de estudiantes matriculados</p>
 
       <div className="box" role="search">
         <div className="columns is-multiline">
           <div className="column is-one-quarter">
-            <label className="label" htmlFor="filtro-anio">Año</label>
+            <label className="label" htmlFor="filtro-anio"> <i className="fa-solid fa-calendar-days mr-1"></i>Filtrár por año</label>
             <div className="control">
               <input
                 id="filtro-anio"
@@ -57,7 +55,7 @@ export default function MatriculasListPage() {
           </div>
 
           <div className="column is-one-quarter">
-            <label className="label" htmlFor="filtro-grado">Grado</label>
+            <label className="label" htmlFor="filtro-grado"> <i className="fa-solid fa-award mr-1"></i>Grado</label>
             <div className="control">
               <input
                 id="filtro-grado"
@@ -71,7 +69,7 @@ export default function MatriculasListPage() {
           </div>
 
           <div className="column is-one-quarter">
-            <label className="label" htmlFor="filtro-estado">Estado</label>
+            <label className="label" htmlFor="filtro-estado"> <i className="fa-solid fa-list-check mr-1"></i> Estado</label>
             <div className="control">
               <div className="select is-fullwidth">
                 <select
@@ -93,14 +91,14 @@ export default function MatriculasListPage() {
           </div>
 
           <div className="column is-one-quarter">
-            <label className="label" htmlFor="filtro-buscar">Buscar</label>
+            <label className="label" htmlFor="filtro-buscar"><i className="fa-solid fa-magnifying-glass mr-1"></i>Buscar</label>
             <div className="control">
               <input
                 id="filtro-buscar"
                 className="input"
                 placeholder="Nombre o documento"
                 value={filters.q}
-                onChange={e => {/* podrías setFilters({ q: e.target.value }) si quieres */}}
+                onChange={e => dispatch(setFilters({ q: e.target.value }))}
                 aria-label="Buscar"
               />
             </div>
@@ -131,12 +129,14 @@ export default function MatriculasListPage() {
       <div className="field has-addons" style={{ justifyContent: 'flex-end' }}>
         <div className="control">
           <button className="button" onClick={() => dispatch(fetchMatriculas(undefined))}>
+            <i className="fa-solid fa-table-list mr-1"></i>
             Cargar más
           </button>
         </div>
         <div className="control">
-          <a className="button is-link" href="/admin/matriculas/export">
-            Exportar
+          <a className="button" href="/admin/matriculas/export">
+            <i className="fa-solid fa-print mr-1"></i>
+            Exportar listas
           </a>
         </div>
       </div>

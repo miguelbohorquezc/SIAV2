@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/app/store';
+import '@/features/admin-matricula/styles/adminMatricula.light.css'
 
 import {
   resetSelected,
@@ -46,8 +47,9 @@ export default function MatriculaDetailPage() {
   }
 
   return (
-    <div className="section">
-      <h1 className="title">Matrícula #{id}</h1>
+    <div className="section users-scope">
+      <h1 className="title has-text-black">Matrícula #{id}</h1>
+      <p className="subtitle is-6 has-text-primary-invert">Información del estudiante</p>
 
       <div className="buttons">
         <MatricularButton enabled={canMatricular} onConfirm={() => dispatch(marcarMatriculado(id))} />
@@ -56,19 +58,22 @@ export default function MatriculaDetailPage() {
         <PrintFichaButton data={data} />
       </div>
 
-      <div className="tabs is-boxed">
-        <ul>
+      <div className="buttons">
+        <ul className='is-flex'>
           <li className={tab === 'datos' ? 'is-active' : ''}>
-            <a onClick={() => setTab('datos')}>Datos</a>
+            <button className='button mr-2' onClick={() => setTab('datos')}><i className="fa-solid fa-user-tie mr-1"></i>Datos</button>
           </li>
           <li className={tab === 'documentos' ? 'is-active' : ''}>
-            <a onClick={() => setTab('documentos')}>Documentos</a>
+            <button className='button mr-2' onClick={() => setTab('documentos')}><i className="fa-solid fa-file mr-1"></i> Documentos</button>
+    
           </li>
           <li className={tab === 'auditoria' ? 'is-active' : ''}>
-            <a onClick={() => setTab('auditoria')}>Auditoría</a>
+            <button className='button mr-2' onClick={() => setTab('auditoria')}><i className="fa-solid fa-list-check mr-1"></i> Auditoría</button>
+            
           </li>
           <li className={tab === 'historial' ? 'is-active' : ''}>
-            <a onClick={() => setTab('historial')}>Historial</a>
+            <button className='button mr-2' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
+            
           </li>
         </ul>
       </div>
@@ -86,6 +91,7 @@ export default function MatriculaDetailPage() {
       {tab === 'documentos' && (
         <ChecklistDocumentos
           value={data}
+          //@ts-ignore
           onToggle={(key, val) => dispatch(toggleDocumentoCheck({ id, key, value: val }))}
         />
       )}

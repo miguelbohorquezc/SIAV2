@@ -53,7 +53,7 @@ function normalizeMatricula(id: string, raw: any): Matricula {
     matriculadoAt: toIso(raw?.matriculadoAt),
     matriculadoBy: raw?.matriculadoBy ?? null,
     gradoAnterior: raw?.gradoAnterior ?? null,
-    gradoAspira: String(raw?.gradoAspira ?? ''),
+    gradoAspira: raw?.estudiante.gradoAspira ?? null,
     createdAt: toIso(raw?.createdAt),
     updatedAt: toIso(raw?.updatedAt),
     updatedBy: raw?.updatedBy ?? null,

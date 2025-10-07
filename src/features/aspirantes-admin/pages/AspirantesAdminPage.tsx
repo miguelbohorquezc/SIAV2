@@ -38,8 +38,8 @@ export default function AspirantesAdminPage(): JSX.Element {
   return (
     <section className="section">
       <div className="container">
-        <h1 className="title is-4">Administración de Aspirantes</h1>
-        <p className="subtitle is-6">Gestiona creación, edición, filtros y exportación.</p>
+        <h1 className="title has-text-black4">Administración de Aspirantes</h1>
+        <p className="subtitle as-text-primary-invert">Gestiona creación, edición, filtros y exportación.</p>
 
         {/* [ASPADM:PAGE:FILTER_BAR] — búsqueda básica */}
         <div className="box">
