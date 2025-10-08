@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '@/app/store';
 import {
   exportMatriculasXls,
   fetchMatriculaById,
@@ -41,7 +40,7 @@ export interface Matricula {
   prevAnio?: number | null;
   estudiante: {
     nombres: string; apellidos: string; fechaNacimiento?: string; lugarNacimiento?: string;
-    barrio?: string; ciudad?: string; direccion?: string; telefono?: string;
+    barrio?: string; ciudad?: string; ultimoGrado: string; sexo: string; religion: string; edadAnios: string; edadMeses: string; direccion?: string; telefono?: string;
     colegioAnterior?: string; fuente?: string;
   };
   padre?: any; madre?: any; responsable?: any;

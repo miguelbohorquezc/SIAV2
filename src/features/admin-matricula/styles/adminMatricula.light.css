@@ -103,17 +103,18 @@
   .menu,
   .aside,
   .footer,
-  .screen-only {
+  .screen-only
+  .button {
     display: none !important;
   }
 
   /* Mostrar solo la sección imprimible */
-  .print-section {
+  .print-section-matricula {
     display: block !important;
   }
   
-  html, body section{
-    background: #fff !important;
+  html, body section .section .users-scope{
+    background: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     font-size: 11pt; /* tipografía más compacta */
@@ -149,7 +150,7 @@
   }
 
   /* Ocultar elementos de pantalla */
-  .screen-only, .button, .navbar {
+  .screen-only, .button, .navbar .button {
     display: none !important;
   }
 

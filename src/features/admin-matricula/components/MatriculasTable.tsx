@@ -43,7 +43,7 @@ export default function MatriculasTable({ items }: Props) {
                   </span>
                 </li>
                 <li>
-                  <span className={`tag is-${m.documentos.certEstudios? 'tag is-success ' : 'danger '}`}>
+                  <span className={`tag is-${m.documentos.certEstudios? 'tag is-success ' : 'danger'}`}>
                     <i className="fa-solid fa-file mr-1 has-text-white"></i>
                     <p className='has-text-white'>{m.documentos.certEstudios?'Certificado de estudios: listo':'Certificado de estudios: Pendiente'}</p>
                   </span>
@@ -100,13 +100,17 @@ export default function MatriculasTable({ items }: Props) {
               </span>
             </td>
             <td><p className='has-text-primary-invert'>{m.gradoAspira}</p></td>
-            <td><p className='has-text-primary-invert'>{m.estudiante.nombres.toUpperCase()} {m.estudiante.apellidos.toUpperCase()}</p></td>
+            <td>
+              <span className={'tag has-background-info-45'}>
+                    <i className="fa-solid fa-file mr-1 has-text-white"></i>
+                    <p className='has-text-white'>{m.estudiante.nombres.toUpperCase()} {m.estudiante.apellidos.toUpperCase()}</p>
+              </span></td>
             <td><p className='has-text-primary-invert'>{m.verificacion.tipoId}-{m.verificacion.numeroId}</p></td>
-            <td className="has-text-right">
-              <Link className="button is-small is-warning" to={`/admin/matriculas/${m.id}`}>
-                <i className="fa-solid fa-eye mr-2 has-text-primary-invert" ></i>
-                <p className='has-text-primary-invert'>Ver</p>
-              </Link>
+            <td className="has-text-center">
+                <Link className="button " to={`/admin/matriculas/${m.id}`}>
+                  <i className="fa-solid fa-eye mr-2 has-text-primary-invert" ></i>
+                  <p className='has-text-primary-invert'>Ver</p>
+                </Link>
             </td>
           </tr>
         ))}

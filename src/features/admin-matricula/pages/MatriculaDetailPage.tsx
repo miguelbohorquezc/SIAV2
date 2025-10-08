@@ -22,14 +22,14 @@ import MatricularButton from '../components/MatricularButton';
 import RevocarButton from '../components/RevocarButton';
 import RetirarButton from '../components/RetirarButton';
 import AuditoriaPanel from '../components/AuditoriaPanel';
-import PrintFichaButton from '../components/PrintFichaButton';
+import Ficha from '../printing/ficha.template';
 
 export default function MatriculaDetailPage() {
   const { id = '' } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const data = useSelector(selectMatriculaById(id));
   const canMatricular = useSelector(selectCanMatricular(id));
-  const [tab, setTab] = useState<'datos' | 'documentos' | 'auditoria' | 'historial'>('datos');
+  const [tab, setTab] = useState<'datos'|'matricula'| 'documentos' | 'auditoria' | 'historial'>('datos');
 
   useEffect(() => {
     dispatch(fetchMatriculaById(id));
@@ -48,14 +48,11 @@ export default function MatriculaDetailPage() {
 
   return (
     <div className="section users-scope">
-      <h1 className="title has-text-black">Matrícula #{id}</h1>
-      <p className="subtitle is-6 has-text-primary-invert">Información del estudiante</p>
 
       <div className="buttons">
         <MatricularButton enabled={canMatricular} onConfirm={() => dispatch(marcarMatriculado(id))} />
         <RevocarButton onConfirm={(reason) => dispatch(revocarMatricula({ id, reason }))} />
         <RetirarButton onConfirm={(reason) => dispatch(retirarMatricula({ id, reason }))} />
-        <PrintFichaButton data={data} />
       </div>
 
       <div className="buttons">
@@ -73,7 +70,9 @@ export default function MatriculaDetailPage() {
           </li>
           <li className={tab === 'historial' ? 'is-active' : ''}>
             <button className='button mr-2' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
-            
+          </li>
+          <li className={tab === 'matricula' ? 'is-active' : ''}>
+            <button className='button mr-2' onClick={() => setTab('matricula')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Ficha de matricula</button>
           </li>
         </ul>
       </div>
@@ -81,11 +80,11 @@ export default function MatriculaDetailPage() {
       {tab === 'datos' && (
         <MatriculaForm
           value={data}
-          onChange={() => {
-            /* optimistic local-only (UI) */
-          }}
-          onSave={() => dispatch(updateMatriculaFields({ id, payload: { estudiante: data.estudiante } }))}
+          onChange={() => {/* opcional */}}
+          //@ts-ignore
+          onSave={(payload) => dispatch(updateMatriculaFields({ id, payload: payload ?? { estudiante: data.estudiante } }))}
         />
+
       )}
 
       {tab === 'documentos' && (
@@ -94,6 +93,10 @@ export default function MatriculaDetailPage() {
           //@ts-ignore
           onToggle={(key, val) => dispatch(toggleDocumentoCheck({ id, key, value: val }))}
         />
+      )}
+
+      {tab === 'matricula' && (
+        <Ficha data={data}/>
       )}
 
       {tab === 'auditoria' && <AuditoriaPanel id={id} />}

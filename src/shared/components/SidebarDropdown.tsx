@@ -21,10 +21,10 @@ export default function SidebarDropdown() {
       <div className="dropdown is-hoverable">
         {/* Trigger oficial */}
         <div className="dropdown-trigger">
-          <button className="button is-info is-light" aria-haspopup="true" aria-controls="sia-dropdown">
+          <button className="button is-primary" aria-haspopup="true" aria-controls="sia-dropdown">
             <span className="is-flex is-align-items-center">
               <i className="fa-solid fa-bars mr-2" aria-hidden="true" />
-              <p className="has-text-weight-semibold is-size-7 has-text-grey">Menú</p>
+              <p className="has-text-weight-semibold is-size-7 has-text-white">Menú</p>
             </span>
             <span className="icon is-small">
               <i className="fas fa-angle-down" aria-hidden="true" />

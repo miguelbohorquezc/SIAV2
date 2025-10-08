@@ -5,12 +5,13 @@ import MatriculasTable from '../components/MatriculasTable';
 import '@/features/admin-matricula/styles/adminMatricula.light.css'
 
 import { setFilters } from '../store/slice';
-import { fetchMatriculas } from '../store';
+import { fetchMatriculas, prepararCiclo } from '../store';
 import {
   selectMatriculas,          // <- ahora ya filtradas en cliente
   selectMatriculasLoading,
   selectFilters,
 } from '../store';
+import PrepararCicloButton from '../components/PrepararCicloButton';
 
 const currentYear = () => new Date().getFullYear();
 
@@ -20,6 +21,8 @@ export default function MatriculasListPage() {
   const loading = useSelector(selectMatriculasLoading);
   const filters = useSelector(selectFilters);
   const error = useSelector((s: any) => s.adminMatricula?.list?.error as string | null);
+  const prepareBusy = useSelector((s: any) => s.adminMatricula?.prepareCycle?.inProgress as boolean);
+  
   
 
   // Primera carga por año
@@ -31,6 +34,14 @@ export default function MatriculasListPage() {
   const onClear = () => {
     dispatch(setFilters({ anio: currentYear(), grado: null, estado: null, q: '' }));
     dispatch(fetchMatriculas(undefined));
+  };
+
+  const handlePrepare = async (anioNuevo: number) => {
+    const summary = await dispatch(prepararCiclo(anioNuevo)).unwrap();
+    // Al terminar, movemos el filtro al año nuevo y recargamos
+    dispatch(setFilters({ anio: anioNuevo, grado: null, estado: null, q: '' }));
+    await dispatch(fetchMatriculas(undefined));
+    return summary as { created: number; skipped: number };
   };
 
   return (
@@ -125,6 +136,14 @@ export default function MatriculasListPage() {
       
       <MatriculasTable items={items}/>
 
+      {/* Preparar ciclo (renovación anual) */}
+          <div className="control">
+            <PrepararCicloButton
+              currentYear={filters.anio || currentYear()}
+              busy={prepareBusy}
+              onPrepare={handlePrepare}
+            />
+          </div>
 
       <div className="field has-addons" style={{ justifyContent: 'flex-end' }}>
         <div className="control">

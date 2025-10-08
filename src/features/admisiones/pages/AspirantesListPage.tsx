@@ -7,6 +7,7 @@ import { fetchApplicantsPage, exportCsv } from '@/features/admisiones/store/thun
 import { selectFilteredApplicants, selectStatus, selectPagination, selectSelection } from '@/features/admisiones/store/selectors';
 import { toggleSelect, clearSelection } from '@/features/admisiones/store/slice';
 import '@/features/admisiones/styles/admisiones.light.css'
+import logo from '@/assets/Logo-img.png'
 
 /**
  * AspirantesListPage
@@ -40,8 +41,18 @@ export default function AspirantesListPage() {
 
   return (
     <section className="section users-scope">
-      <h1 className="title has-text-black">Aspirantes</h1>
-      <p className="subtitle is-6 has-text-primary-invert">Registro de aspirantes</p>
+      <figure className="image is-64x64">
+          <img src={logo} alt="logo" className='m-2' />
+        </figure>
+        <h1 className="title has-text-black">Aspirantes</h1>
+        <p className="subtitle has-text-black">Complete los pasos del formulario</p>
+        <article className="message is-info mb-1">
+          <div className="message-body has-text-black has-background-white">
+            <i className="fa-solid fa-circle-info mr-1 has-text-info-40"></i>
+            En este espacio podrás filtrar, consultar y dar seguimiento al proceso de inscripción de cada aspirante.
+Recuerda verificar y completar la información faltante para asegurar que el registro y la evaluación del aspirante se realicen correctamente.
+            </div>
+        </article>
       {notice && (
         <div className={`notification is-${notice.kind}`}>
           <button className="delete" onClick={() => setNotice(null)} />
@@ -52,7 +63,7 @@ export default function AspirantesListPage() {
       <FiltersBar />
 
       <div className="buttons">
-        <button className="button is-success" onClick={onExport}> <i className="fa-solid fa-file-csv mr-1"></i> <p>Exportar CSV</p> </button>
+        <button className="button is-success" onClick={onExport}> <i className="fa-solid fa-file-csv has-text-success-25 mr-1"></i> <p className='has-text-success-25'>Exportar CSV</p> </button>
         {selection.ids.length > 0 && (
           <button className="button" onClick={() => dispatch(clearSelection())}>Limpiar selección</button>
         )}

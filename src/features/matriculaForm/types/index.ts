@@ -21,11 +21,15 @@ export type Estudiante = {
   apellidos: string;
   fechaNacimiento: string; // YYYY-MM-DD
   sexo?: string;
+  religion?: string;
+  edadAnios?: string;
+  edadMeses?: string;
   direccion?: string;
   barrio?: string;
   ciudad?: string;
   telefono?: string;
   colegioAnterior?: string;
+  ultimoGrado?: string;
   lugarNacimiento?: string;
 };
 
