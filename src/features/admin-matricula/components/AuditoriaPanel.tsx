@@ -24,10 +24,10 @@ export default function AuditoriaPanel({ id }: { id: string }) {
       <ul>
         {items.map((a, idx) => (
           <li key={idx}>
-            <span className="tag is-info">{a.action}</span>{' '}
+            <span className="tag is-warning">{a.action}</span>{' '}
             <strong>{a.role}</strong> • {a.changedBy} • <small>{a.changedAt?.toDate?.()?.toLocaleString?.() ?? ''}</small>
-            {a.field && <> • campo: <code>{a.field}</code></>}
-            {a.fields && <> • campos: <code>{a.fields.join(', ')}</code></>}
+            {a.field && <> • campo: <span className='tag is-success'>{a.field}</span></>}
+            {a.fields && <> • campos: <span>{a.fields.join(', ')}</span></>}
             {a.reason && <> • motivo: {a.reason}</>}
           </li>
         ))}

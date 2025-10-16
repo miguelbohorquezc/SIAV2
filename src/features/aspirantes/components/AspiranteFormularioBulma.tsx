@@ -250,7 +250,7 @@ function Campo(props: { id: string; label: string; placeholder?: string; value: 
     <div className="field">
       <label htmlFor={id} className="label">{label}</label>
       <div className="control">
-        <input id={id} name={id} className={`input ${error ? "is-danger" : ""}`} type={type} value={value} placeholder={placeholder}
+        <input id={id} name={id} className={`input ${error? "is-danger" : "is-danger"}`} type={type} value={value} placeholder={placeholder}
           onChange={(e) => onChange(id, e.currentTarget.value)} aria-invalid={!!error} aria-describedby={error ? `${id}-err` : undefined} />
       </div>
       {help && <p className="help">{help}</p>}

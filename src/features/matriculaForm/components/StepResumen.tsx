@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { selectForm } from '../store/selector';
 
 const Row = ({ k, v }: { k: string; v: string | number | boolean | undefined }) => (
-  <tr><th className="has-text-grey">{k}</th><td>{String(v ?? '')}</td></tr>
+  <tr><th className="has-text-black">{k}</th><td><p className="has-text-black">{String(v ?? '')}</p></td></tr>
 );
 
 const StepResumen: FC = () => {
   const { verificacion, estudiante, madre, padre, responsable } = useSelector(selectForm);
   return (
     <div className="table-container">
-      <table className="table is-striped is-fullwidth">
+      <table className="table is-striped is-fullwidth ">
         <tbody>
           <Row k="Tipo ID" v={verificacion.tipoId.toUpperCase()} />
           <Row k="Número ID" v={verificacion.numeroId.toUpperCase()} />

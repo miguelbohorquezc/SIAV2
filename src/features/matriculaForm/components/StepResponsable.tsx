@@ -17,6 +17,7 @@ const StepResponsable: FC = () => {
             <option value="" disabled>Seleccione</option>
             <option key={form.padre.nombres} value={`${form.padre.nombres} ${form.padre.apellidos}`}>{`${form.padre.nombres} ${form.padre.apellidos}`}</option>
             <option key={form.madre.nombres} value={`${form.madre.nombres} ${form.madre.apellidos}`}>{`${form.madre.nombres} ${form.madre.apellidos}`}</option>
+            <option value="OTRO">OTRA PERSONA</option>
           </select>
         </div>
       </div>

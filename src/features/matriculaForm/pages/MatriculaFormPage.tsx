@@ -12,7 +12,7 @@ import StepTerminos from '../components/StepTerminos';
 import StepResumen from '../components/StepResumen';
 import StepsNav from '../components/StepsNav';
 import '@/features/MatriculaForm/styles/admisiones.light.css'
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/Logo-img.png';
 
 const TOTAL = 7;
 
@@ -57,8 +57,11 @@ export default function MatriculaFormPage() {
     return (
       <section className="section">
         <div className="container">
-          <h1 className="title">Solicitud recibida</h1>
-          <p className="subtitle">Secretaría se comunicará con usted.</p>
+          <figure className="image is-64x64">
+            <img src={logo} alt="logo" className='m-2' />
+          </figure>
+          <h1 className="title has-text-black">Solicitud recibida</h1>
+          <p className="subtitle has-text-black">Secretaría se comunicará con usted para continuar el proceso de matrícula.</p>
           <div className="notification is-primary">
             Radicado: <strong>{submitted}</strong>
           </div>
@@ -76,11 +79,19 @@ export default function MatriculaFormPage() {
   return (
     <section className="section users-scope">
       <div className="container ">
-        <div>
+        <figure className="image is-64x64">
           <img src={logo} alt="logo" className='m-2' />
-        </div>
+        </figure>
         <h1 className="title has-text-black">Matrícula {anio ?? ''}</h1>
         <p className="subtitle has-text-black">Complete los pasos del formulario</p>
+        <article className="message is-danger mb-1">
+          <div className="message-body has-text-black has-background-white">
+            <i className="fa-solid fa-circle-info mr-1 has-text-danger"></i>
+            Con el fin de avanzar en el proceso de matrícula, les solicitamos diligenciar con especial cuidado la matrícula del estudiante, <strong>verificando que la información ingresada sea correcta y completa. </strong>  
+            Una vez finalizado este paso, la Secretaría del colegio se comunicará con usted para finalizar los tramites de matrícula.
+            <strong> Para iniciar el proceso verifique con el número de identidad del estudiante si se encuentra habilitado(a) para matricularse.</strong>
+            </div>
+        </article>
 
         {error && <div className="notification is-danger" role="alert">{error}</div>}
 
@@ -110,7 +121,7 @@ export default function MatriculaFormPage() {
           )}
         </div>
 
-        {status==='loading' && <progress className="progress is-small is-primary has-background-light" max={100} />}
+        {status==='loading' && <progress className="progress is-small is-primary has-background-white" max={100} />}
       </div>
     </section>
   );

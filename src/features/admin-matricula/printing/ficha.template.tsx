@@ -298,7 +298,7 @@ export default function Ficha({ data }: { data: Matricula }) {
                       <thead className="has-background-light">
                         <tr>
                           <th colSpan={4} align='center'>
-                            <p className="has-text-primary-dark">PERSONA QUE RECOMENDÓ EL CENTRO EDUCATIVO</p>
+                            <p className="has-text-primary-dark">¿QUIÉN ASUME LOS COSTOS EDUCATIVOS?</p>
                           </th>
                         </tr>
                       </thead>
@@ -308,15 +308,43 @@ export default function Ficha({ data }: { data: Matricula }) {
                         <tr>
                           <td colSpan={2}>
                             <strong className="has-text-primary-dark">Nombres y apellidos:</strong>
-                            <p className="has-text-primary-dark">{data.responsable.nombresApellidos}</p>
+                            <p className="has-text-primary-dark">{data.responsable.quienAsumeCostos}</p>
                           </td>
-                          <td>
-                            <strong className="has-text-primary-dark">Parentesco:</strong>
-                            <p className="has-text-primary-dark">{data.responsable.parentesco}</p>
+                          <td colSpan={2}>
+                            <strong className="has-text-primary-dark">Compromiso de pago los primeros 10 dias de cada mes:</strong>
+                            <p className="has-text-primary-dark">{data.responsable.seComprometePrimeros10Dias? 'SI':'NO'}</p>
                           </td>
-                          <td>
-                            <strong className="has-text-primary-dark">Teléfono:</strong>
-                            <p className="has-text-primary-dark">{data.responsable.telefono}</p>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <table className="table is-bordered is-fullwidth has-background-white">
+                      <colgroup>
+                        <col style={{ width: "20%" }} />
+                        <col style={{ width: "25%" }} />
+                        <col style={{ width: "25%" }} />
+                        <col style={{ width: "30%" }} />
+                      </colgroup>
+      
+                      <thead className="has-background-light">
+                        <tr>
+                          <th colSpan={4} align='center'>
+                            <p className="has-text-primary-dark">NOTA</p>
+                          </th>
+                        </tr>
+                      </thead>
+      
+                      <tbody>
+                        {/* Fila 1 */}
+                        <tr>
+                          <td colSpan={4}>
+                            <strong className="has-text-primary-dark"></strong>
+                            <p className="has-text-primary-dark">
+                              ESTÁN DISPUESTOS A APOYAR LAS ACCIONES EDUCATIVAS QUE ADELANTA 
+                              ESTA INSTITUCIÓN, CONOCER, Y   APROPIARSE DEL MANUAL DE CONVIVENCIA, Y D
+                              EL PROYECTO EDUCATIVO INSTITUCIONAL, ACATANDO LAS NORMAS ESTABLECIDAS. SI ____, NO____.
+                              ESTE MANUAL APLICA PARA TODAS LAS PERSONAS VINCULADAS AL CENTRO EDUCATIVO COLINA CAMPESTRE GARABATOS SCHOOL. 
+                              </p>
                           </td>
                         </tr>
                       </tbody>

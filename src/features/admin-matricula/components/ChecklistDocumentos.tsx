@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { Matricula } from '../store/slice';
 import ConfirmModal from './ConfirmModal';
 import { REQUIRED_DOC_KEYS, isChecklistCompleto } from '../utils/checks';
@@ -105,75 +105,77 @@ export default function ChecklistDocumentos({ value, onToggle }: Props) {
         </div>
       )}
 
-      <div className="box">
-        <div className="level">
-          <div className="level-left">
-            <h2 className="title is-5">Checklist de Documentos</h2>
-          </div>
-          <div className="level-right">
-            <div className="buttons">
-              <button className="button is-light" onClick={() => toggleAllRequired(false)} aria-label="Desmarcar requeridos">
-                Desmarcar requeridos
-              </button>
-              <button className="button is-primary" onClick={() => toggleAllRequired(true)} aria-label="Marcar requeridos">
-                Marcar requeridos
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <table className="table is-fullwidth is-striped">
-          <thead>
-            <tr>
-              <th style={{ width: '48%' }}>Documento</th>
-              <th>Requerido</th>
-              <th>Estado</th>
-              <th className="has-text-right">Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            {DOCS.map((d) => {
-              const checked = !!value.documentos[d.key];
-              return (
-                <tr key={d.key as string}>
-                  <td>
-                    <label className="label" htmlFor={`doc-${String(d.key)}`}>{d.label}</label>
-                    {d.required && <span className="tag is-info is-light" style={{ marginLeft: 8 }}>Requerido</span>}
-                  </td>
-                  <td>{d.required ? 'Sí' : 'No'}</td>
-                  <td>
-                    {checked ? <span className="tag is-success">Marcado</span> : <span className="tag">Pendiente</span>}
-                  </td>
-                  <td className="has-text-right">
-                    <div className="buttons is-right">
-                      <button
-                        id={`doc-${String(d.key)}`}
-                        className={`button ${checked ? '' : 'is-primary'}`}
-                        onClick={() => openConfirm(d.key, !checked)}
-                        aria-label={`${checked ? 'Desmarcar' : 'Marcar'} ${d.label}`}
-                      >
-                        {checked ? 'Desmarcar' : 'Marcar'}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={4}>
-                <article className="message  is-info">
-                  <div className="message-body has-background-info-light">
-                    <strong>Estado general:</strong>{' '}
-                    {completos ? 'Todos los documentos requeridos están marcados.' : 'Faltan documentos requeridos.'}
+      <section className='section users-scope'>
+            <div className="box">
+              <div className="level">
+                <div className="level-left">
+                  <h2 className="title is-5">Checklist de Documentos</h2>
+                </div>
+                <div className="level-right">
+                  <div className="buttons">
+                    <button className="button is-light" onClick={() => toggleAllRequired(false)} aria-label="Desmarcar requeridos">
+                      Desmarcar requeridos
+                    </button>
+                    <button className="button is-success" onClick={() => toggleAllRequired(true)} aria-label="Marcar requeridos">
+                      Marcar requeridos
+                    </button>
                   </div>
-                </article>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+                </div>
+              </div>
+
+              <table className="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th style={{ width: '48%' }}>Documento</th>
+                    <th>Requerido</th>
+                    <th>Estado</th>
+                    <th className="has-text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DOCS.map((d) => {
+                    const checked = !!value.documentos[d.key];
+                    return (
+                      <tr key={d.key as string}>
+                        <td>
+                          <label className="label" htmlFor={`doc-${String(d.key)}`}>{d.label}</label>
+                          {d.required && <span className="tag is-danger has-text-white" style={{ marginLeft: 8 }}>Requerido</span>}
+                        </td>
+                        <td><p className='has-text-dark'>{d.required ? 'Sí' : 'No'}</p></td>
+                        <td>
+                          {checked ? <span className="tag is-success has-text-white">Marcado</span> : <span className="tag is-danger has-text-white">Pendiente</span>}
+                        </td>
+                        <td className="has-text-right">
+                          <div className="buttons is-right">
+                            <button
+                              id={`doc-${String(d.key)}`}
+                              className={`button ${checked ? '' : 'is-info'}`}
+                              onClick={() => openConfirm(d.key, !checked)}
+                              aria-label={`${checked ? 'Desmarcar' : 'Marcar'} ${d.label}`}
+                            >
+                              {checked ? 'Desmarcar' : 'Marcar'}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={4}>
+                      <article className="message  is-info">
+                        <div className="message-body has-background-info-light">
+                          <strong>Estado general:</strong>{' '}
+                          {completos ? 'Todos los documentos requeridos están marcados.' : 'Faltan documentos requeridos.'}
+                        </div>
+                      </article>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+      </section>
 
       <ConfirmModal
         open={confirmOpen}

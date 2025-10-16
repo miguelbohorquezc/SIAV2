@@ -161,186 +161,189 @@ export default function MatriculaForm({ value, onChange, onSave }: Props) {
       {toast && <div className={`notification ${toast.type}`} role="status">{toast.msg}</div>}
 
       {/* INFO CABECERA */}
-      <div className="box">
-        <div className="columns">
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-anio">Año</label>
-            <div className="control">
-              <input id="mf-anio" className="input" type="number"
-                value={draft.anio ?? value.anio}
-                onChange={e => setField('anio', Number(e.target.value))}
-              />
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-estado">Estado</label>
-            <div className="control">
-              <div className="select is-fullwidth">
-                <select id="mf-estado"
-                  value={draft.estado ?? value.estado}
-                  onChange={e => setField('estado', e.target.value as Matricula['estado'])}
-                >
-                  {ESTADOS.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-grado-aspira">Grado al que aspira</label>
-            <div className="control">
-              <input id="mf-grado-aspira" className="input" type="text"
-                value={draft.gradoAspira ?? value.gradoAspira}
-                onChange={e => setField('gradoAspira', e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-grado-anterior">Grado anterior</label>
-            <div className="control">
-              <input id="mf-grado-anterior" className="input" type="text"
-                value={draft.gradoAnterior ?? value.gradoAnterior ?? ''}
-                onChange={e => setField('gradoAnterior', e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <section className='section users-scope'>
 
-      {/* DATOS ESTUDIANTE */}
-      <div className="box">
-        <h3 className="title is-5">Datos del estudiante</h3>
-        <div className="columns is-multiline">
-          {FIELDSET.estudiante.map(f => (
-            <div key={f.key} className="column is-one-third">
-              <label className="label" htmlFor={`mf-est-${f.key}`}>{f.label}</label>
+        <div className="box">
+          <div className="columns">
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-anio">Año</label>
               <div className="control">
-                <input
-                  id={`mf-est-${f.key}`}
-                  className="input"
-                  type={f.type}
-                  value={(draft.estudiante as any)?.[f.key] ?? (value.estudiante as any)?.[f.key] ?? ''}
-                  onChange={e => setNested('estudiante', f.key, e.target.value)}
+                <input id="mf-anio" className="input" type="number"
+                  value={draft.anio ?? value.anio}
+                  onChange={e => setField('anio', Number(e.target.value))}
                 />
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* VERIFICACIÓN */}
-      <div className="box">
-        <h3 className="title is-5">Verificación de identidad</h3>
-        <div className="columns">
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-tipoid">Tipo de identificación</label>
-            <div className="control">
-              <input id="mf-tipoid" className="input" value={draft.verificacion?.tipoId ?? value.verificacion?.tipoId ?? ''} onChange={e => setNested('verificacion', 'tipoId', e.target.value)} />
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <label className="label" htmlFor="mf-numid">Número de identificación</label>
-            <div className="control">
-              <input id="mf-numid" className="input" value={draft.verificacion?.numeroId ?? value.verificacion?.numeroId ?? ''} onChange={e => setNested('verificacion', 'numeroId', e.target.value)} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* PADRE / MADRE */}
-      <div className="box">
-        <h3 className="title is-5">Acudientes</h3>
-        <div className="columns">
-          {FIELDSET.acudiente.map(g => (
-            <div key={g.group} className="column">
-              <h4 className="subtitle is-6">{g.title}</h4>
-              <div className="columns is-multiline">
-                {['nombres','apellidos','numeroIdentificacion','email','telefono','direccion','empresa','cargo','ciudad'].map(k => (
-                  <div key={k} className="column is-half">
-                    <label className="label" htmlFor={`mf-${g.group}-${k}`}>{labelize(k)}</label>
-                    <div className="control">
-                      <input
-                        id={`mf-${g.group}-${k}`}
-                        className="input"
-                        type={k === 'email' ? 'email' : k === 'telefono' ? 'tel' : 'text'}
-                        value={(draft as any)[g.group]?.[k] ?? (value as any)[g.group]?.[k] ?? ''}
-                        onChange={e => setNested(g.group as any, k, e.target.value)}
-                      />
-                    </div>
-                  </div>
-                ))}
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-estado">Estado</label>
+              <div className="control">
+                <div className="select is-fullwidth">
+                  <select id="mf-estado"
+                    value={draft.estado ?? value.estado}
+                    onChange={e => setField('estado', e.target.value as Matricula['estado'])}
+                  >
+                    {ESTADOS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* RESPONSABLE */}
-      <div className="box">
-        <h3 className="title is-5">Responsable económico</h3>
-        <div className="columns">
-          <div className="column is-half">
-            <label className="label" htmlFor="mf-quien-asume">¿Quién asume los costos?</label>
-            <div className="control">
-              <input id="mf-quien-asume" className="input"
-                value={draft.responsable?.quienAsumeCostos ?? (value.responsable as any)?.quienAsumeCostos ?? ''}
-                onChange={e => setNested('responsable', 'quienAsumeCostos', e.target.value)}
-              />
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-grado-aspira">Grado al que aspira</label>
+              <div className="control">
+                <input id="mf-grado-aspira" className="input" type="text"
+                  value={draft.gradoAspira ?? value.gradoAspira}
+                  onChange={e => setField('gradoAspira', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-grado-anterior">Grado anterior</label>
+              <div className="control">
+                <input id="mf-grado-anterior" className="input" type="text"
+                  value={draft.gradoAnterior ?? value.gradoAnterior ?? ''}
+                  onChange={e => setField('gradoAnterior', e.target.value)}
+                />
+              </div>
             </div>
           </div>
-          <div className="column is-half">
-            <label className="checkbox" htmlFor="mf-10dias">
-              <input
-                id="mf-10dias"
-                type="checkbox"
-                checked={!!(draft.responsable?.seComprometePrimeros10Dias ?? (value.responsable as any)?.seComprometePrimeros10Dias)}
-                onChange={e => setNested('responsable', 'seComprometePrimeros10Dias', e.target.checked)}
-                style={{ marginRight: 8 }}
-              />
-              Se compromete a cumplir pagos en los primeros 10 días
-            </label>
+        </div>
+
+        {/* DATOS ESTUDIANTE */}
+        <div className="box">
+          <h3 className="title is-5">Datos del estudiante</h3>
+          <div className="columns is-multiline">
+            {FIELDSET.estudiante.map(f => (
+              <div key={f.key} className="column is-one-third">
+                <label className="label" htmlFor={`mf-est-${f.key}`}>{f.label}</label>
+                <div className="control">
+                  <input
+                    id={`mf-est-${f.key}`}
+                    className="input"
+                    type={f.type}
+                    value={(draft.estudiante as any)?.[f.key] ?? (value.estudiante as any)?.[f.key] ?? ''}
+                    onChange={e => setNested('estudiante', f.key, e.target.value)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* Acciones */}
-      {errors.length > 0 && (
-        <article className="message is-warning">
-          <div className="message-body">
-            <ul style={{ marginLeft: '1rem' }}>
-              {errors.map((er, i) => <li key={i}>• {er}</li>)}
-            </ul>
+        {/* VERIFICACIÓN */}
+        <div className="box">
+          <h3 className="title is-5">Verificación de identidad del estudiante</h3>
+          <div className="columns">
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-tipoid">Tipo de identificación</label>
+              <div className="control">
+                <input id="mf-tipoid" className="input" value={draft.verificacion?.tipoId ?? value.verificacion?.tipoId ?? ''} onChange={e => setNested('verificacion', 'tipoId', e.target.value)} />
+              </div>
+            </div>
+            <div className="column is-one-quarter">
+              <label className="label" htmlFor="mf-numid">Número de identificación</label>
+              <div className="control">
+                <input id="mf-numid" className="input" value={draft.verificacion?.numeroId ?? value.verificacion?.numeroId ?? ''} onChange={e => setNested('verificacion', 'numeroId', e.target.value)} />
+              </div>
+            </div>
           </div>
-        </article>
-      )}
+        </div>
 
-      <div className="buttons">
-        <button
-          className="button is-primary"
-          onClick={openConfirm}
-          disabled={!isDirty || errors.length > 0 || saving}
-          aria-label="Guardar cambios"
-        >
-          {saving ? 'Guardando…' : 'Guardar'}
-        </button>
-        <button
-          className="button"
-          onClick={() => setDraft({
-            anio: value.anio,
-            estado: value.estado,
-            gradoAnterior: safe(value.gradoAnterior, ''),
-            gradoAspira: value.gradoAspira,
-            estudiante: { ...value.estudiante },
-            verificacion: { ...value.verificacion },
-            padre: value.padre ? { ...value.padre } : { nombres: '', apellidos: '', numeroIdentificacion: '', email: '', telefono: '', direccion: '', empresa: '', cargo: '', ciudad: '' },
-            madre: value.madre ? { ...value.madre } : { nombres: '', apellidos: '', numeroIdentificacion: '', email: '', telefono: '', direccion: '', empresa: '', cargo: '', ciudad: '' },
-            responsable: value.responsable ? { ...value.responsable } : { quienAsumeCostos: '', seComprometePrimeros10Dias: false },
-          })}
-          disabled={saving}
-          aria-label="Revertir cambios"
-        >
-          Revertir cambios
-        </button>
-      </div>
+        {/* PADRE / MADRE */}
+        <div className="box">
+          <h3 className="title is-5">Acudientes</h3>
+          <div className="columns">
+            {FIELDSET.acudiente.map(g => (
+              <div key={g.group} className="column">
+                <h4 className="subtitle is-6">{g.title}</h4>
+                <div className="columns is-multiline">
+                  {['nombres','apellidos','numeroIdentificacion','email','telefono','direccion','empresa','cargo','ciudad'].map(k => (
+                    <div key={k} className="column is-half">
+                      <label className="label" htmlFor={`mf-${g.group}-${k}`}>{labelize(k)}</label>
+                      <div className="control">
+                        <input
+                          id={`mf-${g.group}-${k}`}
+                          className="input"
+                          type={k === 'email' ? 'email' : k === 'telefono' ? 'tel' : 'text'}
+                          value={(draft as any)[g.group]?.[k] ?? (value as any)[g.group]?.[k] ?? ''}
+                          onChange={e => setNested(g.group as any, k, e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RESPONSABLE */}
+        <div className="box">
+          <h3 className="title is-5">Responsable económico</h3>
+          <div className="columns">
+            <div className="column is-half">
+              <label className="label" htmlFor="mf-quien-asume">¿Quién asume los costos?</label>
+              <div className="control">
+                <input id="mf-quien-asume" className="input"
+                  value={draft.responsable?.quienAsumeCostos ?? (value.responsable as any)?.quienAsumeCostos ?? ''}
+                  onChange={e => setNested('responsable', 'quienAsumeCostos', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="column is-half">
+              <label className="checkbox" htmlFor="mf-10dias">
+                <input
+                  id="mf-10dias"
+                  type="checkbox"
+                  checked={!!(draft.responsable?.seComprometePrimeros10Dias ?? (value.responsable as any)?.seComprometePrimeros10Dias)}
+                  onChange={e => setNested('responsable', 'seComprometePrimeros10Dias', e.target.checked)}
+                  style={{ marginRight: 8 }}
+                />
+                Se compromete a cumplir pagos en los primeros 10 días
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Acciones */}
+        {errors.length > 0 && (
+          <article className="message is-warning">
+            <div className="message-body">
+              <ul style={{ marginLeft: '1rem' }}>
+                {errors.map((er, i) => <li key={i}>• {er}</li>)}
+              </ul>
+            </div>
+          </article>
+        )}
+
+        <div className="buttons">
+          <button
+            className="button is-primary"
+            onClick={openConfirm}
+            disabled={!isDirty || errors.length > 0 || saving}
+            aria-label="Guardar cambios"
+          >
+            {saving ? 'Guardando…' : 'Guardar'}
+          </button>
+          <button
+            className="button"
+            onClick={() => setDraft({
+              anio: value.anio,
+              estado: value.estado,
+              gradoAnterior: safe(value.gradoAnterior, ''),
+              gradoAspira: value.gradoAspira,
+              estudiante: { ...value.estudiante },
+              verificacion: { ...value.verificacion },
+              padre: value.padre ? { ...value.padre } : { nombres: '', apellidos: '', numeroIdentificacion: '', email: '', telefono: '', direccion: '', empresa: '', cargo: '', ciudad: '' },
+              madre: value.madre ? { ...value.madre } : { nombres: '', apellidos: '', numeroIdentificacion: '', email: '', telefono: '', direccion: '', empresa: '', cargo: '', ciudad: '' },
+              responsable: value.responsable ? { ...value.responsable } : { quienAsumeCostos: '', seComprometePrimeros10Dias: false },
+            })}
+            disabled={saving}
+            aria-label="Revertir cambios"
+          >
+            Revertir cambios
+          </button>
+        </div>
+      </section>
 
       {/* Modal confirmación */}
       <ConfirmModal

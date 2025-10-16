@@ -12,6 +12,7 @@ const StepEstudiante: FC = () => {
   return (
     <>
       <div className="field">
+        <h1 className="title is-4 has-text-dark">Datos del estudiante</h1>
         <label className="label">Grado al que aspira</label>
         <div className="control">
           <div className="select is-fullwidth">

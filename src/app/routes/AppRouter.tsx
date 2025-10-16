@@ -1,21 +1,5 @@
-// src/app/routes/AppRouter.tsx
-// -------------------------------------------------------------
-// Router principal de la app.
-// - Rutas públicas/privadas con Suspense/lazy loading.
-// - Guards de autenticación (PrivateRoute) y roles (RoleRoute).
-// - Integra las rutas de la feature "Admisiones - Aspirantes" (admin).
-//
-// Nota sobre guards en la feature Admisiones:
-// La feature ya aplica <PrivateRoute> y <RoleRoute> en sus propios elementos.
-// Aquí renderizamos esas rutas dentro del layout privado (<App />) para
-// mantener el Navbar/estructura. Esto implica “doble guard”, pero es seguro.
-// Si prefieres evitar el doble guard, puedes quitar los guards de la feature
-// y aplicarlos aquí en el router padre.
-// -------------------------------------------------------------
-
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-
 import PrivateRoute from '@/app/guard/PrivateRoute';
 import RoleRoute from '@/app/guard/RoleRoute';
 
@@ -51,6 +35,7 @@ export default function AppRouter() {
         {MatriculaFormRoutes.map(r => <Route key={r.path as string} path={r.path as string} element={r.element!} />)}
 
         {/* ===== RUTAS PRIVADAS (con layout App que incluye Navbar, etc.) ===== */}
+          
           <Route
             element={
               <PrivateRoute>
@@ -96,8 +81,6 @@ export default function AppRouter() {
           ))}
           </Route>
 
-          
-
         {/* ===== REDIRECCIONES ÚTILES ===== */}
         <Route path="/" element={<Navigate to={`/${PrivateRoutes.DASHBOARD}`} replace />} />
 
@@ -107,22 +90,3 @@ export default function AppRouter() {
     </Suspense>
   );
 }
-
-/* -----------------------------------------------------------------------
-   GUÍA RÁPIDA DE INTEGRACIÓN DE LA FEATURE (referencia):
-   1) Store: registra el reducer de la feature:
-      import { reducer as admisionesReducer, reducerKey as admisionesReducerKey } from '@/features/admisiones/store/slice';
-      // ...
-      [admisionesReducerKey]: admisionesReducer,
-
-   2) Router: importa e inserta las rutas exportadas por la feature:
-      import { routes as admisionesRoutes } from '@/features/admisiones/routes';
-      {admisionesRoutes.map((r, i) => <Route key={i} path={r.path!} element={r.element!} />)}
-
-   3) Elimina rutas legacy que apunten a /admin/aspirantes con otros componentes
-      (p. ej., "aspirantes-admin") para evitar conflictos.
-
-   4) (Opcional) Si prefieres que los guards vivan solo aquí:
-      - Quita <PrivateRoute>/<RoleRoute> dentro de la feature y aplícalos
-        en este AppRouter alrededor de las páginas de aspirantes.
------------------------------------------------------------------------ */

@@ -10,6 +10,7 @@ const StepPadre: FC = () => {
 
   return (
     <>
+      <h1 className="title is-4 has-text-dark">Datos del padre</h1>
       <div className="columns">
         <div className="column">
           <div className="field">
@@ -48,8 +49,20 @@ const StepPadre: FC = () => {
         </div>
         <div className="column">
           <div className="field">
+            <label className="label">Ciudad</label>
+            <div className="control"><input className="input" placeholder='Ciudad' type="text" value={form.padre.ciudad ?? ''} onChange={e=>set({ ciudad: e.target.value })}/></div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="field">
             <label className="label">Empresa</label>
             <div className="control"><input className="input" placeholder='Empresa donde trabaja' value={form.padre.empresa ?? ''} onChange={e=>set({ empresa: e.target.value })}/></div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="field">
+            <label className="label">Profesión / Cargo</label>
+            <div className="control"><input className="input" placeholder='Profesión / Cargo' value={form.padre.cargo ?? ''} onChange={e=>set({ profesion: e.target.value })}/></div>
           </div>
         </div>
       </div>

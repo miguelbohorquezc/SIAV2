@@ -20,8 +20,9 @@ export default function MatriculasExportPage() {
   };
 
   return (
-    <div className="section">
-      <h1 className="title">Exportar Matrículas</h1>
+    <div className="section users-scope">
+      <h1 className="title has-text-black">Matrículas</h1>
+      <p className="subtitle is-6 has-text-primary-invert">Registro de estudiantes matriculados</p>
       <div className="columns">
         <div className="column is-one-quarter">
           <label className="label" htmlFor="exp-anio">Año</label>
@@ -67,7 +68,7 @@ export default function MatriculasExportPage() {
           <label className="label" aria-hidden="true">
             &nbsp;
           </label>
-          <button className="button is-link is-fullwidth" onClick={onExport} aria-label="Exportar XLS">
+          <button className="button is-success is-fullwidth" onClick={onExport} aria-label="Exportar XLS">
             Exportar XLS
           </button>
         </div>

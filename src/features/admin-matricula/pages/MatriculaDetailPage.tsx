@@ -47,7 +47,7 @@ export default function MatriculaDetailPage() {
   }
 
   return (
-    <div className="section users-scope">
+    <div className="">
 
       <div className="buttons">
         <MatricularButton enabled={canMatricular} onConfirm={() => dispatch(marcarMatriculado(id))} />
@@ -58,21 +58,21 @@ export default function MatriculaDetailPage() {
       <div className="buttons">
         <ul className='is-flex'>
           <li className={tab === 'datos' ? 'is-active' : ''}>
-            <button className='button mr-2' onClick={() => setTab('datos')}><i className="fa-solid fa-user-tie mr-1"></i>Datos</button>
+            <button className='button mr-2  is-success is-light' onClick={() => setTab('datos')}><i className="fa-solid fa-user-tie mr-1"></i>Datos</button>
           </li>
           <li className={tab === 'documentos' ? 'is-active' : ''}>
-            <button className='button mr-2' onClick={() => setTab('documentos')}><i className="fa-solid fa-file mr-1"></i> Documentos</button>
+            <button className='button mr-2  is-success is-light' onClick={() => setTab('documentos')}><i className="fa-solid fa-file mr-1"></i> Documentos</button>
     
           </li>
           <li className={tab === 'auditoria' ? 'is-active' : ''}>
-            <button className='button mr-2' onClick={() => setTab('auditoria')}><i className="fa-solid fa-list-check mr-1"></i> Auditoría</button>
+            <button className='button mr-2  is-success is-light' onClick={() => setTab('auditoria')}><i className="fa-solid fa-list-check mr-1"></i> Auditoría</button>
             
           </li>
           <li className={tab === 'historial' ? 'is-active' : ''}>
-            <button className='button mr-2' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
+            <button className='button mr-2  is-success is-light' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
           </li>
           <li className={tab === 'matricula' ? 'is-active' : ''}>
-            <button className='button mr-2' onClick={() => setTab('matricula')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Ficha de matricula</button>
+            <button className='button mr-2  is-success is-light' onClick={() => setTab('matricula')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Ficha de matricula</button>
           </li>
         </ul>
       </div>

@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signOut } from '@/features/auth/services/auth.repository';
+import SidebarDropdown from './SidebarDropdown';
 /* import logo from '@/assets/logo.svg'; */
 
 // TODO: mover a shared/constants/routes.ts
@@ -64,6 +65,8 @@ export default function Navbar() {
 
       {/* Menu */}
       <div id="navbarMainMenu" className={`navbar-menu ${active ? 'is-active' : ''}`}>
+
+
         {/* Left/start */}
         <div className="navbar-start">
           <Link to={ROUTES.dashboard} className="navbar-item" onClick={closeMenu}>

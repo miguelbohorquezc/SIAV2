@@ -53,8 +53,8 @@ export type MatriculaDoc = {
   estado: 'borrador'|'en_revision'|'pendiente_documentos'|'confirmada'|'rechazada';
   verificacion: Verificacion;
   estudiante: Estudiante;
-  madre: Required<Pick<PersonaBasica,'nombres'|'apellidos'|'numeroIdentificacion'|'telefono'>> & Partial<PersonaBasica>;
-  padre: Required<Pick<PersonaBasica,'nombres'|'apellidos'|'numeroIdentificacion'|'telefono'>> & Partial<PersonaBasica>;
+  madre: Required<Pick<PersonaBasica,'nombres'|'apellidos'|'numeroIdentificacion'|'telefono' | 'ciudad'>> & Partial<PersonaBasica>;
+  padre: Required<Pick<PersonaBasica,'nombres'|'apellidos'|'numeroIdentificacion'|'telefono' | 'ciudad'>> & Partial<PersonaBasica>;
   responsable: Responsable;
   terms: Required<Terms>;
   publico: true;

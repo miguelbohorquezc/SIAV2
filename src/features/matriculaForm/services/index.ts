@@ -81,7 +81,7 @@ function mapApplicantToPartialMatricula(a: RawApplicant): Partial<MatriculaDoc> 
       email: src.email ?? '',
       telefono: src.telefono ?? '',
       empresa: src.empresa ?? '',
-      cargo: src.cargo ?? '',
+      cargo: src.profesion ?? '',
       direccion: src.direccion ?? '',
       ciudad: src.ciudad ?? '',
       fechaNacimiento: src.fechaNacimiento ?? '',
