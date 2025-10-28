@@ -65,6 +65,7 @@ const authSlice = createSlice({
         state.status = 'unauthenticated';
       })
       // fetchUserRole
+      //@ts-ignore
       .addCase(fetchUserRole.pending, (state) => {
         // mantenemos status actual
       })

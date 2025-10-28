@@ -5,7 +5,7 @@ import type { Matricula } from '../store/slice';
  * Ajusta aquí si cambia la política (evita hardcodear en varios sitios).
  */
 export const REQUIRED_DOC_KEYS: (keyof Matricula['documentos'])[] = [
-  'copiaReg',
+  
   'certMedico',
   'certEstudios',
   'carnetVacunas',

@@ -107,6 +107,7 @@ export async function updateUserRoleStatus(input: UpdateUserInput): Promise<void
   if (typeof input.role !== 'undefined') patch.role = input.role;
   if (typeof input.status !== 'undefined') patch.status = input.status;
   if (typeof input.displayName !== 'undefined') patch.displayName = input.displayName;
+  //@ts-ignore
   await updateDoc(doc(db, USERS, input.uid), patch);
 }
 

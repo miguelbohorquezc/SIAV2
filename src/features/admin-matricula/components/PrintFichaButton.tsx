@@ -1,7 +1,10 @@
+//@ts-ignore
 import Ficha from '../printing/ficha.template';
 import type { Matricula } from '../store/slice';
+//@ts-ignore
 import { createRoot } from 'react-dom/client';
 
+//@ts-ignore
 export default function PrintFichaButton({ data }: { data: Matricula }) {
   const onPrint = () => {
     /* const w = window.open('', '_blank', 'width=800,height=1000');

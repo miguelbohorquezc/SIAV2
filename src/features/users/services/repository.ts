@@ -118,6 +118,7 @@ export async function updateUserRoleStatus(
   if (typeof changes.status !== 'undefined') patch.status = changes.status;
   if (typeof input.displayName !== 'undefined') patch.displayName = input.displayName ?? null;
 
+  //@ts-ignore
   await updateDoc(ref, patch);
   return { uid: input.uid, changes };
 }

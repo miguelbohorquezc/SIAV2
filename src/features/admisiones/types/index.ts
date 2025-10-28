@@ -1,4 +1,4 @@
-export type Estado = 'en_espera' | 'en_revision' | 'admitido' | 'no_admitido';
+export type Estado = 'en_espera' | 'en_revision' | 'admitido' | 'no_admitido' | 'pre_matricula';
 
 export interface ParentInfo {
   nombresApellidos: string;

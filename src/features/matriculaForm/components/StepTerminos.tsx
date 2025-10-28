@@ -6,6 +6,7 @@ import { selectForm, selectAnio } from '../store/selector';
 const StepTerminos: FC = () => {
   const dispatch = useDispatch<any>();
   const form = useSelector(selectForm);
+  //@ts-ignore
   const anio = useSelector(selectAnio);
   const set = (patch: any) => (dispatch as any)(updateForm({ terms: { ...form.terms, ...patch }}));
 

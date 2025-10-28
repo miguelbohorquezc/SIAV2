@@ -13,6 +13,7 @@ import StepResumen from '../components/StepResumen';
 import StepsNav from '../components/StepsNav';
 import '@/features/MatriculaForm/styles/admisiones.light.css'
 import logo from '@/assets/Logo-img.png';
+import { LINKS } from '@/shared/constants/links';
 
 const TOTAL = 7;
 
@@ -90,7 +91,18 @@ export default function MatriculaFormPage() {
             Con el fin de avanzar en el proceso de matrícula, les solicitamos diligenciar con especial cuidado la matrícula del estudiante, <strong>verificando que la información ingresada sea correcta y completa. </strong>  
             Una vez finalizado este paso, la Secretaría del colegio se comunicará con usted para finalizar los tramites de matrícula.
             <strong> Para iniciar el proceso verifique con el número de identidad del estudiante si se encuentra habilitado(a) para matricularse.</strong>
+            <div className="buttons mt-2">
+              <a
+                 href={LINKS.INSCRIPCION}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="button is-primary is-light"
+               >
+                <i className="fa-solid fa-file mr-2 has-text-white"></i>
+                <p className="has-text-white">Ver instructivo y documentos</p>
+              </a>
             </div>
+          </div>
         </article>
 
         {error && <div className="notification is-danger" role="alert">{error}</div>}

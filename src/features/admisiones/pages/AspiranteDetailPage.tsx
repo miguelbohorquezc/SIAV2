@@ -144,9 +144,9 @@ export default function AspiranteDetailPage() {
               </div>
               <div className="column has-text-right">
                 {/* Autorizar */}
-                {applicant.estado !== 'admitido' && !applicant.autorizadoMatricula && (
+                {applicant.estado !== 'pre_matricula' && !applicant.autorizadoMatricula && (
                   <p className="help is-warning mb-2">
-                    Para autorizar, primero cambia el estado a <strong className='has-text-warning'>admitido</strong>.
+                    Para autorizar, primero cambia el estado a <strong className='has-text-warning'>Autorizar pre matrícula</strong>.
                   </p>
                 )}
                 <div className="dropdown is-hoverable">
@@ -156,7 +156,7 @@ export default function AspiranteDetailPage() {
                       aria-controls="dropdown-menu4"
                       className={`button is-warning mr-2 ${applicant.autorizadoMatricula ? '' : ''}`}
                       onClick={() => setShowAuth(true)}
-                      disabled={applicant.autorizadoMatricula || applicant.estado !== 'admitido'}
+                      disabled={applicant.autorizadoMatricula || applicant.estado !== 'pre_matricula'}
                       title={
                         applicant.autorizadoMatricula
                           ? 'Ya autorizado'
@@ -199,6 +199,7 @@ export default function AspiranteDetailPage() {
                     <option value="en_revision">En revisión</option>
                     <option value="admitido">Admitido</option>
                     <option value="no_admitido">No admitido</option>
+                    <option value="pre_matricula">Autorizar pre matrícula</option>
                   </select>
                 </div>
                 <button

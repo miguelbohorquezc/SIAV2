@@ -8,6 +8,7 @@ import {
   sendPasswordResetForUserThunk,
 } from './thunks';
 
+//@ts-ignore
 const adapter = createEntityAdapter<AppUser>({
   selectId: (u) => u.uid,
   sortComparer: (a, b) => b.createdAt - a.createdAt,

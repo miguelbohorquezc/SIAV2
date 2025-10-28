@@ -48,9 +48,9 @@ export default function AspirantesListPage() {
         <p className="subtitle has-text-black">Complete los pasos del formulario</p>
         <article className="message is-info mb-1">
           <div className="message-body has-text-black has-background-white">
-            <i className="fa-solid fa-circle-info mr-1 has-text-info-40"></i>
+            <i className="fa-solid fa-circle-info mr-1 has-text-black"></i>
             En este espacio podrás filtrar, consultar y dar seguimiento al proceso de inscripción de cada aspirante.
-Recuerda verificar y completar la información faltante para asegurar que el registro y la evaluación del aspirante se realicen correctamente.
+            Recuerda verificar y completar la información faltante para asegurar que el registro y la evaluación del aspirante se realicen correctamente.
             </div>
         </article>
       {notice && (
@@ -63,7 +63,7 @@ Recuerda verificar y completar la información faltante para asegurar que el reg
       <FiltersBar />
 
       <div className="buttons">
-        <button className="button is-success" onClick={onExport}> <i className="fa-solid fa-file-csv has-text-success-25 mr-1"></i> <p className='has-text-success-25'>Exportar CSV</p> </button>
+        <button className="button" onClick={onExport}> <i className="fa-solid fa-file-csv has-text-success-40 mr-1"></i> <p className='has-text-success-40'>Exportar CSV</p> </button>
         {selection.ids.length > 0 && (
           <button className="button" onClick={() => dispatch(clearSelection())}>Limpiar selección</button>
         )}
@@ -112,8 +112,8 @@ Recuerda verificar y completar la información faltante para asegurar que el reg
                 <td className="has-text-right">
                   {/* Botón claro para ver el detalle (navegación declarativa) */}
                   <Link className="button is-small is-warning" to={`/admin/aspirantes/${a.id}`}>
-                    <i className="fa-solid fa-eye mr-2"></i>
-                    <p>Ver</p>
+                    <i className="fa-solid fa-eye mr-2 has-text-warning-20"></i>
+                    <p className='has-text-warning-20'>Ver</p>
                   </Link>
                 </td>
               </tr>

@@ -5,9 +5,9 @@ import SidebarDropdown from "@/shared/components/SidebarDropdown";
 function App() {
   return (
     <>
-      <Navbar />
       <SidebarDropdown />
-      <main className="p-4">
+      <Navbar />
+      <main  className="p-0" style={{ marginLeft: 'var(--sia-sidebar-ml, 240px)'}}>
         <Outlet />
       </main>
     </>

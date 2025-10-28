@@ -102,24 +102,30 @@
   .navbar,
   .menu,
   .aside,
+  aside,
+  .sia-aside,
   .footer,
   .screen-only
   .button {
     display: none !important;
   }
 
+  /* 1) Neutraliza la variable que mueve el <main> cuando el sidebar está abierto */
+  :root { --sia-sidebar-ml: 0 !important; }
+
   /* Mostrar solo la sección imprimible */
   .print-section-matricula {
     display: block !important;
   }
   
-  html, body section .section .users-scope{
+  html, body section #root .section .users-scope{
     background: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     font-size: 11pt; /* tipografía más compacta */
     box-shadow: none;
   }
+
 
   .box{
     box-shadow: none;

@@ -1,5 +1,6 @@
 import AspiranteFormularioBulma from "@/features/aspirantes/components/AspiranteFormularioBulma";
 import logo from '@/assets/Logo-img.png'
+import { LINKS } from "@/shared/constants/links";
 
 export default function AspirantesPage() {
   
@@ -16,11 +17,22 @@ export default function AspirantesPage() {
             <i className="fa-solid fa-circle-info mr-1"></i>
             Con el fin de avanzar en el proceso de inscripción, les solicitamos diligenciar con especial cuidado el formulario de registro de aspirantes, <strong>verificando que la información ingresada sea correcta y completa. </strong>  
 
-            Una vez finalizado este paso, deberán presentarse en la Secretaría del colegio para entregar la documentación física faltante.
+            Una vez finalizado este paso, deberán hacer llegar a la Secretaría del colegio la documentación solicitada, la cual pueden consultar en el botón<strong> “Ver instructivo y documentación para la inscripción”</strong> que se encuentra a continuación.
 
-            La inscripción se considerará completa únicamente cuando la Secretaría haya <strong>recibido y validado dichos documentos. </strong>
+            La documentación podrá entregarse de manera física o digital, según su preferencia. La inscripción se considerará completa únicamente cuando la Secretaría haya <strong>recibido y validado dichos documentos. </strong>
 
             Agradecemos su atención y colaboración en este proceso.
+            <div className="buttons mt-2">
+              <a
+                href={LINKS.INSCRIPCION}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button is-primary is-light"
+              >
+                <i className="fa-solid fa-file mr-2 has-text-white"></i>
+                <p className="has-text-white">Ver instructivo y documentos</p>
+              </a>
+            </div>
             </div>
         </article>
         <AspiranteFormularioBulma/>

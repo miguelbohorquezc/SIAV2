@@ -116,7 +116,7 @@ export default function FilterBar() {
 
         {/* KPIs rápidos */}
         <div className="control">
-          <span className="tag is-link">Total: {stats.total}</span>
+          <span className="tag is-success is-link">Total: {stats.total}</span>
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ const StepVerificacion: FC<{ onVerified: () => void }> = ({ onVerified }) => {
       return;
     }
     if (!preload.autorizado) {
-      (dispatch as any)(setError('Esta identificación no está autorizada para matrícula. Contacte a Secretaría.'));
+      (dispatch as any)(setError('Esta identificación no está autorizada para el proceso de matrícula. Por favor, comuníquese con la Secretaría. Tenga en cuenta que la matrícula solo se habilita después de haber efectuado el pago de la pre-matrícula y, para los estudiantes nuevos, tras completar todos los pasos del proceso de inscripción.'));
       return;
     }
 
