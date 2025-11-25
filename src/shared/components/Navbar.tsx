@@ -165,13 +165,13 @@ export default function Navbar() {
                 <Link to={ROUTES.dashboard} className="navbar-item" onClick={closeMenu}>
                   <span className="icon-text">
                     <span className="icon"><i className="fa-solid fa-grip" /></span>
-                    <span>Dashboard</span>
+                    <span className='is-small has-text-weight-normal is-size-7'>Dashboard</span>
                   </span>
                 </Link>
                 <Link to={ROUTES.users} className="navbar-item" onClick={closeMenu}>
                   <span className="icon-text">
                     <span className="icon"><i className="fa-solid fa-user-plus" /></span>
-                    <span>Usuarios</span>
+                    <span className='is-small has-text-weight-normal is-size-7'>Usuarios</span>
                   </span>
                 </Link>
                 <hr className="navbar-divider" />
@@ -199,6 +199,7 @@ export default function Navbar() {
                   aria-busy={loading ? 'true' : 'false'}
                   type="button"
                 >
+                  <i className="fa-solid fa-arrow-right-from-bracket mr-2"></i>
                   {loading ? 'Saliendo…' : 'Salir'}
                 </button>
               </div>

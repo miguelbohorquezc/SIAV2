@@ -15,8 +15,8 @@ const StepResponsable: FC = () => {
         <div className="select is-fullwidth">
           <select required value={form.responsable.quienAsumeCostos ?? ''} onChange={e=>set({ quienAsumeCostos: e.target.value })}>
             <option value="" disabled>Seleccione</option>
-            <option key={form.padre.nombres} value={`${form.padre.nombres} ${form.padre.apellidos}`}>{`${form.padre.nombres} ${form.padre.apellidos}`}</option>
-            <option key={form.madre.nombres} value={`${form.madre.nombres} ${form.madre.apellidos}`}>{`${form.madre.nombres} ${form.madre.apellidos}`}</option>
+            <option key={form.padre.nombres} value={`${form.padre.nombres} ${form.padre.apellidos}`}>{`${form.padre.nombres?.toUpperCase()} ${form.padre.apellidos?.toUpperCase()}`}</option>
+            <option key={form.madre.nombres} value={`${form.madre.nombres} ${form.madre.apellidos}`}>{`${form.madre.nombres?.toUpperCase()} ${form.madre.apellidos?.toUpperCase()}`}</option>
             <option value="OTRO">OTRA PERSONA</option>
             <option value="AMBOS">AMBOS</option>
           </select>

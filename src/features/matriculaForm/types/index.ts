@@ -1,4 +1,4 @@
-export type TipoId = 'RC'|'TI'|'CC'|'CE'|'PA';
+export type TipoId = 'RC'|'TI'|'PA';
 
 export type Verificacion = { tipoId: TipoId; numeroId: string };
 

@@ -4,10 +4,10 @@ import '@/features/admin-matricula/styles/adminMatricula.light.css'
 
 export default function Ficha({ data }: { data: Matricula }) {
   return (
-      <section className="section users-scope .print-section-matricula">
+      <section className="section users-scope">
             <div className="box">
               <div className="content grid ">
-                <div className='cell is-col-span-10 '>
+                <div className='cell is-col-span-10 .print-section-matricula'>
                     <table className="table is-bordered is-fullwidth has-background-white">
                       <colgroup>
                         <col style={{ width: "10%" }} />
@@ -44,7 +44,7 @@ export default function Ficha({ data }: { data: Matricula }) {
                       <thead className="has-background-light">
                         <tr>
                           <th align='center'>
-                            <p className="has-text-primary-dark">FORMATO DE INSCRIPCIÓN</p>
+                            <p className="has-text-primary-dark">FORMATO DE MATRÍCULA</p>
                           </th>
                         </tr>
                       </thead>
@@ -409,7 +409,8 @@ export default function Ficha({ data }: { data: Matricula }) {
                     </table>
                 </div>
               </div>
-              <button className="button is-primary" onClick={() => window.print()}>Imprimir</button>
+              <button className="button is-primary mb-2" onClick={() => window.print()}><i className="fa-solid fa-print mr-2"></i>Imprimir ficha de matrícula</button>
+        
             </div>
       </section>
   );

@@ -11,11 +11,11 @@ export default function RetirarButton({ onConfirm }: Props) {
         <div className="modal is-active" role="dialog" aria-modal="true" aria-label="Confirmar retiro">
           <div className="modal-background" onClick={() => setOpen(false)} />
           <div className="modal-card">
-            <header className="modal-card-head">
-              <p className="modal-card-title">Marcar como retirado</p>
+            <header className="modal-card-head has-background-white">
+              <p className="modal-card-title has-text-black">Marcar como retirado</p>
               <button className="delete" aria-label="close" onClick={() => setOpen(false)} />
             </header>
-            <section className="modal-card-body">
+            <section className="modal-card-body has-background-white">
               <div className="field">
                 <label className="label">Motivo</label>
                 <div className="control">
@@ -23,9 +23,9 @@ export default function RetirarButton({ onConfirm }: Props) {
                 </div>
               </div>
             </section>
-            <footer className="modal-card-foot">
-              <button className="button is-warning" onClick={() => { onConfirm(reason); setOpen(false); }}>Confirmar</button>
-              <button className="button" onClick={() => setOpen(false)}>Cancelar</button>
+            <footer className="modal-card-foot has-background-white">
+              <button className="button is-warning mr-2" onClick={() => { onConfirm(reason); setOpen(false); }}>Confirmar</button>
+              <button className="button is-warning is-light" onClick={() => setOpen(false)}>Cancelar</button>
             </footer>
           </div>
         </div>

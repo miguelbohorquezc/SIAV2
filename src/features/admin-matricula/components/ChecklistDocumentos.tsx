@@ -139,17 +139,17 @@ export default function ChecklistDocumentos({ value, onToggle }: Props) {
                       <tr key={d.key as string}>
                         <td>
                           <label className="label" htmlFor={`doc-${String(d.key)}`}>{d.label}</label>
-                          {d.required && <span className="tag is-danger has-text-white" style={{ marginLeft: 8 }}>Requerido</span>}
+                          {d.required && <span className="tag is-danger is-light has-text-danger" style={{ marginLeft: 8 }}>Requerido</span>}
                         </td>
                         <td><p className='has-text-dark'>{d.required ? 'Sí' : 'No'}</p></td>
                         <td>
-                          {checked ? <span className="tag is-success has-text-white">Marcado</span> : <span className="tag is-danger has-text-white">Pendiente</span>}
+                          {checked ? <span className="tag is-success is-light has-text-success">Marcado</span> : <span className="tag is-danger is-light has-text-danger">Pendiente</span>}
                         </td>
                         <td className="has-text-right">
                           <div className="buttons is-right">
                             <button
                               id={`doc-${String(d.key)}`}
-                              className={`button ${checked ? '' : 'is-info'}`}
+                              className={`button ${checked ? '' : 'is-info is-light'}`}
                               onClick={() => openConfirm(d.key, !checked)}
                               aria-label={`${checked ? 'Desmarcar' : 'Marcar'} ${d.label}`}
                             >

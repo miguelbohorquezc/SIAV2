@@ -101,12 +101,13 @@
   /* Ocultar navbar, menús, botones, etc. */
   .navbar,
   .menu,
+  .modal,
   .aside,
   aside,
   .sia-aside,
   .footer,
-  .screen-only
-  .button {
+  .screen-only,
+  .buttons {
     display: none !important;
   }
 

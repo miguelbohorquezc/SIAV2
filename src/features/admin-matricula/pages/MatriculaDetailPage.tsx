@@ -18,11 +18,11 @@ import {
 
 import MatriculaForm from '../components/MatriculaForm';
 import ChecklistDocumentos from '../components/ChecklistDocumentos';
-import MatricularButton from '../components/MatricularButton';
 import RevocarButton from '../components/RevocarButton';
 import RetirarButton from '../components/RetirarButton';
 import AuditoriaPanel from '../components/AuditoriaPanel';
 import Ficha from '../printing/ficha.template';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function MatriculaDetailPage() {
   const { id = '' } = useParams();
@@ -30,6 +30,8 @@ export default function MatriculaDetailPage() {
   const data = useSelector(selectMatriculaById(id));
   const canMatricular = useSelector(selectCanMatricular(id));
   const [tab, setTab] = useState<'datos'|'matricula'| 'documentos' | 'auditoria' | 'historial'>('datos');
+  const [openConfirmMatricula, setOpenConfirmMatricula] = useState(false)
+  
 
   useEffect(() => {
     dispatch(fetchMatriculaById(id));
@@ -47,32 +49,54 @@ export default function MatriculaDetailPage() {
   }
 
   return (
-    <div className="">
+      <div className="">
 
-      <div className="buttons">
-        <MatricularButton enabled={canMatricular} onConfirm={() => dispatch(marcarMatriculado(id))} />
+        <div className="buttons mt-2 ml-2">
+          <button
+          className="button is-success"
+          disabled={!canMatricular}
+          onClick={() => setOpenConfirmMatricula(true)}
+          aria-label="Abrir confirmación de matrícula">
+          Matricular
+        </button>
+
         <RevocarButton onConfirm={(reason) => dispatch(revocarMatricula({ id, reason }))} />
         <RetirarButton onConfirm={(reason) => dispatch(retirarMatricula({ id, reason }))} />
       </div>
 
-      <div className="buttons">
+      <ConfirmModal
+        open={openConfirmMatricula}
+        title="Confirmar matrícula"
+        message="Esta acción matriculará definitivamente al estudiante en el sistema."
+        //@ts-ignore
+        requireText="confirmar"
+        confirmLabel="Matricular ahora"
+        cancelLabel="Cancelar"
+        onCancel={() => setOpenConfirmMatricula(false)}
+        onConfirm={() => {
+          setOpenConfirmMatricula(false);
+          dispatch(marcarMatriculado(id));
+        }}/>
+
+
+      <div className="buttons ml-2">
         <ul className='is-flex'>
           <li className={tab === 'datos' ? 'is-active' : ''}>
-            <button className='button mr-2  is-success is-light' onClick={() => setTab('datos')}><i className="fa-solid fa-user-tie mr-1"></i>Datos</button>
+            <button className='button mr-2  is-info is-light' onClick={() => setTab('datos')}><i className="fa-solid fa-user-tie mr-1"></i>Datos</button>
           </li>
           <li className={tab === 'documentos' ? 'is-active' : ''}>
-            <button className='button mr-2  is-success is-light' onClick={() => setTab('documentos')}><i className="fa-solid fa-file mr-1"></i> Documentos</button>
+            <button className='button mr-2  is-info is-light' onClick={() => setTab('documentos')}><i className="fa-solid fa-file mr-1"></i> Documentos</button>
     
           </li>
           <li className={tab === 'auditoria' ? 'is-active' : ''}>
-            <button className='button mr-2  is-success is-light' onClick={() => setTab('auditoria')}><i className="fa-solid fa-list-check mr-1"></i> Auditoría</button>
+            <button className='button mr-2  is-info is-light' onClick={() => setTab('auditoria')}><i className="fa-solid fa-list-check mr-1"></i> Auditoría</button>
             
           </li>
           <li className={tab === 'historial' ? 'is-active' : ''}>
-            <button className='button mr-2  is-success is-light' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
+            <button className='button mr-2  is-info is-light' onClick={() => setTab('historial')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Historial</button>
           </li>
           <li className={tab === 'matricula' ? 'is-active' : ''}>
-            <button className='button mr-2  is-success is-light' onClick={() => setTab('matricula')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Ficha de matricula</button>
+            <button className='button mr-2  is-info is-light' onClick={() => setTab('matricula')}><i className="fa-solid fa-clock-rotate-left mr-1"></i>Ficha de matricula</button>
           </li>
         </ul>
       </div>

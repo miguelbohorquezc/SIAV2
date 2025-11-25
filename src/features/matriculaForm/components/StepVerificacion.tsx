@@ -4,7 +4,7 @@ import { setError, updateVerificacion } from '../store/slice';
 import { selectAnio, selectDuplicate, selectError, selectForm, selectStatus } from '../store/selector';
 import { preloadIfExistsThunk, verifyIdentificationThunk } from '../store/thunks';
 
-const tipos = ['RC','TI','CC','CE','PA'] as const;
+const tipos = ['RC','TI','PA'] as const;
 
 const StepVerificacion: FC<{ onVerified: () => void }> = ({ onVerified }) => {
   const dispatch = useDispatch<any>();

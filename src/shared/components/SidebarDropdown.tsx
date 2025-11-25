@@ -295,7 +295,7 @@ export default function SidebarDropdown() {
                   className={`sia-item is-flex is-align-items-center is-justify-content-flex-start is-compact ${isActive(PrivateRoutes.DASHBOARD)}`}
                 >
                   <span className="sia-content">
-                    <span className="sia-icon"><i className="fa-solid fa-grip has-text-info" /></span>
+                    <span className="sia-icon"><i className="fa-solid fa-grip" /></span>
                     <span className="sia-text">Inicio</span>
                   </span>
                 </Link>
