@@ -172,7 +172,7 @@ export default function MatriculaFormPage() {
             </strong>
             <div className="buttons mt-2">
               <a
-                href={LINKS.INSCRIPCION}
+                href={LINKS.MATRICULA}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button is-primary is-light"
